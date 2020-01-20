@@ -12,7 +12,42 @@
 		0189C95F23D5CA3300FAAF83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0189C95E23D5CA3300FAAF83 /* Assets.xcassets */; };
 		0189C96223D5CA3300FAAF83 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0189C96123D5CA3300FAAF83 /* Preview Assets.xcassets */; };
 		0189C96523D5CA3300FAAF83 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0189C96323D5CA3300FAAF83 /* Main.storyboard */; };
+		0189C97823D5E8C700FAAF83 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0189C97023D5E8BF00FAAF83 /* PromiseKit.framework */; };
+		0189C97923D5E8C700FAAF83 /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0189C97023D5E8BF00FAAF83 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0189C97B23D5E8C800FAAF83 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0189C96F23D5E8BF00FAAF83 /* Sparkle.framework */; };
+		0189C97C23D5E8C800FAAF83 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0189C96F23D5E8BF00FAAF83 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0189C97D23D5E8CA00FAAF83 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0189C97123D5E8BF00FAAF83 /* VLCKit.framework */; };
+		0189C97E23D5E8CA00FAAF83 /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0189C97123D5E8BF00FAAF83 /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0189C98023D5E8F000FAAF83 /* PromiseKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0189C97223D5E8BF00FAAF83 /* PromiseKit.framework.dSYM */; };
+		0189C98123D5E8F000FAAF83 /* Sparkle.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0189C96E23D5E8BF00FAAF83 /* Sparkle.framework.dSYM */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0189C97A23D5E8C700FAAF83 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0189C97E23D5E8CA00FAAF83 /* VLCKit.framework in Embed Frameworks */,
+				0189C97923D5E8C700FAAF83 /* PromiseKit.framework in Embed Frameworks */,
+				0189C97C23D5E8C800FAAF83 /* Sparkle.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0189C97F23D5E8E300FAAF83 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				0189C98023D5E8F000FAAF83 /* PromiseKit.framework.dSYM in CopyFiles */,
+				0189C98123D5E8F000FAAF83 /* Sparkle.framework.dSYM in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0189C95723D5CA2F00FAAF83 /* Eriri.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eriri.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -23,6 +58,11 @@
 		0189C96423D5CA3300FAAF83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0189C96623D5CA3300FAAF83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0189C96723D5CA3300FAAF83 /* Eriri.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Eriri.entitlements; sourceTree = "<group>"; };
+		0189C96E23D5E8BF00FAAF83 /* Sparkle.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Sparkle.framework.dSYM; path = Carthage/Build/Mac/Sparkle.framework.dSYM; sourceTree = SOURCE_ROOT; };
+		0189C96F23D5E8BF00FAAF83 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Carthage/Build/Mac/Sparkle.framework; sourceTree = SOURCE_ROOT; };
+		0189C97023D5E8BF00FAAF83 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/Mac/PromiseKit.framework; sourceTree = SOURCE_ROOT; };
+		0189C97123D5E8BF00FAAF83 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VLCKit.framework; path = Carthage/Build/Mac/VLCKit.framework; sourceTree = SOURCE_ROOT; };
+		0189C97223D5E8BF00FAAF83 /* PromiseKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = PromiseKit.framework.dSYM; path = Carthage/Build/Mac/PromiseKit.framework.dSYM; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +70,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0189C97D23D5E8CA00FAAF83 /* VLCKit.framework in Frameworks */,
+				0189C97823D5E8C700FAAF83 /* PromiseKit.framework in Frameworks */,
+				0189C97B23D5E8C800FAAF83 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +84,7 @@
 			children = (
 				0189C95923D5CA2F00FAAF83 /* Eriri */,
 				0189C95823D5CA2F00FAAF83 /* Products */,
+				0189C96D23D5E89D00FAAF83 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,6 +118,18 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		0189C96D23D5E89D00FAAF83 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0189C97023D5E8BF00FAAF83 /* PromiseKit.framework */,
+				0189C97223D5E8BF00FAAF83 /* PromiseKit.framework.dSYM */,
+				0189C96F23D5E8BF00FAAF83 /* Sparkle.framework */,
+				0189C96E23D5E8BF00FAAF83 /* Sparkle.framework.dSYM */,
+				0189C97123D5E8BF00FAAF83 /* VLCKit.framework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -84,6 +140,8 @@
 				0189C95323D5CA2F00FAAF83 /* Sources */,
 				0189C95423D5CA2F00FAAF83 /* Frameworks */,
 				0189C95523D5CA2F00FAAF83 /* Resources */,
+				0189C97A23D5E8C700FAAF83 /* Embed Frameworks */,
+				0189C97F23D5E8E300FAAF83 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -286,6 +344,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Eriri/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Eriri/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -307,6 +369,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Eriri/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Eriri/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
