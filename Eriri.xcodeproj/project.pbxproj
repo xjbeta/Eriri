@@ -25,6 +25,7 @@
 		018F0C3523D9E574008ACF4B /* VideoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018F0C3423D9E574008ACF4B /* VideoContainerView.swift */; };
 		01D4A39623DDBE4600CAA688 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */; };
 		01D4A39823DEA40200CAA688 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39723DEA40200CAA688 /* Utils.swift */; };
+		01D4A39A23DEE6D300CAA688 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39923DEE6D300CAA688 /* MainMenu.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -73,6 +74,7 @@
 		018F0C3423D9E574008ACF4B /* VideoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoContainerView.swift; sourceTree = "<group>"; };
 		01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		01D4A39723DEA40200CAA688 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		01D4A39923DEE6D300CAA688 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				0189C95A23D5CA2F00FAAF83 /* AppDelegate.swift */,
+				01D4A39923DEE6D300CAA688 /* MainMenu.swift */,
 				0189C95E23D5CA3300FAAF83 /* Assets.xcassets */,
 				0189C96623D5CA3300FAAF83 /* Info.plist */,
 				0189C96723D5CA3300FAAF83 /* Eriri.entitlements */,
@@ -229,6 +232,7 @@
 				018F0C2B23D6DEDB008ACF4B /* VideoControlView.swift in Sources */,
 				0189C98423D5ED2600FAAF83 /* VideoView.swift in Sources */,
 				01D4A39623DDBE4600CAA688 /* VisualEffectView.swift in Sources */,
+				01D4A39A23DEE6D300CAA688 /* MainMenu.swift in Sources */,
 				0189C95D23D5CA2F00FAAF83 /* ContentView.swift in Sources */,
 				018F0C3523D9E574008ACF4B /* VideoContainerView.swift in Sources */,
 				01D4A39823DEA40200CAA688 /* Utils.swift in Sources */,
