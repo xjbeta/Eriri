@@ -11,29 +11,42 @@ import SwiftUI
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
     var window: NSWindow!
 
-
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Create the SwiftUI view that provides the window contents.
-        let contentView = ContentView()
-
-        // Create the window and set the content view. 
-        window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
-            styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
-            backing: .buffered, defer: false)
-        window.center()
-        window.setFrameAutosaveName("Main Window")
-        window.contentView = NSHostingView(rootView: contentView)
-        window.makeKeyAndOrderFront(nil)
+        
+        
+        let mediaOpenPanel = Utils.shared.mediaOpenPanel
+        
+        let re = mediaOpenPanel.runModal()
+        if re == .OK, let u = mediaOpenPanel.url {
+            newPlayerWindow(u)
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
 
-
+    func newPlayerWindow(_ url: URL) {
+        let windowSize = CGSize(width: 480, height: 270)
+        window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: windowSize.width, height: windowSize.height),
+            styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
+            backing: .buffered, defer: false)
+        let contentView = ContentView(window: window, url: url)
+        window.center()
+        window.minSize = windowSize
+//        window.backgroundColor = .black
+        window.isMovableByWindowBackground = true
+        window.setFrameAutosaveName("Main Window")
+        window.contentView = NSHostingView(rootView: contentView)
+        window.makeKeyAndOrderFront(nil)
+    }
 }
 
+extension NSWindow {
+    func hideTitlebar(_ hide: Bool) {
+        standardWindowButton(.closeButton)?.superview?.superview?.isHidden = hide
+    }
+}

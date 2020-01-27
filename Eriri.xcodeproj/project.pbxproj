@@ -20,6 +20,11 @@
 		0189C97E23D5E8CA00FAAF83 /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0189C97123D5E8BF00FAAF83 /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0189C98023D5E8F000FAAF83 /* PromiseKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0189C97223D5E8BF00FAAF83 /* PromiseKit.framework.dSYM */; };
 		0189C98123D5E8F000FAAF83 /* Sparkle.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0189C96E23D5E8BF00FAAF83 /* Sparkle.framework.dSYM */; };
+		0189C98423D5ED2600FAAF83 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0189C98323D5ED2600FAAF83 /* VideoView.swift */; };
+		018F0C2B23D6DEDB008ACF4B /* VideoControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018F0C2A23D6DEDB008ACF4B /* VideoControlView.swift */; };
+		018F0C3523D9E574008ACF4B /* VideoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018F0C3423D9E574008ACF4B /* VideoContainerView.swift */; };
+		01D4A39623DDBE4600CAA688 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */; };
+		01D4A39823DEA40200CAA688 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39723DEA40200CAA688 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -63,6 +68,11 @@
 		0189C97023D5E8BF00FAAF83 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/Mac/PromiseKit.framework; sourceTree = SOURCE_ROOT; };
 		0189C97123D5E8BF00FAAF83 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VLCKit.framework; path = Carthage/Build/Mac/VLCKit.framework; sourceTree = SOURCE_ROOT; };
 		0189C97223D5E8BF00FAAF83 /* PromiseKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = PromiseKit.framework.dSYM; path = Carthage/Build/Mac/PromiseKit.framework.dSYM; sourceTree = SOURCE_ROOT; };
+		0189C98323D5ED2600FAAF83 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
+		018F0C2A23D6DEDB008ACF4B /* VideoControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControlView.swift; sourceTree = "<group>"; };
+		018F0C3423D9E574008ACF4B /* VideoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoContainerView.swift; sourceTree = "<group>"; };
+		01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
+		01D4A39723DEA40200CAA688 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,12 +110,11 @@
 			isa = PBXGroup;
 			children = (
 				0189C95A23D5CA2F00FAAF83 /* AppDelegate.swift */,
-				0189C95C23D5CA2F00FAAF83 /* ContentView.swift */,
 				0189C95E23D5CA3300FAAF83 /* Assets.xcassets */,
-				0189C96323D5CA3300FAAF83 /* Main.storyboard */,
 				0189C96623D5CA3300FAAF83 /* Info.plist */,
 				0189C96723D5CA3300FAAF83 /* Eriri.entitlements */,
 				0189C96023D5CA3300FAAF83 /* Preview Content */,
+				0189C98223D5ECFD00FAAF83 /* Views */,
 			);
 			path = Eriri;
 			sourceTree = "<group>";
@@ -128,6 +137,20 @@
 				0189C97123D5E8BF00FAAF83 /* VLCKit.framework */,
 			);
 			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		0189C98223D5ECFD00FAAF83 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0189C95C23D5CA2F00FAAF83 /* ContentView.swift */,
+				018F0C3423D9E574008ACF4B /* VideoContainerView.swift */,
+				0189C98323D5ED2600FAAF83 /* VideoView.swift */,
+				018F0C2A23D6DEDB008ACF4B /* VideoControlView.swift */,
+				0189C96323D5CA3300FAAF83 /* Main.storyboard */,
+				01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */,
+				01D4A39723DEA40200CAA688 /* Utils.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,7 +226,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				018F0C2B23D6DEDB008ACF4B /* VideoControlView.swift in Sources */,
+				0189C98423D5ED2600FAAF83 /* VideoView.swift in Sources */,
+				01D4A39623DDBE4600CAA688 /* VisualEffectView.swift in Sources */,
 				0189C95D23D5CA2F00FAAF83 /* ContentView.swift in Sources */,
+				018F0C3523D9E574008ACF4B /* VideoContainerView.swift in Sources */,
+				01D4A39823DEA40200CAA688 /* Utils.swift in Sources */,
 				0189C95B23D5CA2F00FAAF83 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
