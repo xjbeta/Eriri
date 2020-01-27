@@ -7,12 +7,13 @@
 //
 
 import SwiftUI
+import VLCKit
 
 struct ContentView: View {
     let window: NSWindow
-    let url: URL
+    let player: VLCMediaPlayer
     var body: some View {
-        VideoContainerView(url: url, window: window)
+        VideoContainerView(window: window, player: player)
             .padding(.top, -22)
     }
 }

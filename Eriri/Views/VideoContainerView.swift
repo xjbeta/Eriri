@@ -29,11 +29,9 @@ struct VideoContainerView: View {
     let window: NSWindow
     var player: VLCMediaPlayer
     
-    init(url: URL, window: NSWindow) {
+    init(window: NSWindow, player: VLCMediaPlayer) {
         self.window = window
-        player = VLCMediaPlayer()
-        player.media = .init(url: url)
-        window.setTitleWithRepresentedFilename(url.path)
+        self.player = player
     }
     
     var body: some View {

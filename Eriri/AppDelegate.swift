@@ -8,40 +8,50 @@
 
 import Cocoa
 import SwiftUI
+import VLCKit
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var window: NSWindow!
-
+    var playerContainers = [(window: NSWindow,
+                             player: VLCMediaPlayer)]()
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        
-        
+        showMediaOpenPanel()
+    }
+    
+    func applicationWillTerminate(_ aNotification: Notification) {
+        // Insert code here to tear down your application
+    }
+    
+    func showMediaOpenPanel() {
         let mediaOpenPanel = Utils.shared.mediaOpenPanel
-        
         let re = mediaOpenPanel.runModal()
         if re == .OK, let u = mediaOpenPanel.url {
             newPlayerWindow(u)
         }
     }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
-
+    
     func newPlayerWindow(_ url: URL) {
         let windowSize = CGSize(width: 480, height: 270)
-        window = NSWindow(
+        let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: windowSize.width, height: windowSize.height),
             styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
             backing: .buffered, defer: false)
-        let contentView = ContentView(window: window, url: url)
+        
+        let player = VLCMediaPlayer()
+        player.media = .init(url: url)
+        
+        let contentView = ContentView(window: window, player: player)
+        
         window.center()
         window.minSize = windowSize
-//        window.backgroundColor = .black
         window.isMovableByWindowBackground = true
-        window.setFrameAutosaveName("Main Window")
         window.contentView = NSHostingView(rootView: contentView)
         window.makeKeyAndOrderFront(nil)
+        window.setTitleWithRepresentedFilename(url.path)
+        playerContainers.append((window, player))
+    }
+}
     }
 }
 
