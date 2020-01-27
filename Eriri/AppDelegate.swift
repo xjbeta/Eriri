@@ -47,10 +47,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.isMovableByWindowBackground = true
         window.contentView = NSHostingView(rootView: contentView)
         window.setTitleWithRepresentedFilename(url.path)
-        window.delegate = self
         playerContainers.append((window, player))
-    }
-}
     }
 }
 

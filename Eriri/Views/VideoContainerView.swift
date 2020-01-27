@@ -45,7 +45,6 @@ struct VideoContainerView: View {
             .onHover {
                 self.hoverOnWindow = $0
                 var hide = !$0
-                let todo = "end resize window hide"
                 if self.window.styleMask.contains(.fullScreen) ||
                     self.window.inLiveResize ||
                     self.vcvIsDragging {
@@ -66,6 +65,14 @@ struct VideoContainerView: View {
                   videoSize: $videoSize,
                   position: $sliderPosition,
                   volumePosition: $volumePosition,
+                  windowIsResizing: .init(get: { () -> Bool in
+                    return false
+                  }, set: {
+                    if !$0 {
+                        // Hide after window resizing
+                        self.hideTitleAndVCV(true)
+                    }
+                  }),
                   player: player,
                   window: window)
             .gesture(DragGesture()

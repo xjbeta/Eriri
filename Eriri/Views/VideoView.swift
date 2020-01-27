@@ -22,6 +22,7 @@ struct VideoView: NSViewRepresentable {
     @Binding var videoSize: CGSize
     @Binding var position: Float
     @Binding var volumePosition: Float
+    @Binding var windowIsResizing: Bool
     
     let player: VLCMediaPlayer
     let window: NSWindow
@@ -42,13 +43,12 @@ struct VideoView: NSViewRepresentable {
         Coordinator(self)
     }
     
-    final class Coordinator: NSObject, VLCMediaPlayerDelegate, VLCMediaDelegate {
+    final class Coordinator: NSObject, VLCMediaPlayerDelegate, VLCMediaDelegate, NSWindowDelegate {
         var control: VideoView
         var volumeObserver: NSKeyValueObservation?
         init(_ control: VideoView) {
             self.control = control
         }
-        
         
         // MARK: - VLCMediaPlayerDelegate
         func mediaPlayerStateChanged(_ aNotification: Notification!) {
@@ -119,7 +119,22 @@ struct VideoView: NSViewRepresentable {
         func mediaDidFinishParsing(_ aMedia: VLCMedia) {
             let videoSize = control.player.videoSize
             control.videoSize = videoSize
+            control.window.delegate = self
             updateWindowFrame()
+        }
+        
+        func windowWillClose(_ notification: Notification) {
+            control.player.stop()
+        }
+        
+        func windowWillStartLiveResize(_ notification: Notification) {
+            print(#function)
+            control.windowIsResizing = true
+        }
+        
+        func windowDidEndLiveResize(_ notification: Notification) {
+            print(#function)
+            control.windowIsResizing = false
         }
         
         
