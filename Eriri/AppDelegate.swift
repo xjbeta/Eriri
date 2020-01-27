@@ -43,12 +43,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let contentView = ContentView(window: window, player: player)
         
-        window.center()
         window.minSize = windowSize
         window.isMovableByWindowBackground = true
         window.contentView = NSHostingView(rootView: contentView)
-        window.makeKeyAndOrderFront(nil)
         window.setTitleWithRepresentedFilename(url.path)
+        window.delegate = self
         playerContainers.append((window, player))
     }
 }

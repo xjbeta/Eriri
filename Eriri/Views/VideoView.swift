@@ -119,11 +119,33 @@ struct VideoView: NSViewRepresentable {
         func mediaDidFinishParsing(_ aMedia: VLCMedia) {
             let videoSize = control.player.videoSize
             control.videoSize = videoSize
+            updateWindowFrame()
+        }
+        
+        
+        func updateWindowFrame() {
+            let videoSize = control.player.videoSize
             if control.window.contentAspectRatio != videoSize {
                 control.window.contentAspectRatio = videoSize
-//                control.window.size
+                
+                let p = control.window.frame.origin
+                var rect = NSRect(x: p.x, y: p.y, width: videoSize.width, height: videoSize.height)
+                if let sSize = NSScreen.main?.frame.size {
+                    let rate = rect.width / rect.height
+                    if rect.width > sSize.width {
+                        rect.size.width = sSize.width
+                        rect.size.height = rect.width / rate
+                    }
+                    
+                    if rect.height > sSize.height {
+                        rect.size.height = sSize.height
+                        rect.size.width = sSize.height * rate
+                    }
+                }
+                control.window.setFrame(rect, display: true)
+                control.window.center()
+                control.window.makeKeyAndOrderFront(nil)
             }
-            print(#function)
         }
     }
 }
