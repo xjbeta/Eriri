@@ -210,7 +210,7 @@ struct VideoView: NSViewRepresentable {
                 }
             }
             
-            let trackingArea = NSTrackingArea(rect: control.videoView.frame, options: [.mouseEnteredAndExited, .mouseMoved, .activeInKeyWindow], owner: response)
+            let trackingArea = NSTrackingArea(rect: control.videoView.frame, options: [.mouseEnteredAndExited, .mouseMoved, .activeAlways, .inVisibleRect], owner: response)
             control.videoView.trackingAreas.forEach {
                 control.videoView.removeTrackingArea($0)
             }
