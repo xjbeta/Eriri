@@ -43,8 +43,10 @@ struct VideoView: NSViewRepresentable {
         Coordinator(self)
     }
     
-    func hideTitleAndVCV(_ hide: Bool) {
-        window.hideTitlebar(hide)
+    func hideTitleAndVCV(_ hide: Bool, onlyVCV: Bool = false) {
+        if !onlyVCV {
+            window.hideTitlebar(hide)
+        }
         hideVCV = hide
         if !hide {
             NSCursor.unhide()
@@ -173,9 +175,16 @@ struct VideoView: NSViewRepresentable {
         func initTrackingArea() {
             response = .init { type in
                 let window = self.control.window
+                let isFullScreen = window.styleMask.contains(.fullScreen)
                 guard !window.inLiveResize,
                     !self.control.vcvIsDragging else { return }
+                
                 switch type {
+                case .mouseEntered where isFullScreen:
+                    self.control.hideTitleAndVCV(false)
+                case .mouseExited where isFullScreen:
+                    self.control.hideTitleAndVCV(true, onlyVCV: true)
+                    self.timer.stop()
                 case .mouseEntered:
                     self.control.hideTitleAndVCV(false)
                 case .mouseExited:
