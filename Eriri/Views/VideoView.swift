@@ -19,7 +19,7 @@ struct VideoView: NSViewRepresentable {
     @Binding var rightTime: String
     @Binding var videoSize: CGSize
     @Binding var position: Float
-    @Binding var volumePosition: Float
+    @Binding var volumeValue: Float
     @Binding var hideVCV: Bool
     @Binding var vcvIsDragging: Bool
     
@@ -73,7 +73,7 @@ struct VideoView: NSViewRepresentable {
         func mediaPlayerStateChanged(_ aNotification: Notification!) {
             if volumeObserver == nil {
                 volumeObserver = control.player.observe(\.audio.volume, options: [.initial, .new]) { (player, _) in
-                    self.control.volumePosition = Float(player.audio.volume / 100)
+                    self.control.volumeValue = Float(player.audio.volume)
                 }
             }
             switch control.player.state {
@@ -98,7 +98,7 @@ struct VideoView: NSViewRepresentable {
             }
             
             
-            control.volumePosition = Float(control.player.audio.volume / 100)
+            control.volumeValue = Float(control.player.audio.volume)
             
             control.isPlaying = control.player.isPlaying
             

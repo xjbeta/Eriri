@@ -16,7 +16,7 @@ struct VideoContainerView: View {
     @State private var videoSize: CGSize = .zero
     
     @State private var sliderPosition: Float = 0
-    @State private var volumePosition: Float = 0
+    @State private var volumeValue: Float = 0
     
     
     @State private var vcvCurrentPosition: CGPoint = .zero
@@ -50,7 +50,7 @@ struct VideoContainerView: View {
                   rightTime: $rightTime,
                   videoSize: $videoSize,
                   position: $sliderPosition,
-                  volumePosition: $volumePosition,
+                  volumeValue: $volumeValue,
                   hideVCV: $hideVCV,
                   vcvIsDragging: $vcvIsDragging,
                   player: player,
@@ -85,7 +85,7 @@ struct VideoContainerView: View {
                                 leftTime: $leftTime,
                                 rightTime: $rightTime,
                                 sliderPosition: $sliderPosition,
-                                volumePosition: $volumePosition,
+                                volumeValue: $volumeValue,
                                 player: player,
                                 window: window)
             .onHover {

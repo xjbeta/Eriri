@@ -14,7 +14,7 @@ struct VideoControlView: View {
     @Binding var leftTime: String
     @Binding var rightTime: String
     @Binding var sliderPosition: Float
-    @Binding var volumePosition: Float
+    @Binding var volumeValue: Float
     
     let player: VLCMediaPlayer
     let window: NSWindow
@@ -37,9 +37,9 @@ struct VideoControlView: View {
                     }.buttonStyle(BorderlessButtonStyle())
                         .frame(width: 21)
                     
-                    Slider(value: $volumePosition) {
+                    Slider(value: $volumeValue, in: 0...100) {
                         if $0 {
-                            self.player.audio.volume = Int32(self.volumePosition * 100)
+                            self.player.audio.volume = Int32(self.volumeValue)
                         }
                     }
                     .controlSize(.small)
@@ -65,13 +65,7 @@ struct VideoControlView: View {
                         .foregroundColor(Color.green)
                     
                     Button(action: {
-                        let p = self.player
-                        
-                        if p.isPlaying, p.canPause {
-                            p.pause()
-                        } else {
-                            p.play()
-                        }
+                        self.player.togglePlay()
                     }) {
                         Image(nsImage: NSImage(named: isPlaying ? .init("NSPauseTemplate") : .init("NSPlayTemplate"))!)
                             .resizable()
