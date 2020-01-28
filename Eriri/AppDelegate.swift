@@ -50,9 +50,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         playerContainers.append((window, player))
     }
 }
-
-extension NSWindow {
-    func hideTitlebar(_ hide: Bool) {
-        standardWindowButton(.closeButton)?.superview?.superview?.isHidden = hide
-    }
-}
