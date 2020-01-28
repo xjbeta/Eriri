@@ -7,25 +7,33 @@
 //
 
 import Cocoa
+import SwiftUI
 
 class Utils: NSObject {
     static let shared = Utils()
 
     fileprivate override init() {
-        mediaOpenPanel.canChooseFiles = true
-        mediaOpenPanel.canChooseDirectories = false
-        mediaOpenPanel.canDownloadUbiquitousContents = false
-        mediaOpenPanel.canResolveUbiquitousConflicts = false
-        mediaOpenPanel.allowedFileTypes = videoTypes
-        
-        
     }
     
     let subtitleTypes = ["cdg", "idx", "srt", "sub", "utf", "ass", "ssa", "aqt", "jss", "psb", "rt", "smi", "txt", "smil", "stl", "usf", "dks", "pjs", "mpl2", "mks", "vtt", "ttml", "dfxp"]
     let videoTypes = ["ts", "webm", "ogg", "ogm", "mp4", "mov", "ps", "mpjpeg", "wav", "flv", "mpeg1", "mkv", "raw", "avi", "asf", "wmv"]
     
-    let mediaOpenPanel = NSOpenPanel()
+    lazy var mediaOpenPanel: NSOpenPanel = {
+        let p = NSOpenPanel()
+        p.canChooseFiles = true
+        p.canChooseDirectories = false
+        p.canDownloadUbiquitousContents = false
+        p.canResolveUbiquitousConflicts = false
+        p.allowedFileTypes = videoTypes
+        return p
+    }()
+    
     let subtitleOpenPanel = NSOpenPanel()
     
+    lazy var infoPanel: NSPanel = {
+        let p = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 380, height: 400), styleMask: [.titled, .closable,  .fullSizeContentView, .hudWindow], backing: .buffered, defer: false)
+        p.title = "Media Infomation"
+        return p
+    }()
     
 }
