@@ -12,22 +12,21 @@ import VLCKit
 
 struct VideoView: NSViewRepresentable {
     
-    let videoView = VLCVideoView()
+    let videoView = MovableVideoView()
     
     @Binding var isPlaying: Bool
-    //    @Binding var windowTitle: String
-    
     @Binding var leftTime: String
     @Binding var rightTime: String
     @Binding var videoSize: CGSize
     @Binding var position: Float
     @Binding var volumePosition: Float
-    @Binding var windowIsResizing: Bool
+    @Binding var hideVCV: Bool
+    @Binding var vcvIsDragging: Bool
     
     let player: VLCMediaPlayer
     let window: NSWindow
     
-    func makeNSView(context: Context) -> VLCVideoView {
+    func makeNSView(context: Context) -> MovableVideoView {
         player.delegate = context.coordinator
         player.setVideoView(videoView)
         player.media.delegate = context.coordinator
@@ -35,7 +34,8 @@ struct VideoView: NSViewRepresentable {
         return videoView
     }
     
-    func updateNSView(_ nsView: VLCVideoView, context: Context) {
+    
+    func updateNSView(_ nsView: MovableVideoView, context: Context) {
         
     }
     
@@ -43,11 +43,28 @@ struct VideoView: NSViewRepresentable {
         Coordinator(self)
     }
     
-    final class Coordinator: NSObject, VLCMediaPlayerDelegate, VLCMediaDelegate, NSWindowDelegate {
+    func hideTitleAndVCV(_ hide: Bool) {
+        window.hideTitlebar(hide)
+        hideVCV = hide
+        if !hide {
+            NSCursor.unhide()
+        }
+    }
+    
+    final class Coordinator: NSObject, VLCMediaPlayerDelegate, VLCMediaDelegate {
         var control: VideoView
         var volumeObserver: NSKeyValueObservation?
+        var response: TrackingAreaResponse?
+        let timer: WaitTimer
+        
         init(_ control: VideoView) {
             self.control = control
+            timer = .init(timeOut: .seconds(3)) {
+                DispatchQueue.main.async {
+                    control.hideTitleAndVCV(true)
+                    NSCursor.hide()
+                }
+            }
         }
         
         // MARK: - VLCMediaPlayerDelegate
@@ -119,25 +136,15 @@ struct VideoView: NSViewRepresentable {
         func mediaDidFinishParsing(_ aMedia: VLCMedia) {
             let videoSize = control.player.videoSize
             control.videoSize = videoSize
-            control.window.delegate = self
             updateWindowFrame()
+            initTrackingArea()
         }
         
         func windowWillClose(_ notification: Notification) {
             control.player.stop()
         }
         
-        func windowWillStartLiveResize(_ notification: Notification) {
-            print(#function)
-            control.windowIsResizing = true
-        }
-        
-        func windowDidEndLiveResize(_ notification: Notification) {
-            print(#function)
-            control.windowIsResizing = false
-        }
-        
-        
+// MARK: - Functions
         func updateWindowFrame() {
             let videoSize = control.player.videoSize
             if control.window.contentAspectRatio != videoSize {
@@ -162,5 +169,80 @@ struct VideoView: NSViewRepresentable {
                 control.window.makeKeyAndOrderFront(nil)
             }
         }
+        
+        func initTrackingArea() {
+            response = .init { type in
+                let window = self.control.window
+                guard !window.inLiveResize,
+                    !self.control.vcvIsDragging else { return }
+                switch type {
+                case .mouseEntered:
+                    self.control.hideTitleAndVCV(false)
+                case .mouseExited:
+                    self.control.hideTitleAndVCV(true)
+                    self.timer.stop()
+                case .mouseMoved(let event):
+                    if self.control.hideVCV {
+                        self.control.hideTitleAndVCV(false)
+                    }
+                    
+                    let mouseOnVCV = !window.isMovableByWindowBackground
+                    let v = window.titleView()
+                    let location = event.locationInWindow
+                    let mouseOnTitleBar = location.y <= window.frame.height
+                        && location.y >= (window.frame.height - (v?.frame.height ?? 0))
+                    
+                    if mouseOnVCV || mouseOnTitleBar {
+                        self.timer.stop()
+                    } else {
+                        self.timer.run()
+                    }
+                }
+            }
+            
+            let trackingArea = NSTrackingArea(rect: control.videoView.frame, options: [.mouseEnteredAndExited, .mouseMoved, .activeInKeyWindow], owner: response)
+            control.videoView.trackingAreas.forEach {
+                control.videoView.removeTrackingArea($0)
+            }
+            control.videoView.addTrackingArea(trackingArea)
+        }
+    }
+    
+    final class TrackingAreaResponse: NSResponder {
+        
+        enum ActionsType {
+            case mouseEntered(event: NSEvent),
+            mouseExited(event: NSEvent),
+            mouseMoved(event: NSEvent)
+        }
+        
+        init(_ actions: @escaping ((_ type: ActionsType) -> Void)) {
+            self.actions = actions
+            super.init()
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        var actions: ((_ type: ActionsType) -> Void)
+
+        override func mouseEntered(with event: NSEvent) {
+            actions(.mouseEntered(event: event))
+        }
+        
+        override func mouseMoved(with event: NSEvent) {
+            actions(.mouseMoved(event: event))
+        }
+        
+        override func mouseExited(with event: NSEvent) {
+            actions(.mouseExited(event: event))
+        }
+    }
+}
+
+class MovableVideoView: VLCVideoView {
+    override var mouseDownCanMoveWindow: Bool {
+        return true
     }
 }

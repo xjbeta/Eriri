@@ -23,7 +23,6 @@ struct VideoContainerView: View {
     @State private var vcvNewPosition: CGPoint = .zero
     @State private var vcvIsDragging: Bool = false
     
-    @State private var hoverOnWindow: Bool = false
     @State private var hideVCV: Bool = false
     
     let window: NSWindow
@@ -39,23 +38,10 @@ struct VideoContainerView: View {
             .overlay(
                 GeometryReader { (proxy: GeometryProxy) in
                     self.videoControlView(proxy)
-                }.opacity(self.hideVCV ? 0 : 1))
+                }
+                .opacity(self.hideVCV ? 0 : 1))
             .frame(minWidth: limitWindowSize(videoSize).width,
                    minHeight: limitWindowSize(videoSize).height)
-            .onHover {
-                self.hoverOnWindow = $0
-                var hide = !$0
-                if self.window.styleMask.contains(.fullScreen) ||
-                    self.window.inLiveResize ||
-                    self.vcvIsDragging {
-                    if self.hideVCV {
-                        hide = false
-                    } else {
-                        return
-                    }
-                }
-                self.hideTitleAndVCV(hide)
-        }
     }
     
     var videoView: some View {
@@ -65,23 +51,10 @@ struct VideoContainerView: View {
                   videoSize: $videoSize,
                   position: $sliderPosition,
                   volumePosition: $volumePosition,
-                  windowIsResizing: .init(get: { () -> Bool in
-                    return false
-                  }, set: {
-                    if !$0 {
-                        // Hide after window resizing
-                        self.hideTitleAndVCV(true)
-                    }
-                  }),
+                  hideVCV: $hideVCV,
+                  vcvIsDragging: $vcvIsDragging,
                   player: player,
                   window: window)
-            .gesture(DragGesture()
-                .onChanged { value in
-                    var o = self.window.frame.origin
-                    o.x += value.translation.width
-                    o.y -= value.translation.height
-                    self.window.setFrameOrigin(o)
-            })
     }
     
     func videoControlView(_ proxy: GeometryProxy) -> some View {
@@ -97,8 +70,11 @@ struct VideoContainerView: View {
         }.onEnded { _ in
             self.vcvIsDragging = false
             self.vcvNewPosition = self.vcvCurrentPosition
-            if !self.hoverOnWindow {
-                self.hideTitleAndVCV(true)
+            
+            // Mouse outside window
+            if NSWindow.windowNumber(at: NSEvent.mouseLocation, belowWindowWithWindowNumber: 0) != self.window.windowNumber {
+                self.window.hideTitlebar(true)
+                self.hideVCV = true
             }
         }
         
@@ -112,6 +88,9 @@ struct VideoContainerView: View {
                                 volumePosition: $volumePosition,
                                 player: player,
                                 window: window)
+            .onHover {
+                self.window.isMovableByWindowBackground = !$0
+            }
             .offset(x: vcvCurrentPosition.x,
                     y: vcvCurrentPosition.y)
             .gesture(dragGesture)
@@ -172,10 +151,5 @@ struct VideoContainerView: View {
         }
         
         return CGPoint(x: x, y: y)
-    }
-    
-    func hideTitleAndVCV(_ hide: Bool) {
-        hideVCV = hide
-        window.hideTitlebar(hide)
     }
 }
