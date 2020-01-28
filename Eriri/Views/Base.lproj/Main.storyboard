@@ -17,11 +17,15 @@
                                         <menuItem title="About Eriri" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
+                                                <action selector="about:" target="HwL-s0-OUP" id="ukQ-PP-IvD"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
+                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
+                                            <connections>
+                                                <action selector="preferences:" target="HwL-s0-OUP" id="cO4-EM-EPh"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
                                         <menuItem title="Services" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -63,7 +67,11 @@
                                                 <action selector="open:" target="HwL-s0-OUP" id="51N-3d-3l5"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Open URL..." keyEquivalent="O" id="aUo-t0-hf6"/>
+                                        <menuItem title="Open URL..." keyEquivalent="O" id="aUo-t0-hf6">
+                                            <connections>
+                                                <action selector="openUrl:" target="HwL-s0-OUP" id="zO9-NK-8pC"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Open Recent" id="tXI-mr-wws">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Open Recent" systemMenu="recentDocuments" id="oas-Oc-fiZ">
@@ -142,19 +150,34 @@
                                     <items>
                                         <menuItem title="Play" keyEquivalent=" " id="YMT-aV-2Vr">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="play:" target="HwL-s0-OUP" id="n9M-XN-hYK"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem title="Step Froward 5s" keyEquivalent="" id="NJI-HD-4Ut">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="stepForward5S:" target="HwL-s0-OUP" id="WRg-9o-Z9R"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem title="Step Backward 5s" keyEquivalent="" id="1PJ-O3-VU9">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="stepBackward5S:" target="HwL-s0-OUP" id="Khv-n2-LY0"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="DN0-pM-mnj"/>
                                         <menuItem title="Next Chapter" keyEquivalent="" id="3DU-XV-lbz">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="nextChapter:" target="HwL-s0-OUP" id="T9T-FM-yug"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem title="Previous Chapter" keyEquivalent="" id="jjL-gm-EFd">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="previousChapter:" target="HwL-s0-OUP" id="nyI-8U-uan"/>
+                                            </connections>
                                         </menuItem>
                                     </items>
                                 </menu>
@@ -165,13 +188,22 @@
                                     <items>
                                         <menuItem title="Increase Volume" keyEquivalent="" id="E0l-rY-p6G">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="increaseVolume:" target="HwL-s0-OUP" id="IOP-mE-5JP"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem title="Decrease Volume" keyEquivalent="" id="jK4-XG-enI">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="decreaseVolume:" target="HwL-s0-OUP" id="kaz-he-IqF"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="UUk-7l-47Q"/>
                                         <menuItem title="Mute" id="0aR-d5-6Sw">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="mute:" target="HwL-s0-OUP" id="3m7-NY-4ln"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem title="Audio Track" id="2jg-Ct-8fK">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -211,8 +243,16 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="rtj-cP-iQa"/>
-                                        <menuItem title="Increase Size" keyEquivalent="+" id="KAn-af-5EX"/>
-                                        <menuItem title="Decrease Size" keyEquivalent="-" id="b9t-gL-u5P"/>
+                                        <menuItem title="Increase Size" keyEquivalent="+" id="KAn-af-5EX">
+                                            <connections>
+                                                <action selector="increaseSize:" target="HwL-s0-OUP" id="eXg-75-otJ"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Decrease Size" keyEquivalent="-" id="b9t-gL-u5P">
+                                            <connections>
+                                                <action selector="decreaseSize:" target="HwL-s0-OUP" id="JeP-XE-Tl2"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="GeD-gi-3nU"/>
                                         <menuItem title="Enter Full Screen" keyEquivalent="f" id="qEP-OR-Gqg">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
@@ -223,11 +263,14 @@
                                         <menuItem title="Float on Top" id="cic-ew-shB">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="nZo-KJ-kx6"/>
+                                                <action selector="floatOnTop:" target="HwL-s0-OUP" id="lxe-xH-VUi"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Snapshot" id="x5O-nR-aT3">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="snapshot:" target="HwL-s0-OUP" id="fm9-0c-f7M"/>
+                                            </connections>
                                         </menuItem>
                                     </items>
                                 </menu>
@@ -275,7 +318,11 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="rcY-Kc-dbh"/>
-                                        <menuItem title="Media Info" keyEquivalent="i" id="9eK-7S-s93"/>
+                                        <menuItem title="Media Info" keyEquivalent="i" id="9eK-7S-s93">
+                                            <connections>
+                                                <action selector="info:" target="HwL-s0-OUP" id="cmE-wT-SZi"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
