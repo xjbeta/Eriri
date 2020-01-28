@@ -53,7 +53,7 @@ struct VideoView: NSViewRepresentable {
         }
     }
     
-    final class Coordinator: NSObject, VLCMediaPlayerDelegate, VLCMediaDelegate {
+    final class Coordinator: NSObject, VLCMediaPlayerDelegate, VLCMediaDelegate, NSWindowDelegate {
         var control: VideoView
         var volumeObserver: NSKeyValueObservation?
         var response: TrackingAreaResponse?
@@ -138,6 +138,7 @@ struct VideoView: NSViewRepresentable {
         func mediaDidFinishParsing(_ aMedia: VLCMedia) {
             let videoSize = control.player.videoSize
             control.videoSize = videoSize
+            control.window.delegate = self
             updateWindowFrame()
             initTrackingArea()
         }
