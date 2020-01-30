@@ -58,6 +58,7 @@ struct VideoView: NSViewRepresentable {
         var volumeObserver: NSKeyValueObservation?
         var response: TrackingAreaResponse?
         let timer: WaitTimer
+        private var stateObserver: NSKeyValueObservation? = nil
         
         init(_ control: VideoView) {
             self.control = control
@@ -67,53 +68,55 @@ struct VideoView: NSViewRepresentable {
                     NSCursor.hide()
                 }
             }
-        }
-        
-        // MARK: - VLCMediaPlayerDelegate
-        func mediaPlayerStateChanged(_ aNotification: Notification!) {
-            if volumeObserver == nil {
-                volumeObserver = control.player.observe(\.audio.volume, options: [.initial, .new]) { (player, _) in
-                    self.control.volumeValue = Float(player.audio.volume)
+            super.init()
+            volumeObserver = control.player.observe(\.audio.volume, options: [.initial, .new]) { player, _ in
+                DispatchQueue.main.async {
+                    control.volumeValue = Float(player.audio.volume)
                 }
             }
-            switch control.player.state {
-            case .opening:
-                print(#function, "opening")
-            case .playing:
-                print(#function, "playing")
-            case .paused:
-                print(#function, "paused")
-            case .stopped:
-                print(#function, "stopped")
-            case .buffering:
-                print(#function, "buffering")
-            case .ended:
-                print(#function, "ended")
-            case .error:
-                print(#function, "error")
-            case .esAdded:
-                print(#function, "esAdded")
-            @unknown default:
-                print(#function, "unknown")
+            
+            var state = VLCMediaPlayerState.opening
+            stateObserver = control.player.observe(\.state, options: [.initial, .new, .old]) { p, c in
+                
+                guard p.state != state else { return }
+                state = p.state
+                let str = VLCMediaPlayerStateToString(state)
+                
+                switch state {
+                case .opening:
+                    print(#function, "opening")
+                    let videoSize = control.player.videoSize
+                    control.videoSize = videoSize
+                    self.updateWindowFrame()
+                    self.initTrackingArea()
+                case .playing:
+                    print(#function, "playing")
+                case .paused:
+                    print(#function, "paused")
+                case .stopped:
+                    print(#function, "stopped")
+                case .buffering:
+                    print(#function, "buffering")
+                case .ended:
+                    print(#function, "ended")
+                case .error:
+                    print(#function, "error")
+                case .esAdded:
+                    print(#function, "esAdded")
+                @unknown default:
+                    print(#function, "unknown")
+                }
+                DispatchQueue.main.async {
+                    control.isPlaying = control.player.isPlaying
+                    control.volumeValue = Float(control.player.audio.volume)
+                }
             }
-            
-            control.volumeValue = Float(control.player.audio.volume)
-            control.isPlaying = control.player.isPlaying
-            
-//            control.player.media.tracksInformation
-            control.player
-            
         }
         
         func mediaPlayerTimeChanged(_ aNotification: Notification!) {
             control.leftTime = control.player.time.stringValue
             control.rightTime = control.player.remainingTime.stringValue
             control.position = control.player.position
-            
-            //            print("fps: \(control.player.framesPerSecond)")
-            //            VLCMediaTracksInformationFrameRate
-            
-            
         }
         
         func mediaPlayerTitleChanged(_ aNotification: Notification!) {
@@ -123,18 +126,6 @@ struct VideoView: NSViewRepresentable {
         func mediaPlayerChapterChanged(_ aNotification: Notification!) {
             print(#function)
             
-        }
-        
-        // MARK: - VLCMediaDelegate
-        func mediaMetaDataDidChange(_ aMedia: VLCMedia) {
-            print(#function, aMedia.metaDictionary)
-        }
-        
-        func mediaDidFinishParsing(_ aMedia: VLCMedia) {
-            let videoSize = control.player.videoSize
-            control.videoSize = videoSize
-            updateWindowFrame()
-            initTrackingArea()
         }
         
 // MARK: - Functions
