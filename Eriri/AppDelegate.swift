@@ -12,8 +12,6 @@ import VLCKit
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var playerContainers = [(window: NSWindow,
-                             player: VLCMediaPlayer)]()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         showMediaOpenPanel()
@@ -24,29 +22,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func showMediaOpenPanel() {
-        let mediaOpenPanel = Utils.shared.mediaOpenPanel
+        let utils = Utils.shared
+        let mediaOpenPanel = utils.mediaOpenPanel
         let re = mediaOpenPanel.runModal()
         if re == .OK, let u = mediaOpenPanel.url {
-            newPlayerWindow(u)
+            utils.newPlayerWindow(u)
         }
     }
     
-    func newPlayerWindow(_ url: URL) {
-        let windowSize = CGSize(width: 480, height: 270)
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: windowSize.width, height: windowSize.height),
-            styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
-            backing: .buffered, defer: false)
-        
-        let player = VLCMediaPlayer()
-        player.media = .init(url: url)
-        
-        let contentView = ContentView(window: window, player: player)
-        
-        window.minSize = windowSize
-        window.isMovableByWindowBackground = true
-        window.contentView = NSHostingView(rootView: contentView)
-        window.setTitleWithRepresentedFilename(url.path)
-        playerContainers.append((window, player))
-    }
 }

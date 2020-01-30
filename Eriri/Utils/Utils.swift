@@ -8,6 +8,7 @@
 
 import Cocoa
 import SwiftUI
+import VLCKit
 
 class Utils: NSObject {
     static let shared = Utils()
@@ -36,4 +37,20 @@ class Utils: NSObject {
         return p
     }()
     
+    var players = [EririPlayer]()
+    
+    func newPlayerWindow(_ url: URL) {
+        let p = EririPlayer(url)
+        players.append(p)
+    }
+}
+
+extension Utils: NSWindowDelegate {
+    func windowWillClose(_ notification: Notification) {
+        guard let w = notification.object as? NSWindow else { return }
+        if w == infoPanel {
+            vlcInfos.stop()
+        }
+    }
+}
 }

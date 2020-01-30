@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0105D8D023E1C84300141E11 /* EririPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0105D8CF23E1C84300141E11 /* EririPlayer.swift */; };
 		0155757B23E02D7400ECC898 /* VLCPlayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0155757A23E02D7400ECC898 /* VLCPlayerExtension.swift */; };
 		0189C95B23D5CA2F00FAAF83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0189C95A23D5CA2F00FAAF83 /* AppDelegate.swift */; };
 		0189C95D23D5CA2F00FAAF83 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0189C95C23D5CA2F00FAAF83 /* ContentView.swift */; };
@@ -59,6 +60,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0105D8CF23E1C84300141E11 /* EririPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EririPlayer.swift; sourceTree = "<group>"; };
 		0155757A23E02D7400ECC898 /* VLCPlayerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCPlayerExtension.swift; sourceTree = "<group>"; };
 		0189C95723D5CA2F00FAAF83 /* Eriri.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eriri.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0189C95A23D5CA2F00FAAF83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 			children = (
 				01D4A3A123DF387800CAA688 /* WaitTimer.swift */,
 				01D4A39723DEA40200CAA688 /* Utils.swift */,
+				0105D8CF23E1C84300141E11 /* EririPlayer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				018F0C2B23D6DEDB008ACF4B /* VideoControlView.swift in Sources */,
 				01D4A3A223DF387900CAA688 /* WaitTimer.swift in Sources */,
 				0189C98423D5ED2600FAAF83 /* VideoView.swift in Sources */,
+				0105D8D023E1C84300141E11 /* EririPlayer.swift in Sources */,
 				01D4A39623DDBE4600CAA688 /* VisualEffectView.swift in Sources */,
 				01D4A39A23DEE6D300CAA688 /* MainMenu.swift in Sources */,
 				0155757B23E02D7400ECC898 /* VLCPlayerExtension.swift in Sources */,

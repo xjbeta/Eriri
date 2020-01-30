@@ -14,9 +14,8 @@ class MainMenu: NSObject, NSMenuItemValidation {
         return NSApp.delegate as? AppDelegate
     }
     
-    var playerContainer: (window: NSWindow, player: VLCMediaPlayer)? {
-        let d = NSApp.delegate as? AppDelegate
-        return d?.playerContainers.first(where: {
+    var playerContainer: EririPlayer? {
+        return Utils.shared.players.first(where: {
             $0.window == NSApp.keyWindow
         })
     }

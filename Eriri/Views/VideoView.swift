@@ -53,7 +53,7 @@ struct VideoView: NSViewRepresentable {
         }
     }
     
-    final class Coordinator: NSObject, VLCMediaPlayerDelegate, VLCMediaDelegate, NSWindowDelegate {
+    final class Coordinator: NSObject, VLCMediaPlayerDelegate, VLCMediaDelegate {
         var control: VideoView
         var volumeObserver: NSKeyValueObservation?
         var response: TrackingAreaResponse?
@@ -97,17 +97,12 @@ struct VideoView: NSViewRepresentable {
                 print(#function, "unknown")
             }
             
-            
             control.volumeValue = Float(control.player.audio.volume)
-            
             control.isPlaying = control.player.isPlaying
             
-            print(control.player.titleDescriptions)
+//            control.player.media.tracksInformation
+            control.player
             
-            let d = control.player.media.metaDictionary
-            print(d)
-            let i = control.player.media.tracksInformation
-            print(i)
         }
         
         func mediaPlayerTimeChanged(_ aNotification: Notification!) {
@@ -138,13 +133,8 @@ struct VideoView: NSViewRepresentable {
         func mediaDidFinishParsing(_ aMedia: VLCMedia) {
             let videoSize = control.player.videoSize
             control.videoSize = videoSize
-            control.window.delegate = self
             updateWindowFrame()
             initTrackingArea()
-        }
-        
-        func windowWillClose(_ notification: Notification) {
-            control.player.stop()
         }
         
 // MARK: - Functions
