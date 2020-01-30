@@ -137,8 +137,9 @@ class MainMenu: NSObject, NSMenuItemValidation {
 // MARK: - Window
     
     @IBAction func info(_ sender: NSMenuItem) {
-        let p = Utils.shared.infoPanel
-        p.center()
-        p.makeKeyAndOrderFront(sender)
+        let utils = Utils.shared
+        utils.vlcInfos.start()
+        utils.infoPanel.center()
+        utils.infoPanel.makeKeyAndOrderFront(sender)
     }
 }

@@ -31,9 +31,16 @@ class Utils: NSObject {
     
     let subtitleOpenPanel = NSOpenPanel()
     
+    let vlcInfos = VLCInfomations()
     lazy var infoPanel: NSPanel = {
-        let p = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 380, height: 400), styleMask: [.titled, .closable,  .fullSizeContentView, .hudWindow], backing: .buffered, defer: false)
+        let p = NSPanel()
+        p.delegate = self
+        p.styleMask = [.titled, .closable,  .fullSizeContentView, .hudWindow]
         p.title = "Media Infomation"
+        let contentView = InfoContentView(infos: vlcInfos)
+        p.contentView = InfoHostingView(rootView: contentView)
+        p.isMovableByWindowBackground = true
+        p.level = .normal + 1
         return p
     }()
     
@@ -53,4 +60,9 @@ extension Utils: NSWindowDelegate {
         }
     }
 }
+
+class InfoHostingView: NSHostingView<InfoContentView> {
+    override var mouseDownCanMoveWindow: Bool {
+        return true
+    }
 }
