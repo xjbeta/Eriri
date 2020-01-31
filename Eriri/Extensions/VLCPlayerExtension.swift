@@ -13,9 +13,26 @@ extension VLCMediaPlayer {
     func togglePlay() {
         if isPlaying, canPause {
             pause()
+        } else if shouldReplay() {
+            position = 0
+            play()
         } else {
             play()
         }
+    }
+    
+    private func shouldReplay() -> Bool {
+        guard let timeStr = remainingTime.stringValue,
+            timeStr.count >= 2 else {
+            return false
+        }
+        
+        if timeStr.dropFirst(timeStr.count - 2) == "00",
+            state == .paused,
+            position > 0.99 {
+            return true
+        }
+        return false
     }
     
     func metaData() -> [(String, String)] {
