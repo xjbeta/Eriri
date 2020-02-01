@@ -98,7 +98,7 @@ struct VideoControlView: View {
             // Buttom Items
             HStack {
                 Text(leftTime)
-                    .font(.system(size: 12))
+                    .font(Font.system(size: 11).monospacedDigit())
                     .foregroundColor(.secondary)
                 Slider(value: $sliderPosition) {
                     if $0 {
@@ -106,7 +106,7 @@ struct VideoControlView: View {
                     }
                 }
                 Text(rightTime)
-                    .font(.system(size: 12))
+                    .font(Font.system(size: 11).monospacedDigit())
                     .foregroundColor(.secondary)
             }
         }.padding(.all, 14)

@@ -103,6 +103,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01097A3523E3EEE400958F6E /* VideoView */ = {
+			isa = PBXGroup;
+			children = (
+				0189C95C23D5CA2F00FAAF83 /* ContentView.swift */,
+				018F0C3423D9E574008ACF4B /* VideoContainerView.swift */,
+				0189C98323D5ED2600FAAF83 /* VideoView.swift */,
+				018F0C2A23D6DEDB008ACF4B /* VideoControlView.swift */,
+				01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */,
+			);
+			path = VideoView;
+			sourceTree = "<group>";
+		};
+		01097A3623E3EEF900958F6E /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				0155757C23E0686200ECC898 /* InfoContentView.swift */,
+				0105D8CD23E1BCB700141E11 /* VLCInfomations.swift */,
+			);
+			path = Info;
+			sourceTree = "<group>";
+		};
 		0189C94E23D5CA2F00FAAF83 = {
 			isa = PBXGroup;
 			children = (
@@ -159,14 +180,9 @@
 		0189C98223D5ECFD00FAAF83 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0189C95C23D5CA2F00FAAF83 /* ContentView.swift */,
-				018F0C3423D9E574008ACF4B /* VideoContainerView.swift */,
-				0189C98323D5ED2600FAAF83 /* VideoView.swift */,
-				018F0C2A23D6DEDB008ACF4B /* VideoControlView.swift */,
 				0189C96323D5CA3300FAAF83 /* Main.storyboard */,
-				01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */,
-				0155757C23E0686200ECC898 /* InfoContentView.swift */,
-				0105D8CD23E1BCB700141E11 /* VLCInfomations.swift */,
+				01097A3523E3EEE400958F6E /* VideoView */,
+				01097A3623E3EEF900958F6E /* Info */,
 			);
 			path = Views;
 			sourceTree = "<group>";

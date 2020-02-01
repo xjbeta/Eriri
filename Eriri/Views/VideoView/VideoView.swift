@@ -93,6 +93,10 @@ struct VideoView: NSViewRepresentable {
                     print(#function, "playing")
                 case .paused:
                     print(#function, "paused")
+                    print(p.media.length)
+                    print(p.time.intValue)
+                    print(p.remainingTime)
+                    print(p.position)
                 case .stopped:
                     print(#function, "stopped")
                 case .buffering:
