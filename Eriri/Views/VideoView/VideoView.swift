@@ -171,12 +171,15 @@ struct VideoView: NSViewRepresentable {
                 case .mouseExited where isFullScreen:
                     self.control.hideTitleAndVCV(true, onlyVCV: true)
                     self.timer.stop()
+                    NSCursor.unhide()
                 case .mouseEntered:
                     self.control.hideTitleAndVCV(false)
                 case .mouseExited:
                     self.control.hideTitleAndVCV(true)
                     self.timer.stop()
+                    NSCursor.unhide()
                 case .mouseMoved(let event):
+                    NSCursor.unhide()
                     if self.control.hideVCV {
                         self.control.hideTitleAndVCV(false)
                     }
