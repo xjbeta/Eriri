@@ -100,9 +100,10 @@ struct VideoControlView: View {
                 Text(leftTime)
                     .font(Font.system(size: 11).monospacedDigit())
                     .foregroundColor(.secondary)
-                Slider(value: $sliderPosition) {
-                    if $0 {
-                        self.player.position = self.sliderPosition
+                PlayerSliderView(value: $sliderPosition) {
+                    let p = self.player
+                    if p.isSeekable {
+                        p.position = $0
                     }
                 }
                 Text(rightTime)
