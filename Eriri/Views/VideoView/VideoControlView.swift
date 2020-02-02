@@ -24,7 +24,7 @@ struct VideoControlView: View {
     
     var body: some View {
         
-        VStack(spacing: 1) {
+        VStack(alignment: .center, spacing: 8) {
             // Top Items
             
             HStack {
@@ -34,7 +34,7 @@ struct VideoControlView: View {
                         self.player.audio.volume = 0
                     }) {
                         Image(nsImage: NSImage(named: .init("NSAudioOutputVolumeLowTemplate"))!)
-                    }.buttonStyle(BorderlessButtonStyle())
+                    }.buttonStyle(ImageButtonStyle())
                         .frame(width: 21)
                     
                     Slider(value: $volumeValue, in: 0...100) {
@@ -51,37 +51,35 @@ struct VideoControlView: View {
                         self.player.audio.volume = 100
                     }) {
                         Image(nsImage: NSImage(named: .init("NSAudioOutputVolumeHighTemplate"))!)
-                    }.buttonStyle(BorderlessButtonStyle())
+                    }.buttonStyle(ImageButtonStyle())
                         .frame(width: 21)
                 }
                 
                 // Center Items
-                HStack(alignment: .center, spacing: 18) {
+                HStack(alignment: .center, spacing: 30) {
                     Button(action: {
                         print("Previous")
                     }) {
-                        Image(nsImage: NSImage(named: .init("NSRewindTemplate"))!)
-                    }.buttonStyle(BorderlessButtonStyle())
+                        Image(nsImage: NSImage(named: .init("NSSkipBackTemplate"))!)
+                    }.buttonStyle(ImageButtonStyle())
                         .foregroundColor(Color.green)
                     
                     Button(action: {
                         self.player.togglePlay()
                     }) {
-                        Image(nsImage: NSImage(named: isPlaying ? .init("NSPauseTemplate") : .init("NSPlayTemplate"))!)
+                        Image.init(isPlaying ? "PauseTemplate" : "PlayTemplate")
                             .resizable()
-                            .scaledToFill()
-                        
-                    }.buttonStyle(BorderlessButtonStyle())
-                        .frame(width: 50, alignment: .center)
+                            .scaledToFit()
+                    }.buttonStyle(ImageButtonStyle())
+                        .frame(width: 26, height: 24, alignment: .center)
                     
                     Button(action: {
                         print("Next")
                     }) {
-                        Image(nsImage: NSImage(named: .init("NSFastForwardTemplate"))!)
-                    }.buttonStyle(BorderlessButtonStyle())
+                        Image(nsImage: NSImage(named: .init("NSSkipAheadTemplate"))!)
+                    }.buttonStyle(ImageButtonStyle())
                 }
                 .padding(.leading, 36)
-                
                 
                 Spacer()
                 // Trailing Items
@@ -91,15 +89,15 @@ struct VideoControlView: View {
                         self.window.toggleFullScreen(self)
                     }) {
                         Image(nsImage: NSImage(named: .init("NSTitlebarEnterFullScreenTemplate"))!)
-                    }.buttonStyle(BorderlessButtonStyle())
+                    }.buttonStyle(ImageButtonStyle())
                 }
-            }.padding(.top, 2)
+            }
             
             // Buttom Items
-            HStack {
+            HStack(spacing: 12) {
                 Text(leftTime)
-                    .font(Font.system(size: 11).monospacedDigit())
-                    .foregroundColor(.secondary)
+                    .font(Font.system(size: 12).monospacedDigit())
+                    .foregroundColor(Color.white.opacity(0.8))
                 PlayerSliderView(value: $sliderPosition) {
                     let p = self.player
                     if p.isSeekable {
@@ -107,14 +105,26 @@ struct VideoControlView: View {
                     }
                 }
                 Text(rightTime)
-                    .font(Font.system(size: 11).monospacedDigit())
-                    .foregroundColor(.secondary)
+                    .font(Font.system(size: 12).monospacedDigit())
+                    .foregroundColor(Color.white.opacity(0.8))
+                    .onTapGesture {
+                        
+                        
+                }
             }
         }.padding(.all, 14)
             .background(VisualEffectView(
-                material: .fullScreenUI,
+                material: .hudWindow,
                 blendingMode: .withinWindow))
             .frame(width: size.width, height: size.height)
             .cornerRadius(4)
+    }
+    
+    struct ImageButtonStyle: ButtonStyle {
+        func makeBody(configuration: Self.Configuration) -> some View {
+            configuration.label
+                .foregroundColor(Color.white)
+                .opacity(configuration.isPressed ? 0.9 : 0.65)
+        }
     }
 }

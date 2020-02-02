@@ -20,12 +20,12 @@ struct PlayerSliderView: View {
         case played, cached, other
     }
     private let barHeight: CGFloat = 3
-    private let barPlayedColor = Color(white: 0.35)
-    private let barCachedColor = Color(white: 0.275)
-    private let barOtherColor = Color(white: 0.20)
+    private let barPlayedColor = Color.white.opacity(0.5)
+    private let barCachedColor = Color.white.opacity(0.275)
+    private let barOtherColor = Color.white.opacity(0.2)
     
     private let knobSize = NSSize(width: 3, height: 15)
-    private let knobColor = Color(white: 0.8)
+    private let knobColor = Color.white.opacity(0.6)
     
     var body: some View {
         GeometryReader { proxy in
