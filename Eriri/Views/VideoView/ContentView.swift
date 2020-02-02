@@ -12,8 +12,10 @@ import VLCKit
 struct ContentView: View {
     let window: NSWindow
     let player: VLCMediaPlayer
+    @ObservedObject var windowSize: WindowSize
+    
     var body: some View {
-        VideoContainerView(window: window, player: player)
+        VideoContainerView(window: window, player: player, windowSize: windowSize)
             .padding(.top, -22)
     }
 }

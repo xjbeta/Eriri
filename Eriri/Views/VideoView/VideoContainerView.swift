@@ -27,19 +27,15 @@ struct VideoContainerView: View {
     
     let window: NSWindow
     var player: VLCMediaPlayer
+    @ObservedObject var windowSize: WindowSize
     
-    init(window: NSWindow, player: VLCMediaPlayer) {
-        self.window = window
-        self.player = player
-    }
+    @State private var positionInited: Bool = false
     
     var body: some View {
         videoView
             .overlay(
-                GeometryReader { (proxy: GeometryProxy) in
-                    self.videoControlView(proxy)
-                }
-                .opacity(self.hideVCV ? 0 : 1))
+                self.videoControlView(windowSize.size)
+                    .opacity(self.hideVCV ? 0 : 1))
             .frame(minWidth: limitWindowSize(videoSize).width,
                    minHeight: limitWindowSize(videoSize).height)
     }
@@ -57,14 +53,14 @@ struct VideoContainerView: View {
                   window: window)
     }
     
-    func videoControlView(_ proxy: GeometryProxy) -> some View {
+    func videoControlView(_ windowSize: CGSize) -> some View {
         let dragGesture = DragGesture()
             .onChanged { value in
                 self.vcvIsDragging = true
                 let x = value.translation.width + self.vcvNewPosition.x
                 let y = value.translation.height + self.vcvNewPosition.y
                 
-                let newP = self.vcvLimitPosition(proxy.size, .init(x: x, y: y))
+                let newP = self.vcvLimitPosition(windowSize, .init(x: x, y: y))
                 
                 self.vcvCurrentPosition = newP
         }.onEnded { _ in
@@ -79,7 +75,15 @@ struct VideoContainerView: View {
         }
         
         DispatchQueue.main.async {
-            self.vcvCurrentPosition = self.vcvLimitPosition(proxy.size, self.vcvCurrentPosition)
+            if self.positionInited {
+                self.vcvCurrentPosition = self.vcvLimitPosition(windowSize, self.vcvCurrentPosition)
+            } else if windowSize != .zero {
+                let p = CGPoint(x: 0, y: windowSize.height / 4)
+                let np = self.vcvLimitPosition(windowSize, p)
+                self.positionInited = true
+                self.vcvCurrentPosition = np
+                self.vcvNewPosition = np
+            }
         }
         return VideoControlView(isPlaying: $isPlaying,
                                 leftTime: $leftTime,
