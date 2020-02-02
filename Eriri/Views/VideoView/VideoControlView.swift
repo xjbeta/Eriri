@@ -124,7 +124,7 @@ struct VideoControlView: View {
         func makeBody(configuration: Self.Configuration) -> some View {
             configuration.label
                 .foregroundColor(Color.white)
-                .opacity(configuration.isPressed ? 0.9 : 0.65)
+                .opacity(configuration.isPressed ? 0.9 : 0.75)
         }
     }
 }
