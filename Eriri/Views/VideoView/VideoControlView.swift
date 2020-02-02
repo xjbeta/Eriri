@@ -22,76 +22,80 @@ struct VideoControlView: View {
     let size = CGSize(width: 440, height: 75)
     let minSize = CGSize(width: 368, height: 75)
     
+    var leadingItems: some View {
+        HStack(spacing: 5) {
+            Button(action: {
+                self.player.audio.volume = 0
+            }) {
+                Image(nsImage: NSImage(named: .init("NSAudioOutputVolumeLowTemplate"))!)
+            }.buttonStyle(ImageButtonStyle())
+                .frame(width: 21)
+            
+            Slider(value: $volumeValue, in: 0...100) {
+                if $0 {
+                    self.player.audio.volume = Int32(self.volumeValue)
+                }
+            }
+            .controlSize(.small)
+            .frame(width: 53)
+            .padding(.leading, -8)
+            
+            
+            Button(action: {
+                self.player.audio.volume = 100
+            }) {
+                Image(nsImage: NSImage(named: .init("NSAudioOutputVolumeHighTemplate"))!)
+            }.buttonStyle(ImageButtonStyle())
+                .frame(width: 21)
+        }
+    }
+    
+    var centerItems: some View {
+        HStack(alignment: .center, spacing: 30) {
+            Button(action: {
+                print("Previous")
+            }) {
+                Image(nsImage: NSImage(named: .init("NSSkipBackTemplate"))!)
+            }.buttonStyle(ImageButtonStyle())
+                .foregroundColor(Color.green)
+            
+            Button(action: {
+                self.player.togglePlay()
+            }) {
+                Image.init(isPlaying ? "PauseTemplate" : "PlayTemplate")
+                    .resizable()
+                    .scaledToFit()
+            }.buttonStyle(ImageButtonStyle())
+                .frame(width: 26, height: 24, alignment: .center)
+            
+            Button(action: {
+                print("Next")
+            }) {
+                Image(nsImage: NSImage(named: .init("NSSkipAheadTemplate"))!)
+            }.buttonStyle(ImageButtonStyle())
+        }
+    }
+    
+    var trailingItems: some View {
+        HStack(spacing: 5) {
+            Button(action: {
+                print("EnterFullScreen")
+                self.window.toggleFullScreen(self)
+            }) {
+                Image(nsImage: NSImage(named: .init("NSTitlebarEnterFullScreenTemplate"))!)
+            }.buttonStyle(ImageButtonStyle())
+        }
+    }
+    
     var body: some View {
         
         VStack(alignment: .center, spacing: 8) {
             // Top Items
-            
             HStack {
-                // Leading Items
-                HStack(spacing: 5) {
-                    Button(action: {
-                        self.player.audio.volume = 0
-                    }) {
-                        Image(nsImage: NSImage(named: .init("NSAudioOutputVolumeLowTemplate"))!)
-                    }.buttonStyle(ImageButtonStyle())
-                        .frame(width: 21)
-                    
-                    Slider(value: $volumeValue, in: 0...100) {
-                        if $0 {
-                            self.player.audio.volume = Int32(self.volumeValue)
-                        }
-                    }
-                    .controlSize(.small)
-                    .frame(width: 53)
-                    .padding(.leading, -8)
-                    
-                    
-                    Button(action: {
-                        self.player.audio.volume = 100
-                    }) {
-                        Image(nsImage: NSImage(named: .init("NSAudioOutputVolumeHighTemplate"))!)
-                    }.buttonStyle(ImageButtonStyle())
-                        .frame(width: 21)
-                }
-                
-                // Center Items
-                HStack(alignment: .center, spacing: 30) {
-                    Button(action: {
-                        print("Previous")
-                    }) {
-                        Image(nsImage: NSImage(named: .init("NSSkipBackTemplate"))!)
-                    }.buttonStyle(ImageButtonStyle())
-                        .foregroundColor(Color.green)
-                    
-                    Button(action: {
-                        self.player.togglePlay()
-                    }) {
-                        Image.init(isPlaying ? "PauseTemplate" : "PlayTemplate")
-                            .resizable()
-                            .scaledToFit()
-                    }.buttonStyle(ImageButtonStyle())
-                        .frame(width: 26, height: 24, alignment: .center)
-                    
-                    Button(action: {
-                        print("Next")
-                    }) {
-                        Image(nsImage: NSImage(named: .init("NSSkipAheadTemplate"))!)
-                    }.buttonStyle(ImageButtonStyle())
-                }
-                .padding(.leading, 36)
-                
+                leadingItems
                 Spacer()
-                // Trailing Items
-                HStack(spacing: 5) {
-                    Button(action: {
-                        print("EnterFullScreen")
-                        self.window.toggleFullScreen(self)
-                    }) {
-                        Image(nsImage: NSImage(named: .init("NSTitlebarEnterFullScreenTemplate"))!)
-                    }.buttonStyle(ImageButtonStyle())
-                }
-            }
+                trailingItems
+            }.overlay(centerItems)
             
             // Buttom Items
             HStack(spacing: 12) {
