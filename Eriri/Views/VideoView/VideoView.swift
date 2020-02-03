@@ -60,6 +60,8 @@ struct VideoView: NSViewRepresentable {
         let timer: WaitTimer
         private var stateObserver: NSKeyValueObservation? = nil
         
+        private var shouldInit = true
+        
         init(_ control: VideoView) {
             self.control = control
             timer = .init(timeOut: .seconds(3)) {
@@ -81,34 +83,29 @@ struct VideoView: NSViewRepresentable {
                 guard p.state != state else { return }
                 state = p.state
                 let str = VLCMediaPlayerStateToString(state)
+                self.initWindowFrame()
+                
+                print("mediaPlayerStateObserver:   \(str ?? "unknown")")
                 
                 switch state {
                 case .opening:
-                    print(#function, "opening")
-                    let videoSize = control.player.videoSize
-                    control.videoSize = videoSize
-                    self.updateWindowFrame()
-                    self.initTrackingArea()
+                    break
                 case .playing:
-                    print(#function, "playing")
+                    break
                 case .paused:
-                    print(#function, "paused")
-                    print(p.media.length)
-                    print(p.time.intValue)
-                    print(p.remainingTime)
-                    print(p.position)
+                    break
                 case .stopped:
-                    print(#function, "stopped")
+                    break
                 case .buffering:
-                    print(#function, "buffering")
+                    break
                 case .ended:
-                    print(#function, "ended")
+                    break
                 case .error:
-                    print(#function, "error")
+                    break
                 case .esAdded:
-                    print(#function, "esAdded")
+                    break
                 @unknown default:
-                    print(#function, "unknown")
+                    break
                 }
                 DispatchQueue.main.async {
                     control.isPlaying = control.player.isPlaying
@@ -133,6 +130,19 @@ struct VideoView: NSViewRepresentable {
         }
         
 // MARK: - Functions
+        func initWindowFrame() {
+            let videoSize = control.player.videoSize
+            guard shouldInit, videoSize != .zero else {
+                return
+            }
+            
+            control.videoSize = videoSize
+            updateWindowFrame()
+            initTrackingArea()
+            shouldInit = false
+        }
+        
+        
         func updateWindowFrame() {
             let videoSize = control.player.videoSize
             if control.window.contentAspectRatio != videoSize {
@@ -203,6 +213,11 @@ struct VideoView: NSViewRepresentable {
                 control.videoView.removeTrackingArea($0)
             }
             control.videoView.addTrackingArea(trackingArea)
+        }
+        
+        deinit {
+            volumeObserver?.invalidate()
+            stateObserver?.invalidate()
         }
     }
     
