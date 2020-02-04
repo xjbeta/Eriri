@@ -78,6 +78,18 @@ class Utils: NSObject {
         let p = EririPlayer(url)
         players.append(p)
     }
+    
+    func openLoginPanel(_ info: LoginViewInfo,
+                   complete: @escaping (() -> Void)) {
+        let p = NSPanel()
+        p.styleMask = [.titled, .fullSizeContentView]
+        p.isMovableByWindowBackground = true
+        let contentView = LoginView(window: p, info: info, complete: complete)
+        p.contentView = NSHostingView(rootView: contentView)
+        p.center()
+        p.title = info.title
+        p.makeKeyAndOrderFront(self)
+    }
 }
 
 extension Utils: NSWindowDelegate {

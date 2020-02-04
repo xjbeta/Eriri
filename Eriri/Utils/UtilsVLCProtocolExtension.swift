@@ -22,6 +22,20 @@ extension Utils: VLCCustomDialogRendererProtocol {
     
     func showLogin(withTitle title: String, message: String, defaultUsername username: String?, askingForStorage: Bool, withReference reference: NSValue) {
         print(#function, message)
+        
+        let info = LoginViewInfo()
+        info.title = title
+        info.message = message
+        info.username = username ?? ""
+        info.askingForStorage = askingForStorage
+        info.reference = reference
+        openLoginPanel(info) {
+            self.vlcDialogProvider?.postUsername(
+                info.username,
+                andPassword: info.password,
+                forDialogReference: info.reference,
+                store: info.storePassword)
+        }
     }
     
     func showQuestion(withTitle title: String, message: String, type questionType: VLCDialogQuestionType, cancel cancelString: String?, action1String: String?, action2String: String?, withReference reference: NSValue) {
