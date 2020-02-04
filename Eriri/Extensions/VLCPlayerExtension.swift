@@ -82,4 +82,32 @@ extension VLCMediaPlayer {
         }
         return re
     }
+    
+    func subtitles() -> [(index: Int, name: String)] {
+        guard let indexs = videoSubTitlesIndexes as? [Int],
+            let names = videoSubTitlesNames as? [String],
+            indexs.count == names.count else {
+            return []
+        }
+        var re = [(index: Int, name: String)]()
+        indexs.enumerated().forEach {
+            re.append(($0.element, names[$0.offset]))
+        }
+        
+        return re
+    }
+    
+    func audioTracks() -> [(index: Int, name: String)] {
+        guard let indexs = audioTrackIndexes as? [Int],
+            let names = audioTrackNames as? [String],
+            indexs.count == names.count else {
+            return []
+        }
+        var re = [(index: Int, name: String)]()
+        indexs.enumerated().forEach {
+            re.append(($0.element, names[$0.offset]))
+        }
+        
+        return re
+    }
 }
