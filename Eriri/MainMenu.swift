@@ -39,6 +39,8 @@ class MainMenu: NSObject, NSMenuItemValidation {
     }
     
     @IBAction func openUrl(_ sender: NSMenuItem) {
+        let w = Utils.shared.openURLPanel
+        w.makeKeyAndOrderFront(self)
     }
     
 // MARK: - Playback

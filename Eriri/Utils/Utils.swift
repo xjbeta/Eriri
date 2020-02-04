@@ -59,6 +59,19 @@ class Utils: NSObject {
         return p
     }()
     
+    lazy var openURLPanel: NSPanel = {
+        let p = NSPanel()
+        p.styleMask = [.titled, .closable, .fullSizeContentView]
+        p.isMovableByWindowBackground = true
+        p.titlebarAppearsTransparent = true
+        p.titleVisibility = .hidden
+        let contentView = OpenURLView(window: p)
+        p.contentView = NSHostingView(rootView: contentView)
+        p.hideTitlebar(true)
+        p.center()
+        return p
+    }()
+    
     var players = [EririPlayer]()
     
     func newPlayerWindow(_ url: URL) {
