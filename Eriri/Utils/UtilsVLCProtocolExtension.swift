@@ -17,11 +17,11 @@ extension Utils: VLCLibraryLogReceiverProtocol {
 
 extension Utils: VLCCustomDialogRendererProtocol {
     func showError(withTitle error: String, message: String) {
-        print(#function, message)
+        print("Dialog Renderer", #function, message)
     }
     
     func showLogin(withTitle title: String, message: String, defaultUsername username: String?, askingForStorage: Bool, withReference reference: NSValue) {
-        print(#function, message)
+        print("Dialog Renderer", #function, message)
         
         let info = LoginViewInfo()
         info.title = title
@@ -39,19 +39,19 @@ extension Utils: VLCCustomDialogRendererProtocol {
     }
     
     func showQuestion(withTitle title: String, message: String, type questionType: VLCDialogQuestionType, cancel cancelString: String?, action1String: String?, action2String: String?, withReference reference: NSValue) {
-        print(#function, message)
+        print("Dialog Renderer", #function, message)
     }
     
     func showProgress(withTitle title: String, message: String, isIndeterminate: Bool, position: Float, cancel cancelString: String?, withReference reference: NSValue) {
-        print(#function, message)
+        print("Dialog Renderer", #function, message)
     }
     
     func updateProgress(withReference reference: NSValue, message: String?, position: Float) {
-        print(#function, message)
+        print("Dialog Renderer", #function, message)
     }
     
     func cancelDialog(withReference reference: NSValue) {
-        print(#function)
+        print("Dialog Renderer", #function)
     }
     
     
