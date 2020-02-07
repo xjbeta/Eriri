@@ -208,11 +208,9 @@
                                         <menuItem title="Audio Track" id="2jg-Ct-8fK">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Audio Track" id="WcE-RQ-mOG">
-                                                <items>
-                                                    <menuItem title="None" id="z7j-Kt-lxx">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                </items>
+                                                <connections>
+                                                    <outlet property="delegate" destination="HwL-s0-OUP" id="IhX-vQ-bYb"/>
+                                                </connections>
                                             </menu>
                                         </menuItem>
                                     </items>
@@ -279,18 +277,19 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Subtitles" id="lDg-Qw-Mvn">
                                     <items>
+                                        <menuItem title="Add Sutitle File..." id="ETR-ii-Ya9">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="addSubtitleFile:" target="HwL-s0-OUP" id="Ydj-jF-iew"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Subtitles" id="rra-Dn-UcE">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Subtitles" id="nWA-mt-cn7">
-                                                <items>
-                                                    <menuItem title="None" id="kWp-PJ-Vx2">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                </items>
+                                                <connections>
+                                                    <outlet property="delegate" destination="HwL-s0-OUP" id="lx7-kB-Lf0"/>
+                                                </connections>
                                             </menu>
-                                        </menuItem>
-                                        <menuItem title="Add Sutitle File..." id="ETR-ii-Ya9">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                     </items>
                                 </menu>
@@ -346,7 +345,39 @@
                 </application>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Eriri" customModuleProvider="target"/>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
-                <customObject id="HwL-s0-OUP" customClass="MainMenu" customModule="Eriri" customModuleProvider="target"/>
+                <customObject id="HwL-s0-OUP" customClass="MainMenu" customModule="Eriri" customModuleProvider="target">
+                    <connections>
+                        <outlet property="aboutMenuItem" destination="5kV-Vb-QxS" id="oZn-bn-H6m"/>
+                        <outlet property="addSubtitleFileMenuItem" destination="ETR-ii-Ya9" id="DAb-Cc-usL"/>
+                        <outlet property="audioMenu" destination="qSW-dT-kc2" id="2Jv-0V-Kfu"/>
+                        <outlet property="audioTrackMenu" destination="WcE-RQ-mOG" id="Kid-G6-awA"/>
+                        <outlet property="decreaseSizeMenuItem" destination="b9t-gL-u5P" id="aAn-aJ-G9f"/>
+                        <outlet property="decreaseVolumeMenuItem" destination="jK4-XG-enI" id="eMo-0e-ioc"/>
+                        <outlet property="doubleSizeMenuItem" destination="ZjY-l0-CWR" id="dnD-Ke-Xs4"/>
+                        <outlet property="fitToScreenMenuItem" destination="1LM-Ai-Muh" id="k1F-IA-tz6"/>
+                        <outlet property="floatOnTopMenuItem" destination="cic-ew-shB" id="zKO-jx-4wA"/>
+                        <outlet property="halfSizeMenuItem" destination="62O-UI-yYQ" id="Qod-BG-Hfe"/>
+                        <outlet property="increaseSizeMenuItem" destination="KAn-af-5EX" id="78E-V1-8sX"/>
+                        <outlet property="increaseVolumeMenuItem" destination="E0l-rY-p6G" id="m51-3f-yUN"/>
+                        <outlet property="infoMenuItem" destination="9eK-7S-s93" id="Zb6-8P-8NK"/>
+                        <outlet property="muteMenuItem" destination="0aR-d5-6Sw" id="kMH-jX-Ib7"/>
+                        <outlet property="nextChapterMenuItem" destination="3DU-XV-lbz" id="32y-8H-xmc"/>
+                        <outlet property="normalSizeMenuItem" destination="5Ce-TU-Yd9" id="mZF-4S-YiL"/>
+                        <outlet property="openMenuItem" destination="IAo-SY-fd9" id="gjq-0M-skg"/>
+                        <outlet property="openUrlMenuItem" destination="aUo-t0-hf6" id="SY5-rW-dqy"/>
+                        <outlet property="playMenuItem" destination="YMT-aV-2Vr" id="LFr-X7-bSs"/>
+                        <outlet property="playbackMenu" destination="kRp-wb-dV0" id="8uy-vv-B4B"/>
+                        <outlet property="preferencesMenuItem" destination="BOF-NM-1cW" id="ta7-oy-c3c"/>
+                        <outlet property="previousChapterMenuItem" destination="jjL-gm-EFd" id="dgw-5B-ayb"/>
+                        <outlet property="snapshotMenuItem" destination="x5O-nR-aT3" id="9yI-sj-c9A"/>
+                        <outlet property="stepBackwardMenuItem" destination="1PJ-O3-VU9" id="p4d-EG-nnu"/>
+                        <outlet property="stepForwardMenuItem" destination="NJI-HD-4Ut" id="oDZ-lp-jN5"/>
+                        <outlet property="subtitleListMenu" destination="nWA-mt-cn7" id="CFh-JT-vY7"/>
+                        <outlet property="subtitlesMenu" destination="lDg-Qw-Mvn" id="XJX-uS-6c4"/>
+                        <outlet property="subtitlesMenuItem" destination="rra-Dn-UcE" id="Um7-LO-Wgd"/>
+                        <outlet property="videoMenu" destination="y5H-vb-YcS" id="cLN-u8-De7"/>
+                    </connections>
+                </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>

@@ -29,7 +29,7 @@ extension VLCMediaPlayer {
         
         if timeStr.dropFirst(timeStr.count - 2) == "00",
             state == .paused,
-            position > 0.99 {
+            position > 0.9999 {
             return true
         }
         return false
@@ -109,5 +109,11 @@ extension VLCMediaPlayer {
         }
         
         return re
+    }
+    
+    func seek(_ second: Int32) {
+        if isPlaying {
+            jumpForward(second)
+        }
     }
 }
