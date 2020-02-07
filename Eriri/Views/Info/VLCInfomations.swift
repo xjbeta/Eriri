@@ -150,6 +150,10 @@ class VLCInfomations: ObservableObject {
                 info.append(("BitRate", "\(bitrate)"))
             }
             
+            if let fps = d[VLCMediaTracksInformationFrameRate] as? Int {
+                info.append(("FPS", "\(fps)"))
+            }
+            
             
         case VLCMediaTracksInformationTypeAudio:
             
