@@ -9,47 +9,38 @@
 import SwiftUI
 
 struct VideoContainerView: View {
-    @State private var isPlaying: Bool = false
-    @State private var leftTime: String = "--:--"
-    @State private var rightTime: String = "--:--"
-    @State private var videoSize: CGSize = .zero
+//    @State private var isPlaying: Bool = false
+//    @State private var leftTime: String = "--:--"
+//    @State private var rightTime: String = "--:--"
+//    @State private var videoSize: CGSize = .zero
     
-    @State private var sliderPosition: Float = 0
-    @State private var volumeValue: Float = 0
+//    @State private var sliderPosition: Float = 0
+//    @State private var volumeValue: Float = 0
     
     
     @State private var vcvCurrentPosition: CGPoint = .zero
     @State private var vcvNewPosition: CGPoint = .zero
     @State private var vcvIsDragging: Bool = false
     
-    @State private var hideVCV: Bool = false
+//    @State private var hideVCV: Bool = false
     
     let window: NSWindow
     var player: VLCMediaPlayer
-    @ObservedObject var windowSize: WindowSize
+    @ObservedObject var playerInfo: PlayerInfo
     
     @State private var positionInited: Bool = false
     
     var body: some View {
         videoView
             .overlay(
-                self.videoControlView(windowSize.size)
-                    .opacity(self.hideVCV ? 0 : 1))
-            .frame(minWidth: limitWindowSize(videoSize).width,
-                   minHeight: limitWindowSize(videoSize).height)
+                self.videoControlView(playerInfo.windowSize)
+                    .opacity(self.playerInfo.hideVCV ? 0 : 1))
+            .frame(minWidth: limitWindowSize(playerInfo.videoSize).width,
+                   minHeight: limitWindowSize(playerInfo.videoSize).height)
     }
     
     var videoView: some View {
-        VideoView(isPlaying: $isPlaying,
-                  leftTime: $leftTime,
-                  rightTime: $rightTime,
-                  videoSize: $videoSize,
-                  position: $sliderPosition,
-                  volumeValue: $volumeValue,
-                  hideVCV: $hideVCV,
-                  vcvIsDragging: $vcvIsDragging,
-                  player: player,
-                  window: window)
+        VideoView(player: player)
     }
     
     func videoControlView(_ windowSize: CGSize) -> some View {
@@ -69,7 +60,7 @@ struct VideoContainerView: View {
             // Mouse outside window
             if NSWindow.windowNumber(at: NSEvent.mouseLocation, belowWindowWithWindowNumber: 0) != self.window.windowNumber {
                 self.window.hideTitlebar(true)
-                self.hideVCV = true
+                self.playerInfo.hideVCV = true
             }
         }
         
@@ -84,13 +75,9 @@ struct VideoContainerView: View {
                 self.vcvNewPosition = np
             }
         }
-        return VideoControlView(isPlaying: $isPlaying,
-                                leftTime: $leftTime,
-                                rightTime: $rightTime,
-                                sliderPosition: $sliderPosition,
-                                volumeValue: $volumeValue,
+        return VideoControlView(window: window,
                                 player: player,
-                                window: window)
+                                playerInfo: playerInfo)
             .onHover {
                 self.window.isMovableByWindowBackground = !$0
             }

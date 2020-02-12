@@ -11,10 +11,10 @@ import SwiftUI
 struct ContentView: View {
     let window: NSWindow
     let player: VLCMediaPlayer
-    @ObservedObject var windowSize: WindowSize
+    @ObservedObject var playerInfo: PlayerInfo
     
     var body: some View {
-        VideoContainerView(window: window, player: player, windowSize: windowSize)
+        VideoContainerView(window: window, player: player, playerInfo: playerInfo)
             .padding(.top, -22)
     }
 }

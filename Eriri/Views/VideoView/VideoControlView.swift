@@ -9,14 +9,10 @@
 import SwiftUI
 
 struct VideoControlView: View {
-    @Binding var isPlaying: Bool
-    @Binding var leftTime: String
-    @Binding var rightTime: String
-    @Binding var sliderPosition: Float
-    @Binding var volumeValue: Float
     
-    let player: VLCMediaPlayer
     let window: NSWindow
+    let player: VLCMediaPlayer
+    @ObservedObject var playerInfo: PlayerInfo
     
     let size = CGSize(width: 440, height: 75)
     let minSize = CGSize(width: 368, height: 75)
@@ -30,9 +26,9 @@ struct VideoControlView: View {
             }.buttonStyle(ImageButtonStyle())
                 .frame(width: 21)
             
-            Slider(value: $volumeValue, in: 0...100) {
+            Slider(value: $playerInfo.volume, in: 0...100) {
                 if $0 {
-                    self.player.volume = Int(self.volumeValue)
+                    self.player.volume = Int(self.playerInfo.volume)
                 }
             }
             .controlSize(.small)
@@ -61,7 +57,7 @@ struct VideoControlView: View {
             Button(action: {
                 self.player.togglePlay()
             }) {
-                Image.init(isPlaying ? "PauseTemplate" : "PlayTemplate")
+                Image(playerInfo.state == .playing ? "PauseTemplate" : "PlayTemplate")
                     .resizable()
                     .scaledToFit()
             }.buttonStyle(ImageButtonStyle())
@@ -98,13 +94,13 @@ struct VideoControlView: View {
             
             // Buttom Items
             HStack(spacing: 12) {
-                Text(leftTime)
+                Text(playerInfo.leftTime)
                     .font(Font.system(size: 12).monospacedDigit())
                     .foregroundColor(Color.white.opacity(0.8))
-                PlayerSliderView(value: $sliderPosition) {
+                PlayerSliderView(value: $playerInfo.position) {
                     self.player.position = $0
                 }
-                Text(rightTime)
+                Text(playerInfo.rightTime)
                     .font(Font.system(size: 12).monospacedDigit())
                     .foregroundColor(Color.white.opacity(0.8))
                     .onTapGesture {

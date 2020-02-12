@@ -38,6 +38,7 @@
 		0196C53423E93DA2007A0C96 /* URLTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0196C53323E93DA2007A0C96 /* URLTextField.swift */; };
 		01B1BBAC23EF989A00E24BD4 /* VLCLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B1BBAB23EF989A00E24BD4 /* VLCLibrary.swift */; };
 		01B1BBAE23EFA04200E24BD4 /* VLCTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B1BBAD23EFA04200E24BD4 /* VLCTime.swift */; };
+		01BA948723F3E84F00DEE6D5 /* VLCVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA948623F3E84F00DEE6D5 /* VLCVideoView.swift */; };
 		01D4A39623DDBE4600CAA688 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */; };
 		01D4A39823DEA40200CAA688 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39723DEA40200CAA688 /* Utils.swift */; };
 		01D4A39A23DEE6D300CAA688 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39923DEE6D300CAA688 /* MainMenu.swift */; };
@@ -106,6 +107,7 @@
 		0196C53323E93DA2007A0C96 /* URLTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTextField.swift; sourceTree = "<group>"; };
 		01B1BBAB23EF989A00E24BD4 /* VLCLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCLibrary.swift; sourceTree = "<group>"; };
 		01B1BBAD23EFA04200E24BD4 /* VLCTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCTime.swift; sourceTree = "<group>"; };
+		01BA948623F3E84F00DEE6D5 /* VLCVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCVideoView.swift; sourceTree = "<group>"; };
 		01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		01D4A39723DEA40200CAA688 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		01D4A39923DEE6D300CAA688 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
@@ -221,11 +223,9 @@
 			children = (
 				0189C95A23D5CA2F00FAAF83 /* AppDelegate.swift */,
 				01D4A39923DEE6D300CAA688 /* MainMenu.swift */,
-				015C2BB323EE8B0200C90D08 /* VLCMediaPlayer.swift */,
-				01B1BBAB23EF989A00E24BD4 /* VLCLibrary.swift */,
-				01B1BBAD23EFA04200E24BD4 /* VLCTime.swift */,
-				01E2088B23F2BDD5002A2EBA /* VLCEventManager.swift */,
-				01301CE723F3CAAF005CD657 /* VLCTrackDescription.swift */,
+				0105D8CF23E1C84300141E11 /* EririPlayer.swift */,
+				01BA948823F3E86600DEE6D5 /* VLC */,
+				01F103E923E0206800D12931 /* Utils */,
 				0189C95E23D5CA3300FAAF83 /* Assets.xcassets */,
 				0189C96623D5CA3300FAAF83 /* Info.plist */,
 				0189C96723D5CA3300FAAF83 /* Eriri.entitlements */,
@@ -233,7 +233,6 @@
 				0189C96023D5CA3300FAAF83 /* Preview Content */,
 				0189C98223D5ECFD00FAAF83 /* Views */,
 				01F103E623E01EB300D12931 /* Extensions */,
-				01F103E923E0206800D12931 /* Utils */,
 			);
 			path = Eriri;
 			sourceTree = "<group>";
@@ -280,6 +279,19 @@
 			path = OpenURL;
 			sourceTree = "<group>";
 		};
+		01BA948823F3E86600DEE6D5 /* VLC */ = {
+			isa = PBXGroup;
+			children = (
+				015C2BB323EE8B0200C90D08 /* VLCMediaPlayer.swift */,
+				01B1BBAB23EF989A00E24BD4 /* VLCLibrary.swift */,
+				01B1BBAD23EFA04200E24BD4 /* VLCTime.swift */,
+				01E2088B23F2BDD5002A2EBA /* VLCEventManager.swift */,
+				01301CE723F3CAAF005CD657 /* VLCTrackDescription.swift */,
+				01BA948623F3E84F00DEE6D5 /* VLCVideoView.swift */,
+			);
+			path = VLC;
+			sourceTree = "<group>";
+		};
 		01C70AA423F06623008D08E8 /* libvlc */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,7 +315,6 @@
 				01D4A3A123DF387800CAA688 /* WaitTimer.swift */,
 				01D4A39723DEA40200CAA688 /* Utils.swift */,
 				0196C53123E93014007A0C96 /* UtilsVLCProtocolExtension.swift */,
-				0105D8CF23E1C84300141E11 /* EririPlayer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -406,6 +417,7 @@
 				0155757D23E0686200ECC898 /* InfoContentView.swift in Sources */,
 				01301CE823F3CAAF005CD657 /* VLCTrackDescription.swift in Sources */,
 				0138CD3523E964DC008E8DEE /* LoginView.swift in Sources */,
+				01BA948723F3E84F00DEE6D5 /* VLCVideoView.swift in Sources */,
 				0189C95B23D5CA2F00FAAF83 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

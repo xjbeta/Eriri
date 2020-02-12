@@ -181,10 +181,10 @@ class VLCMediaPlayer: NSObject {
         }
     }
     
+    
     func stop() {
         guard let mp = mediaPlayer else { return }
-//        libvlc_media_player_stop_async(mp)
-//        libvlc_media_player_stop(mp)
+        libvlc_media_player_stop(mp)
     }
     
     func seek(_ seconds: Int) {
@@ -212,7 +212,6 @@ class VLCMediaPlayer: NSObject {
         guard let mp = mediaPlayer else { return false }
         return libvlc_media_player_is_seekable(mp) == 1
     }
-    
     
     let attachEvents: [libvlc_event_e] = [
         // State
@@ -350,42 +349,44 @@ private extension VLCMediaPlayer {
 //                print("Event Attach: \(nameStr)")
 //            }
             
-            switch libvlc_event_e(UInt32(type)) {
-            // State
-            case libvlc_MediaPlayerOpening:
-                d.mediaPlayerStateChanged(.opening)
-            case libvlc_MediaPlayerPlaying:
-                d.mediaPlayerStateChanged(.playing)
-            case libvlc_MediaPlayerPaused:
-                d.mediaPlayerStateChanged(.paused)
-            case libvlc_MediaPlayerBuffering:
-                d.mediaPlayerStateChanged(.buffering)
-            case libvlc_MediaPlayerStopped:
-                d.mediaPlayerStateChanged(.stopped)
-            case libvlc_MediaPlayerEndReached:
-                d.mediaPlayerStateChanged(.ended)
-            case libvlc_MediaPlayerESAdded:
-                d.mediaPlayerStateChanged(.esAdded)
-            case libvlc_MediaPlayerEncounteredError:
-                d.mediaPlayerStateChanged(.error)
-                
-            // Player info
-            case libvlc_MediaPlayerPositionChanged:
-                let f = event.u.media_player_position_changed.new_position
-                d.mediaPlayerPositionChanged(f)
-            case libvlc_MediaPlayerTimeChanged:
-                let time = event.u.media_player_time_changed.new_time
-                d.mediaPlayerTimeChanged(VLCTime(with: time))
-                
-            case libvlc_MediaPlayerLengthChanged:
-                let time = event.u.media_player_length_changed.new_length
-                d.mediaPlayerLengthChanged(VLCTime(with: time))
-                
-            case libvlc_MediaPlayerAudioVolume:
-                let v = event.u.media_player_audio_volume.volume
-                d.mediaPlayerAudioVolume(Int(v * Float(mp.volumeMAX)))
-            default:
-                break
+            DispatchQueue.main.async {
+                switch libvlc_event_e(UInt32(type)) {
+                // State
+                case libvlc_MediaPlayerOpening:
+                    d.mediaPlayerStateChanged(.opening)
+                case libvlc_MediaPlayerPlaying:
+                    d.mediaPlayerStateChanged(.playing)
+                case libvlc_MediaPlayerPaused:
+                    d.mediaPlayerStateChanged(.paused)
+                case libvlc_MediaPlayerBuffering:
+                    d.mediaPlayerStateChanged(.buffering)
+                case libvlc_MediaPlayerStopped:
+                    d.mediaPlayerStateChanged(.stopped)
+                case libvlc_MediaPlayerEndReached:
+                    d.mediaPlayerStateChanged(.ended)
+                case libvlc_MediaPlayerESAdded:
+                    d.mediaPlayerStateChanged(.esAdded)
+                case libvlc_MediaPlayerEncounteredError:
+                    d.mediaPlayerStateChanged(.error)
+                    
+                // Player info
+                case libvlc_MediaPlayerPositionChanged:
+                    let f = event.u.media_player_position_changed.new_position
+                    d.mediaPlayerPositionChanged(f)
+                case libvlc_MediaPlayerTimeChanged:
+                    let time = event.u.media_player_time_changed.new_time
+                    d.mediaPlayerTimeChanged(VLCTime(with: time))
+                    
+                case libvlc_MediaPlayerLengthChanged:
+                    let time = event.u.media_player_length_changed.new_length
+                    d.mediaPlayerLengthChanged(VLCTime(with: time))
+                    
+                case libvlc_MediaPlayerAudioVolume:
+                    let v = event.u.media_player_audio_volume.volume
+                    d.mediaPlayerAudioVolume(Int(v * Float(mp.volumeMAX)))
+                default:
+                    break
+                }
             }
         }, s)
     }
