@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import VLCKit
 
 class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     var appDelegate: AppDelegate? {
@@ -26,8 +25,8 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         switch menu {
         case subtitleListMenu:
             let subtitles = player.subtitles()
-            let current = Int(player.currentVideoSubTitleIndex)
-            subtitles.forEach {
+            let current = subtitles.currentIndex
+            subtitles.descriptions.forEach {
                 let item = NSMenuItem()
                 item.title = $0.name
                 item.tag = $0.index
@@ -40,8 +39,8 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             }
         case audioTrackMenu:
             let tracks = player.audioTracks()
-            let current = Int(player.currentAudioTrackIndex)
-            tracks.forEach {
+            let current = tracks.currentIndex
+            tracks.descriptions.forEach {
                 let item = NSMenuItem()
                 item.title = $0.name
                 item.tag = $0.index
@@ -55,8 +54,6 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         default:
             break
         }
-        
-        
     }
     
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
@@ -128,11 +125,7 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     
     @IBOutlet weak var stepForwardMenuItem: NSMenuItem!
     @IBAction func stepForward5S(_ sender: NSMenuItem) {
-        // extraShortJumpForward    3s
-        // shortJumpForward         10s
-        // mediumJumpForward        1min
-        // longJumpForward          5min
-        
+
         currentPlayer?.player.seek(5)
     }
     
@@ -158,33 +151,25 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     @IBOutlet weak var increaseVolumeMenuItem: NSMenuItem!
     @IBAction func increaseVolume(_ sender: NSMenuItem) {
         guard let p = currentPlayer?.player else { return }
-        var v = p.audio.volume + 5
-        if v > 100 {
-            v = 100
-        }
-        p.audio.volume = v
+        p.volume += 5
     }
     
     @IBOutlet weak var decreaseVolumeMenuItem: NSMenuItem!
     @IBAction func decreaseVolume(_ sender: NSMenuItem) {
         guard let p = currentPlayer?.player else { return }
-        var v = p.audio.volume - 5
-        if v < 0 {
-            v = 0
-        }
-        p.audio.volume = v
+        p.volume -= 5
     }
     
     @IBOutlet weak var muteMenuItem: NSMenuItem!
     @IBAction func mute(_ sender: NSMenuItem) {
         guard let p = currentPlayer?.player else { return }
-        p.audio.isMuted = !p.audio.isMuted
+        p.toggleMute()
     }
     
     @IBOutlet weak var audioTrackMenu: NSMenu!
     
     @IBAction func audioTrackItemAction(_ sender: NSMenuItem) {
-        currentPlayer?.player.currentAudioTrackIndex = Int32(sender.tag)
+        currentPlayer?.player.setAudioTrackIndex(sender.tag)
     }
     
 // MARK: - Video
@@ -250,7 +235,7 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     }
     
     @IBAction func subtitleItemAction(_ sender: NSMenuItem) {
-        currentPlayer?.player.currentVideoSubTitleIndex = Int32(sender.tag)
+        currentPlayer?.player.setSubtitleIndex(sender.tag)
     }
     
     
@@ -258,9 +243,10 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     
     @IBOutlet weak var infoMenuItem: NSMenuItem!
     @IBAction func info(_ sender: NSMenuItem) {
-        let utils = Utils.shared
-        utils.vlcInfos.start()
-        utils.infoPanel.center()
-        utils.infoPanel.makeKeyAndOrderFront(sender)
+        currentPlayer?.player.tracksInformation()
+//        let utils = Utils.shared
+//        utils.vlcInfos.start()
+//        utils.infoPanel.center()
+//        utils.infoPanel.makeKeyAndOrderFront(sender)
     }
 }

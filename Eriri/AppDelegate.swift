@@ -8,13 +8,13 @@
 
 import Cocoa
 import SwiftUI
-import VLCKit
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSApp.appearance = NSAppearance(named: .darkAqua)
+        VLCLibrary.shared.enableLogging(true, level: .debug)
         showMediaOpenPanel()
     }
     
@@ -28,6 +28,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let re = mediaOpenPanel.runModal()
         if re == .OK, let u = mediaOpenPanel.url {
             utils.newPlayerWindow(u)
+        } else if re == .cancel {
+            
         }
     }
     

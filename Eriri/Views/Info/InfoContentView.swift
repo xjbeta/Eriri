@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import VLCKit
 
 struct InfoContentView: View {
     @ObservedObject var infos: VLCInfomations
