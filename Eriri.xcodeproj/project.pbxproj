@@ -38,6 +38,7 @@
 		01B1BBAC23EF989A00E24BD4 /* VLCLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B1BBAB23EF989A00E24BD4 /* VLCLibrary.swift */; };
 		01B1BBAE23EFA04200E24BD4 /* VLCTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B1BBAD23EFA04200E24BD4 /* VLCTime.swift */; };
 		01BA948723F3E84F00DEE6D5 /* VLCVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA948623F3E84F00DEE6D5 /* VLCVideoView.swift */; };
+		01BA948A23F4286800DEE6D5 /* NSEventExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA948923F4286800DEE6D5 /* NSEventExtension.swift */; };
 		01D4A39623DDBE4600CAA688 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */; };
 		01D4A39823DEA40200CAA688 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39723DEA40200CAA688 /* Utils.swift */; };
 		01D4A39A23DEE6D300CAA688 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39923DEE6D300CAA688 /* MainMenu.swift */; };
@@ -106,6 +107,7 @@
 		01B1BBAB23EF989A00E24BD4 /* VLCLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCLibrary.swift; sourceTree = "<group>"; };
 		01B1BBAD23EFA04200E24BD4 /* VLCTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCTime.swift; sourceTree = "<group>"; };
 		01BA948623F3E84F00DEE6D5 /* VLCVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCVideoView.swift; sourceTree = "<group>"; };
+		01BA948923F4286800DEE6D5 /* NSEventExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSEventExtension.swift; sourceTree = "<group>"; };
 		01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		01D4A39723DEA40200CAA688 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		01D4A39923DEE6D300CAA688 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 			isa = PBXGroup;
 			children = (
 				01F103E723E01ECA00D12931 /* NSWindowExtension.swift */,
+				01BA948923F4286800DEE6D5 /* NSEventExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01BA948A23F4286800DEE6D5 /* NSEventExtension.swift in Sources */,
 				0105D8CE23E1BCB700141E11 /* VLCInfomations.swift in Sources */,
 				018F0C2B23D6DEDB008ACF4B /* VideoControlView.swift in Sources */,
 				01D4A3A223DF387900CAA688 /* WaitTimer.swift in Sources */,

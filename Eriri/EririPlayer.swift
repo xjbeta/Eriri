@@ -28,9 +28,16 @@ class EririPlayer: NSObject {
     let window = NSWindow()
     let player = VLCMediaPlayer()
     let playerInfo = PlayerInfo()
-    var response: TrackingAreaResponse?
-    var timer: WaitTimer?
     private var videoSizeInited = false
+    
+    var responses = [TrackingAreaResponse]()
+    var timer: WaitTimer?
+    
+    enum ActionsType {
+        case mouseEntered(event: NSEvent),
+        mouseExited(event: NSEvent),
+        mouseMoved(event: NSEvent)
+    }
     
     init(_ url: URL) {
         super.init()
@@ -50,7 +57,7 @@ class EririPlayer: NSObject {
         timer = .init(timeOut: .seconds(3)) {
             DispatchQueue.main.async {
                 self.hideTitleAndVCV(true)
-                NSCursor.hide()
+                NSCursor.setHiddenUntilMouseMoves(true)
             }
         }
     }
@@ -60,9 +67,6 @@ class EririPlayer: NSObject {
             window.hideTitlebar(hide)
         }
         playerInfo.hideVCV = hide
-        if !hide {
-            NSCursor.unhide()
-        }
     }
     
     func initWindowFrame() {
@@ -73,7 +77,9 @@ class EririPlayer: NSObject {
 
         playerInfo.videoSize = videoSize
         updateWindowFrame()
-        initTrackingArea()
+        if let view = window.contentView {
+            initTrackingArea(view, isFullScreen: false)
+        }
         videoSizeInited = true
     }
     
@@ -100,63 +106,56 @@ class EririPlayer: NSObject {
         window.makeKeyAndOrderFront(nil)
     }
     
-    func initTrackingArea() {
-        response = .init { type in
-            let window = self.window
-            let isFullScreen = window.styleMask.contains(.fullScreen)
-            guard !window.inLiveResize,
-                !self.playerInfo.vcvIsDragging else { return }
-
-            switch type {
-            case .mouseEntered where isFullScreen:
-                self.hideTitleAndVCV(false)
-            case .mouseExited where isFullScreen:
-                self.hideTitleAndVCV(true, onlyVCV: true)
-                self.timer?.stop()
-                NSCursor.unhide()
-            case .mouseEntered:
-                self.hideTitleAndVCV(false)
-            case .mouseExited:
-                self.hideTitleAndVCV(true)
-                self.timer?.stop()
-                NSCursor.unhide()
-            case .mouseMoved(let event):
-                NSCursor.unhide()
-                if self.playerInfo.hideVCV {
-                    self.hideTitleAndVCV(false)
-                }
-
-                let mouseOnVCV = !window.isMovableByWindowBackground
-                let v = window.titleView()
-                let location = event.locationInWindow
-                let mouseOnTitleBar = location.y <= window.frame.height
-                    && location.y >= (window.frame.height - (v?.frame.height ?? 0))
-
-                if mouseOnVCV || mouseOnTitleBar {
-                    self.timer?.stop()
-                } else {
-                    self.timer?.run()
-                }
-            }
+    func initTrackingArea(_ view: NSView, isFullScreen: Bool) {
+        let response = TrackingAreaResponse {
+            self.handleMouseActions($0)
         }
-        guard let view = window.contentView else {
-            return
-        }
-        let trackingArea = NSTrackingArea(rect: view.frame, options: [.mouseEnteredAndExited, .mouseMoved, .activeAlways, .inVisibleRect], owner: response)
-        view.trackingAreas.forEach {
-            view.removeTrackingArea($0)
-        }
+        responses.append(response)
+        let options: NSTrackingArea.Options = isFullScreen ?
+                [.mouseEnteredAndExited, .mouseMoved, .activeAlways, .inVisibleRect] :
+                [.mouseEnteredAndExited, .mouseMoved, .activeAlways]
+        
+        let trackingArea = NSTrackingArea(rect: view.frame, options: options, owner: response)
+        deinitTrackingArea(view)
+
         view.addTrackingArea(trackingArea)
     }
     
+    func deinitTrackingArea(_ view: NSView) {
+        view.trackingAreas.forEach {
+            view.removeTrackingArea($0)
+        }
+    }
+    
+    func handleMouseActions(_ type: ActionsType) {
+        let isFullScreen = window.styleMask.contains(.fullScreen)
+        
+        guard !window.inLiveResize,
+            !playerInfo.vcvIsDragging else { return }
+        
+        switch type {
+        case .mouseEntered:
+            hideTitleAndVCV(false)
+        case .mouseExited:
+            hideTitleAndVCV(true, onlyVCV: isFullScreen)
+            timer?.stop()
+        case .mouseMoved(let event):
+            if playerInfo.hideVCV {
+                hideTitleAndVCV(false)
+            }
+
+            let mouseOnVCV = !window.isMovableByWindowBackground
+            let mouseOnTitleBar = event.isIn(views: [window.titleView()])
+
+            if mouseOnVCV || mouseOnTitleBar {
+                timer?.stop()
+            } else {
+                timer?.run()
+            }
+        }
+    }
     
     class TrackingAreaResponse: NSResponder {
-        
-        enum ActionsType {
-            case mouseEntered(event: NSEvent),
-            mouseExited(event: NSEvent),
-            mouseMoved(event: NSEvent)
-        }
         
         init(_ actions: @escaping ((_ type: ActionsType) -> Void)) {
             self.actions = actions
@@ -195,7 +194,6 @@ extension EririPlayer: NSWindowDelegate {
             }
         }
         player.delegate = nil
-        NSCursor.unhide()
         Utils.shared.players.removeAll(where: {
             $0 == self
         })
@@ -204,6 +202,19 @@ extension EririPlayer: NSWindowDelegate {
 
     func windowDidResize(_ notification: Notification) {
         playerInfo.windowSize = window.frame.size
+    }
+    
+    func windowWillExitFullScreen(_ notification: Notification) {
+        guard let v = window.contentView else { return }
+        deinitTrackingArea(v)
+        initTrackingArea(v, isFullScreen: false)
+        
+    }
+    
+    func windowWillEnterFullScreen(_ notification: Notification) {
+        guard let v = window.contentView else { return }
+        deinitTrackingArea(v)
+        initTrackingArea(v, isFullScreen: true)
     }
     
 }

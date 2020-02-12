@@ -9,20 +9,8 @@
 import SwiftUI
 
 struct VideoContainerView: View {
-//    @State private var isPlaying: Bool = false
-//    @State private var leftTime: String = "--:--"
-//    @State private var rightTime: String = "--:--"
-//    @State private var videoSize: CGSize = .zero
-    
-//    @State private var sliderPosition: Float = 0
-//    @State private var volumeValue: Float = 0
-    
-    
     @State private var vcvCurrentPosition: CGPoint = .zero
     @State private var vcvNewPosition: CGPoint = .zero
-    @State private var vcvIsDragging: Bool = false
-    
-//    @State private var hideVCV: Bool = false
     
     let window: NSWindow
     var player: VLCMediaPlayer
@@ -46,7 +34,7 @@ struct VideoContainerView: View {
     func videoControlView(_ windowSize: CGSize) -> some View {
         let dragGesture = DragGesture()
             .onChanged { value in
-                self.vcvIsDragging = true
+                self.playerInfo.vcvIsDragging = true
                 let x = value.translation.width + self.vcvNewPosition.x
                 let y = value.translation.height + self.vcvNewPosition.y
                 
@@ -54,7 +42,7 @@ struct VideoContainerView: View {
                 
                 self.vcvCurrentPosition = newP
         }.onEnded { _ in
-            self.vcvIsDragging = false
+            self.playerInfo.vcvIsDragging = false
             self.vcvNewPosition = self.vcvCurrentPosition
             
             // Mouse outside window
