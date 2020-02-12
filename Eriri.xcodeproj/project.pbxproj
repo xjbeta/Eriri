@@ -14,7 +14,6 @@
 		0138CD3023E95046008E8DEE /* WindowButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0138CD2F23E95046008E8DEE /* WindowButtons.swift */; };
 		0138CD3523E964DC008E8DEE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0138CD3423E964DC008E8DEE /* LoginView.swift */; };
 		0138CD3923E96A1E008E8DEE /* LoginViewInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0138CD3823E96A1E008E8DEE /* LoginViewInfo.swift */; };
-		0155757B23E02D7400ECC898 /* VLCPlayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0155757A23E02D7400ECC898 /* VLCPlayerExtension.swift */; };
 		0155757D23E0686200ECC898 /* InfoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0155757C23E0686200ECC898 /* InfoContentView.swift */; };
 		015C2BB423EE8B0300C90D08 /* VLCMediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015C2BB323EE8B0200C90D08 /* VLCMediaPlayer.swift */; };
 		0189C95B23D5CA2F00FAAF83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0189C95A23D5CA2F00FAAF83 /* AppDelegate.swift */; };
@@ -82,7 +81,6 @@
 		0138CD2F23E95046008E8DEE /* WindowButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowButtons.swift; sourceTree = "<group>"; };
 		0138CD3423E964DC008E8DEE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0138CD3823E96A1E008E8DEE /* LoginViewInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewInfo.swift; sourceTree = "<group>"; };
-		0155757A23E02D7400ECC898 /* VLCPlayerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCPlayerExtension.swift; sourceTree = "<group>"; };
 		0155757C23E0686200ECC898 /* InfoContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoContentView.swift; sourceTree = "<group>"; };
 		015C2BB323EE8B0200C90D08 /* VLCMediaPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLCMediaPlayer.swift; sourceTree = "<group>"; };
 		017E2D3123F02E86009D1A8C /* Eriri-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Eriri-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -304,7 +302,6 @@
 			isa = PBXGroup;
 			children = (
 				01F103E723E01ECA00D12931 /* NSWindowExtension.swift */,
-				0155757A23E02D7400ECC898 /* VLCPlayerExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -401,7 +398,6 @@
 				01D4A39623DDBE4600CAA688 /* VisualEffectView.swift in Sources */,
 				01D4A39A23DEE6D300CAA688 /* MainMenu.swift in Sources */,
 				0196C53423E93DA2007A0C96 /* URLTextField.swift in Sources */,
-				0155757B23E02D7400ECC898 /* VLCPlayerExtension.swift in Sources */,
 				015C2BB423EE8B0300C90D08 /* VLCMediaPlayer.swift in Sources */,
 				01B1BBAC23EF989A00E24BD4 /* VLCLibrary.swift in Sources */,
 				0189C95D23D5CA2F00FAAF83 /* ContentView.swift in Sources */,
