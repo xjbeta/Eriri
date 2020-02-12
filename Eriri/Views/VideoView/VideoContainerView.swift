@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import VLCKit
 
 struct VideoContainerView: View {
     @State private var isPlaying: Bool = false

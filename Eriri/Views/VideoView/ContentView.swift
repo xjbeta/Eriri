@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import VLCKit
 
 struct ContentView: View {
     let window: NSWindow

@@ -8,11 +8,10 @@
 
 import SwiftUI
 import AppKit
-import VLCKit
 
 struct VideoView: NSViewRepresentable {
     
-    let videoView = MovableVideoView()
+    let videoView = VLCVideoView()
     
     @Binding var isPlaying: Bool
     @Binding var leftTime: String
@@ -26,16 +25,15 @@ struct VideoView: NSViewRepresentable {
     let player: VLCMediaPlayer
     let window: NSWindow
     
-    func makeNSView(context: Context) -> MovableVideoView {
+    func makeNSView(context: Context) -> VLCVideoView {
         player.delegate = context.coordinator
-        player.setVideoView(videoView)
-        player.media.delegate = context.coordinator
+        player.videoView = videoView
         player.play()
         return videoView
     }
     
     
-    func updateNSView(_ nsView: MovableVideoView, context: Context) {
+    func updateNSView(_ nsView: VLCVideoView, context: Context) {
         
     }
     
@@ -53,12 +51,11 @@ struct VideoView: NSViewRepresentable {
         }
     }
     
-    final class Coordinator: NSObject, VLCMediaPlayerDelegate, VLCMediaDelegate {
+    final class Coordinator: NSObject, VLCMediaPlayerDelegate {
+        
         var control: VideoView
-        var volumeObserver: NSKeyValueObservation?
         var response: TrackingAreaResponse?
         let timer: WaitTimer
-        private var stateObserver: NSKeyValueObservation? = nil
         
         private var shouldInit = true
         
@@ -71,67 +68,57 @@ struct VideoView: NSViewRepresentable {
                 }
             }
             super.init()
-            volumeObserver = control.player.observe(\.audio.volume, options: [.initial, .new]) { player, _ in
+            control.player.initEventAttachs()
+        }
+
+        func mediaPlayerStateChanged(_ state: VLCMediaPlayerState) {
+            switch state {
+            case .opening:
+                break
+            case .stopped:
+                break
+            case .buffering:
+                break
+            case .ended:
+                break
+            case .error:
+                break
+            case .playing:
+                 break
+            case .paused:
+                break
+            case .esAdded:
+                break
+            }
+            if shouldInit {
                 DispatchQueue.main.async {
-                    control.volumeValue = Float(player.audio.volume)
+                    self.initWindowFrame()
                 }
             }
-            
-            var state = VLCMediaPlayerState.opening
-            stateObserver = control.player.observe(\.state, options: [.initial, .new, .old]) { p, c in
-                
-                guard p.state != state else { return }
-                state = p.state
-                let str = VLCMediaPlayerStateToString(state)
-                self.initWindowFrame()
-                
-                print("mediaPlayerStateObserver:   \(str ?? "unknown")")
-                
-                switch state {
-                case .opening:
-                    break
-                case .playing:
-                    break
-                case .paused:
-                    break
-                case .stopped:
-                    break
-                case .buffering:
-                    break
-                case .ended:
-                    break
-                case .error:
-                    break
-                case .esAdded:
-                    break
-                @unknown default:
-                    break
-                }
-                DispatchQueue.main.async {
-                    control.isPlaying = control.player.isPlaying
-                    control.volumeValue = Float(control.player.audio.volume)
-                }
-            }
+            control.isPlaying = state == .playing
         }
         
-        func mediaPlayerTimeChanged(_ aNotification: Notification!) {
-            control.leftTime = control.player.time.stringValue
-            control.rightTime = control.player.remainingTime.stringValue
-            control.position = control.player.position
+        
+        func mediaPlayerTimeChanged(_ time: VLCTime) {
+            control.leftTime = time.stringValue()
         }
         
-        func mediaPlayerTitleChanged(_ aNotification: Notification!) {
-            print(#function, control.player.titleDescriptions)
+        func mediaPlayerPositionChanged(_ value: Float) {
+            control.position = value
         }
         
-        func mediaPlayerChapterChanged(_ aNotification: Notification!) {
-            print(#function)
-            
+        func mediaPlayerLengthChanged(_ time: VLCTime) {
+            control.rightTime = time.stringValue()
+        }
+        
+        func mediaPlayerAudioVolume(_ value: Int) {
+            control.volumeValue = Float(value)
         }
         
 // MARK: - Functions
         func initWindowFrame() {
             let videoSize = control.player.videoSize
+            
             guard shouldInit, videoSize != .zero else {
                 return
             }
@@ -214,11 +201,6 @@ struct VideoView: NSViewRepresentable {
             }
             control.videoView.addTrackingArea(trackingArea)
         }
-        
-        deinit {
-            volumeObserver?.invalidate()
-            stateObserver?.invalidate()
-        }
     }
     
     final class TrackingAreaResponse: NSResponder {
@@ -254,7 +236,7 @@ struct VideoView: NSViewRepresentable {
     }
 }
 
-class MovableVideoView: VLCVideoView {
+class VLCVideoView: NSView {
     override var mouseDownCanMoveWindow: Bool {
         return true
     }

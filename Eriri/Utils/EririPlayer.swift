@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import VLCKit
 import SwiftUI
 
 class WindowSize: ObservableObject, Identifiable {
@@ -24,7 +23,7 @@ class EririPlayer: NSObject {
         super.init()
         let windowMinSize = CGSize(width: 480, height: 270)
         window.styleMask = [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView]
-        player.media = .init(url: url)
+        player.setMedia(url.absoluteString)
         
         let contentView = ContentView(window: window, player: player, windowSize: windowSize)
         
@@ -38,14 +37,14 @@ class EririPlayer: NSObject {
 
 extension EririPlayer: NSWindowDelegate {
     func windowShouldClose(_ sender: NSWindow) -> Bool {
-        player.stop()
-        if let videoView = player.drawable as? VLCVideoView {
-            videoView.trackingAreas.forEach {
-                videoView.removeTrackingArea($0)
-            }
-        }
-        (player.delegate as? VideoView.Coordinator)?.timer.stop()
-        player.delegate = nil
+//        player.stop()
+//        if let videoView = player.drawable as? VLCVideoView {
+//            videoView.trackingAreas.forEach {
+//                videoView.removeTrackingArea($0)
+//            }
+//        }
+//        (player.delegate as? VideoView.Coordinator)?.timer.stop()
+//        player.delegate = nil
         NSCursor.unhide()
         Utils.shared.players.removeAll(where: {
             $0 == self

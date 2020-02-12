@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import VLCKit
 
 struct VideoControlView: View {
     @Binding var isPlaying: Bool
@@ -25,7 +24,7 @@ struct VideoControlView: View {
     var leadingItems: some View {
         HStack(spacing: 5) {
             Button(action: {
-                self.player.audio.volume = 0
+                self.player.volume = self.player.volumeMIN
             }) {
                 Image(nsImage: NSImage(named: .init("NSAudioOutputVolumeLowTemplate"))!)
             }.buttonStyle(ImageButtonStyle())
@@ -33,7 +32,7 @@ struct VideoControlView: View {
             
             Slider(value: $volumeValue, in: 0...100) {
                 if $0 {
-                    self.player.audio.volume = Int32(self.volumeValue)
+                    self.player.volume = Int(self.volumeValue)
                 }
             }
             .controlSize(.small)
@@ -42,7 +41,7 @@ struct VideoControlView: View {
             
             
             Button(action: {
-                self.player.audio.volume = 100
+                self.player.volume = self.player.volumeMAX
             }) {
                 Image(nsImage: NSImage(named: .init("NSAudioOutputVolumeHighTemplate"))!)
             }.buttonStyle(ImageButtonStyle())
@@ -103,10 +102,7 @@ struct VideoControlView: View {
                     .font(Font.system(size: 12).monospacedDigit())
                     .foregroundColor(Color.white.opacity(0.8))
                 PlayerSliderView(value: $sliderPosition) {
-                    let p = self.player
-                    if p.isSeekable {
-                        p.position = $0
-                    }
+                    self.player.position = $0
                 }
                 Text(rightTime)
                     .font(Font.system(size: 12).monospacedDigit())
