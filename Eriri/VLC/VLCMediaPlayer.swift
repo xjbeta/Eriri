@@ -213,6 +213,84 @@ class VLCMediaPlayer: NSObject {
         return libvlc_media_player_is_seekable(mp) == 1
     }
     
+    
+    func nextChapter() {
+        guard let mp = mediaPlayer else { return }
+        libvlc_media_player_next_chapter(mp)
+    }
+    
+    func previousChapter() {
+        guard let mp = mediaPlayer else { return }
+        libvlc_media_player_previous_chapter(mp)
+    }
+    
+    func tracksInformation() {
+        guard let mp = mediaPlayer else { return }
+        
+//        var tracksInfo: UnsafeMutablePointer<UnsafeMutablePointer<UnsafeMutablePointer<libvlc_media_track_t>?>?>? = nil
+//
+        var tracksInfo: libvlc_media_track_t
+
+        
+
+//        libvlc_media_tracks_get(mp, )
+//
+//
+//        print(tracksInfo)
+//
+    }
+    
+    // MARK: - Subtitles
+    
+    func setSubtitleIndex(_ index: Int) {
+        guard let mp = mediaPlayer else { return }
+        libvlc_video_set_spu(mp, Int32(index))
+    }
+    
+    func subtitles() -> VLCTrackDescription {
+        var re = VLCTrackDescription()
+        guard let mp = mediaPlayer else { return re }
+        let count = libvlc_video_get_spu_count(mp)
+        let currentIndex = libvlc_video_get_spu(mp)
+        guard let list = libvlc_video_get_spu_description(mp) else {
+            return re
+        }
+
+        re = .init(description: list.pointee, count: count, currentIndex: currentIndex)
+        
+        libvlc_track_description_list_release(list)
+        return re
+    }
+    
+    func loadSubtitle(_ url: String) {
+        guard let mp = mediaPlayer else { return }
+        libvlc_media_player_add_slave(mp, libvlc_media_slave_type_subtitle, NSString(string: url).utf8String, true)
+    }
+    
+    // MARK: - Audio
+    
+    func setAudioTrackIndex(_ index: Int) {
+        guard let mp = mediaPlayer else { return }
+        libvlc_audio_set_track(mp, Int32(index))
+    }
+    
+    func audioTracks() -> VLCTrackDescription {
+        var re = VLCTrackDescription()
+        guard let mp = mediaPlayer else { return re }
+        let count = libvlc_audio_get_track_count(mp)
+        let currentIndex = libvlc_audio_get_track(mp)
+        guard let list = libvlc_audio_get_track_description(mp) else {
+            return re
+        }
+        
+        re = .init(description: list.pointee, count: count, currentIndex: currentIndex)
+        
+        libvlc_track_description_list_release(list)
+        return re
+    }
+    
+// MARK: - Observer
+    
     let attachEvents: [libvlc_event_e] = [
         // State
         libvlc_MediaPlayerOpening,
@@ -256,73 +334,6 @@ class VLCMediaPlayer: NSObject {
         
 //        libvlc_event_detach
     }
-    
-    func nextChapter() {
-        guard let mp = mediaPlayer else { return }
-        libvlc_media_player_next_chapter(mp)
-    }
-    
-    func previousChapter() {
-        guard let mp = mediaPlayer else { return }
-        libvlc_media_player_previous_chapter(mp)
-    }
-    
-    func tracksInformation() {
-        guard let mp = mediaPlayer else { return }
-        
-//        var tracksInfo: UnsafeMutablePointer<UnsafeMutablePointer<UnsafeMutablePointer<libvlc_media_track_t>?>?>? = nil
-//
-        var tracksInfo: libvlc_media_track_t
-
-        
-
-//        libvlc_media_tracks_get(mp, )
-//
-//
-//        print(tracksInfo)
-//
-    }
-    
-    func setSubtitleIndex(_ index: Int) {
-        guard let mp = mediaPlayer else { return }
-        libvlc_video_set_spu(mp, Int32(index))
-    }
-    
-    func subtitles() -> VLCTrackDescription {
-        var re = VLCTrackDescription()
-        guard let mp = mediaPlayer else { return re }
-        let count = libvlc_video_get_spu_count(mp)
-        let currentIndex = libvlc_video_get_spu(mp)
-        guard let list = libvlc_video_get_spu_description(mp) else {
-            return re
-        }
-
-        re = .init(description: list.pointee, count: count, currentIndex: currentIndex)
-        
-        libvlc_track_description_list_release(list)
-        return re
-    }
-    
-    func setAudioTrackIndex(_ index: Int) {
-        guard let mp = mediaPlayer else { return }
-        libvlc_audio_set_track(mp, Int32(index))
-    }
-    
-    func audioTracks() -> VLCTrackDescription {
-        var re = VLCTrackDescription()
-        guard let mp = mediaPlayer else { return re }
-        let count = libvlc_audio_get_track_count(mp)
-        let currentIndex = libvlc_audio_get_track(mp)
-        guard let list = libvlc_audio_get_track_description(mp) else {
-            return re
-        }
-        
-        re = .init(description: list.pointee, count: count, currentIndex: currentIndex)
-        
-        libvlc_track_description_list_release(list)
-        return re
-    }
-    
 }
 
 

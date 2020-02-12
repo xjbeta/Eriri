@@ -230,8 +230,13 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     
     @IBOutlet weak var addSubtitleFileMenuItem: NSMenuItem!
     @IBAction func addSubtitleFile(_ sender: NSMenuItem) {
+        guard let cp = currentPlayer else { return }
+        let panel = Utils.shared.subtitleOpenPanel
         
-        
+        let re = panel.runModal()
+        if re == .OK, let u = panel.url?.absoluteString {
+            cp.player.loadSubtitle(u)
+        }
     }
     
     @IBAction func subtitleItemAction(_ sender: NSMenuItem) {

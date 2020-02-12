@@ -43,7 +43,15 @@ class Utils: NSObject {
         return p
     }()
     
-    let subtitleOpenPanel = NSOpenPanel()
+    lazy var subtitleOpenPanel: NSOpenPanel = {
+        let p = NSOpenPanel()
+        p.canChooseFiles = true
+        p.canChooseDirectories = false
+        p.canDownloadUbiquitousContents = false
+        p.canResolveUbiquitousConflicts = false
+        p.allowedFileTypes = supportedSubtitleFileExtensions
+        return p
+    }()
     
     let vlcInfos = VLCInfomations()
     lazy var infoPanel: NSPanel = {
