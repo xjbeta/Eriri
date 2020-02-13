@@ -275,6 +275,18 @@ class VLCMediaPlayer: NSObject {
         libvlc_media_player_add_slave(mp, libvlc_media_slave_type_subtitle, NSString(string: url).utf8String, true)
     }
     
+    func currentVideoSubTitleDelay() -> Float {
+        guard let mp = mediaPlayer else { return 0 }
+        return Float(libvlc_video_get_spu_delay(mp)) / 1000000
+    }
+    
+    func setCurrentVideoSubTitleDelay(_ value: Float) {
+        guard let mp = mediaPlayer else { return }
+        libVLCBackgroundQueue.async {
+            libvlc_video_set_spu_delay(mp, Int64(value * 1000000))
+        }
+    }
+    
     // MARK: - Audio
     
     func setAudioTrackIndex(_ index: Int) {

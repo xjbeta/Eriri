@@ -21,9 +21,9 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     
     func menuNeedsUpdate(_ menu: NSMenu) {
         guard let player = currentPlayer?.player else { return }
-        menu.removeAllItems()
         switch menu {
         case subtitleListMenu:
+            menu.removeAllItems()
             let subtitles = player.subtitles()
             let current = subtitles.currentIndex
             subtitles.descriptions.forEach {
@@ -38,6 +38,7 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
                 menu.addItem(item)
             }
         case audioTrackMenu:
+            menu.removeAllItems()
             let tracks = player.audioTracks()
             let current = tracks.currentIndex
             tracks.descriptions.forEach {
@@ -51,6 +52,10 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
                 }
                 menu.addItem(item)
             }
+        case subtitlesMenu:
+            let v = player.currentVideoSubTitleDelay()
+            
+            subtitleDelayMenuItem.title = "Subtitle Delay: \(v)s"
         default:
             break
         }
@@ -74,7 +79,8 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             guard let player = currentPlayer else { return false }
             return true
             
-        case addSubtitleFileMenuItem, subtitlesMenuItem:
+        case addSubtitleFileMenuItem, subtitlesMenuItem, subtitleDelayDecreaseMenuItem, subtitleDelayIncreaseMenuItem,
+             resetSubtitleDelayMenuItem:
             guard let player = currentPlayer else { return false }
             return true
             
@@ -243,6 +249,29 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         currentPlayer?.player.setSubtitleIndex(sender.tag)
     }
     
+    @IBOutlet weak var subtitleDelayMenuItem: NSMenuItem!
+    
+    @IBOutlet weak var subtitleDelayIncreaseMenuItem: NSMenuItem!
+    @IBAction func subtitleDelayIncrease(_ sender: NSMenuItem) {
+        // +0.5s
+        guard let p = currentPlayer?.player else { return }
+        let v = p.currentVideoSubTitleDelay() + 0.5
+        p.setCurrentVideoSubTitleDelay(v)
+    }
+    
+    @IBOutlet weak var subtitleDelayDecreaseMenuItem: NSMenuItem!
+    @IBAction func subtitleDelayDecrease(_ sender: NSMenuItem) {
+        // -0.5s
+        guard let p = currentPlayer?.player else { return }
+        let v = p.currentVideoSubTitleDelay() - 0.5
+        p.setCurrentVideoSubTitleDelay(v)
+    }
+    
+    @IBOutlet weak var resetSubtitleDelayMenuItem: NSMenuItem!
+    @IBAction func resetSubtitleDelay(_ sender: NSMenuItem) {
+        guard let p = currentPlayer?.player else { return }
+        p.setCurrentVideoSubTitleDelay(0)
+    }
     
 // MARK: - Window
     
