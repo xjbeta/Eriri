@@ -30,7 +30,7 @@ struct InfoContentView: View {
     var body: some View {
         if !infos.isEmpty {
             return AnyView(infoForm
-                .frame(width: 350)
+                .frame(width: 450)
                 .padding())
         } else {
             return AnyView(Text("None")
@@ -42,7 +42,7 @@ struct InfoContentView: View {
     func infoLine(_ key: String, _ value: String) -> some View {
         HStack {
             Text(key)
-                .frame(width: 120, alignment: .leading)
+                .frame(width: 180, alignment: .leading)
                 .padding(.leading)
                 .font(Font.caption.bold())
             Text(value)

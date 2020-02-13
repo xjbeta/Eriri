@@ -248,10 +248,10 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     
     @IBOutlet weak var infoMenuItem: NSMenuItem!
     @IBAction func info(_ sender: NSMenuItem) {
-        currentPlayer?.player.tracksInformation()
-//        let utils = Utils.shared
-//        utils.vlcInfos.start()
-//        utils.infoPanel.center()
-//        utils.infoPanel.makeKeyAndOrderFront(sender)
+        let utils = Utils.shared
+        utils.vlcInfos.updateInfos()
+        utils.vlcInfos.start()
+        utils.infoPanel.makeKeyAndOrderFront(sender)
+        utils.infoPanel.center()
     }
 }
