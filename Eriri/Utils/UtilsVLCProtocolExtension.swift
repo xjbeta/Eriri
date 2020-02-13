@@ -14,44 +14,42 @@ import Cocoa
 //    }
 //}
 
-//extension Utils: VLCCustomDialogRendererProtocol {
-//    func showError(withTitle error: String, message: String) {
-//        print("Dialog Renderer", #function, message)
-//    }
-//    
-//    func showLogin(withTitle title: String, message: String, defaultUsername username: String?, askingForStorage: Bool, withReference reference: NSValue) {
-//        print("Dialog Renderer", #function, message)
-//        
-//        let info = LoginViewInfo()
-//        info.title = title
-//        info.message = message
-//        info.username = username ?? ""
-//        info.askingForStorage = askingForStorage
-//        info.reference = reference
-//        openLoginPanel(info) {
-//            self.vlcDialogProvider?.postUsername(
-//                info.username,
-//                andPassword: info.password,
-//                forDialogReference: info.reference,
-//                store: info.storePassword)
-//        }
-//    }
-//    
-//    func showQuestion(withTitle title: String, message: String, type questionType: VLCDialogQuestionType, cancel cancelString: String?, action1String: String?, action2String: String?, withReference reference: NSValue) {
-//        print("Dialog Renderer", #function, message)
-//    }
-//    
-//    func showProgress(withTitle title: String, message: String, isIndeterminate: Bool, position: Float, cancel cancelString: String?, withReference reference: NSValue) {
-//        print("Dialog Renderer", #function, message)
-//    }
-//    
-//    func updateProgress(withReference reference: NSValue, message: String?, position: Float) {
-//        print("Dialog Renderer", #function, message)
-//    }
-//    
-//    func cancelDialog(withReference reference: NSValue) {
-//        print("Dialog Renderer", #function)
-//    }
-//    
-//    
-//}
+extension Utils: VLCDialogRendererDelegate {
+    
+    func showError(withTitle error: String, message: String) {
+        print("Dialog Renderer", #function, message)
+    }
+    
+    func showLogin(withTitle title: String, message: String, defaultUsername username: String?, askingForStorage: Bool, withReference reference: OpaquePointer) {
+        print("Dialog Renderer", #function, message)
+        
+        let info = LoginViewInfo()
+        info.title = title
+        info.message = message
+        info.username = username ?? ""
+        info.askingForStorage = askingForStorage
+        DispatchQueue.main.async {
+            self.openLoginPanel(info) {
+                VLCLibrary.shared.postDialog(info.username, and: info.password, for: reference, store: info.storePassword)
+            }
+        }
+    }
+    
+    func showQuestion(withTitle title: String, message: String, type questionType: VLCDialogQuestionType, cancel cancelString: String?, action1String: String?, action2String: String?, withReference reference: OpaquePointer) {
+        print("Dialog Renderer", #function, message)
+    }
+    
+    func showProgress(withTitle title: String, message: String, isIndeterminate: Bool, position: Float, cancel cancelString: String?, withReference reference: OpaquePointer) {
+        print("Dialog Renderer", #function, message)
+    }
+    
+    func updateProgress(withReference reference: NSValue, message: String?, position: Float) {
+        print("Dialog Renderer", #function, message)
+    }
+    
+    func cancelDialog(withReference reference: OpaquePointer) {
+        print("Dialog Renderer", #function)
+    }
+    
+    
+}

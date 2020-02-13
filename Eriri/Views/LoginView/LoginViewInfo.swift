@@ -16,5 +16,4 @@ class LoginViewInfo: ObservableObject {
     @Published var password = ""
     @Published var askingForStorage = false
     @Published var storePassword = false
-    var reference: NSValue = NSValue()
 }

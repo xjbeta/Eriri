@@ -31,7 +31,7 @@ class VLCTrackDescription: NSObject {
                 let id = des?.i_id {
                 descriptions.append(
                     .init(index: Int(id),
-                          name: String(cString: cStr)))
+                          name: cStr.toString()))
             } else {
                 descriptions.append(
                     .init(index: -1,
