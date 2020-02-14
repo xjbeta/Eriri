@@ -321,5 +321,6 @@ extension EririPlayer: VLCMediaPlayerDelegate {
     
     func mediaPlayerAudioVolume(_ value: Int) {
         playerInfo.volume = Float(value)
+        postNotification("Volume: \(value)")
     }
 }
