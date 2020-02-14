@@ -265,6 +265,10 @@ extension VLCMediaPlayer {
                 case libvlc_MediaPlayerAudioVolume:
                     let v = event.u.media_player_audio_volume.volume
                     d.mediaPlayerAudioVolume(Int(v * Float(mp.volumeMAX)))
+                case libvlc_MediaPlayerMuted:
+                    d.mediaPlayerAudioMuted(true)
+                case libvlc_MediaPlayerUnmuted:
+                    d.mediaPlayerAudioMuted(false)
                 default:
                     break
                 }

@@ -25,6 +25,7 @@ protocol VLCMediaPlayerDelegate {
     func mediaPlayerBuffing(_ newCache: Float)
     func mediaPlayerLengthChanged(_ time: VLCTime)
     func mediaPlayerAudioVolume(_ value: Int)
+    func mediaPlayerAudioMuted(_ muted: Bool)
     
     
 //    func mediaPlayerMediaChanged()

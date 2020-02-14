@@ -82,7 +82,7 @@ class EririPlayer: NSObject {
         }
     }
     
-    func showNotification(_ label: String,
+    func postNotification(_ label: String,
                           _ second: String = "") {
         
         let i = self.playerInfo
@@ -253,6 +253,11 @@ extension EririPlayer: NSWindowDelegate {
 }
 
 extension EririPlayer: VLCMediaPlayerDelegate {
+    func mediaPlayerAudioMuted(_ muted: Bool) {
+        let s = muted ? "Muted" : "Unmuted"
+        postNotification(s)
+    }
+    
     func mediaPlayerBuffing(_ newCache: Float) {
         playerInfo.playerBuffingValue = newCache
     }
@@ -262,15 +267,15 @@ extension EririPlayer: VLCMediaPlayerDelegate {
         case .opening:
             break
         case .stopped:
-            break
+            postNotification("Stopped")
         case .ended:
             break
         case .error:
             break
         case .playing:
-             break
+            postNotification("Playing")
         case .paused:
-            showNotification("Paused")
+            postNotification("Paused")
         case .esAdded:
             break
         }

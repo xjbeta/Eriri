@@ -256,7 +256,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="UUk-7l-47Q"/>
-                                        <menuItem title="Mute" id="0aR-d5-6Sw">
+                                        <menuItem title="Mute" keyEquivalent="m" id="0aR-d5-6Sw">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="mute:" target="HwL-s0-OUP" id="3m7-NY-4ln"/>
