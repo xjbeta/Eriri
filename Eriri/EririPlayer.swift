@@ -22,6 +22,7 @@ class PlayerInfo: ObservableObject, Identifiable {
     
     @Published var vcvIsDragging = false
     @Published var hideVCV = false
+    @Published var isFullScreen = false
 }
 
 class EririPlayer: NSObject {
@@ -205,6 +206,7 @@ extension EririPlayer: NSWindowDelegate {
     }
     
     func windowWillExitFullScreen(_ notification: Notification) {
+        playerInfo.isFullScreen = false
         guard let v = window.contentView else { return }
         deinitTrackingArea(v)
         initTrackingArea(v, isFullScreen: false)
@@ -212,6 +214,7 @@ extension EririPlayer: NSWindowDelegate {
     }
     
     func windowWillEnterFullScreen(_ notification: Notification) {
+        playerInfo.isFullScreen = true
         guard let v = window.contentView else { return }
         deinitTrackingArea(v)
         initTrackingArea(v, isFullScreen: true)

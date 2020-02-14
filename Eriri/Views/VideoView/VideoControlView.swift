@@ -74,10 +74,9 @@ struct VideoControlView: View {
     var trailingItems: some View {
         HStack(spacing: 5) {
             Button(action: {
-                print("EnterFullScreen")
                 self.window.toggleFullScreen(self)
             }) {
-                Image(nsImage: NSImage(named: .init("NSTitlebarEnterFullScreenTemplate"))!)
+                Image(nsImage: NSImage(named: .init(playerInfo.isFullScreen ? "NSTitlebarExitFullScreenTemplate" : "NSTitlebarEnterFullScreenTemplate"))!)
             }.buttonStyle(ImageButtonStyle())
         }
     }
