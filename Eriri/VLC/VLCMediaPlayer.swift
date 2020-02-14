@@ -155,9 +155,7 @@ class VLCMediaPlayer: NSObject {
                 let vv = _videoView else { return }
             let v = UnsafeMutableRawPointer(Unmanaged.passUnretained(vv).toOpaque())
             
-            libVLCBackgroundQueue.async {
-                libvlc_media_player_set_nsobject(p, v)
-            }
+            libvlc_media_player_set_nsobject(p, v)
         }
         get {
             return _videoView
