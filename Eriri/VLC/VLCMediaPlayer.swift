@@ -11,7 +11,6 @@ import Cocoa
 enum VLCMediaPlayerState: Int {
     case stopped
     case opening
-    case buffering
     case ended
     case error
     case playing
@@ -23,6 +22,7 @@ protocol VLCMediaPlayerDelegate {
     func mediaPlayerTimeChanged(_ time: VLCTime)
     func mediaPlayerPositionChanged(_ value: Float)
     func mediaPlayerStateChanged(_ state: VLCMediaPlayerState)
+    func mediaPlayerBuffing(_ newCache: Float)
     func mediaPlayerLengthChanged(_ time: VLCTime)
     func mediaPlayerAudioVolume(_ value: Int)
     
@@ -54,6 +54,7 @@ class VLCMediaPlayer: NSObject {
         libvlc_MediaPlayerEndReached,
         libvlc_MediaPlayerESAdded,
         libvlc_MediaPlayerEncounteredError,
+        libvlc_MediaPlayerNothingSpecial,
         
         // Player info
         libvlc_MediaPlayerPositionChanged,

@@ -10,11 +10,12 @@ import SwiftUI
 
 struct PlayerSliderView: View {
     @Binding var value: Float
+    @Binding var isSeeking: Bool
+    @Binding var expectedValue: Float
+    
     var onChanged: ((Float) -> Void)
-        
-    @State private var isSeeking: Bool = false
+    
     @State private var dValue: Float = 0
-    @State private var ignoreUpdateCount = -1
     
     enum BarType {
         case played, cached, other
@@ -57,7 +58,6 @@ struct PlayerSliderView: View {
             .gesture(DragGesture(minimumDistance: 0)
                 .onChanged { value in
                     self.isSeeking = true
-                    self.ignoreUpdateCount = -1
                     var f = value.location.x / proxy.size.width
                     switch f {
                     case _ where f < 0:
@@ -71,9 +71,9 @@ struct PlayerSliderView: View {
                     self.dValue = v
                     self.onChanged(v)
             }.onEnded { _ in
-                self.ignoreUpdateCount = 0
-                let v = self.dValue
-                self.onChanged(v)
+                self.value = self.dValue
+                self.expectedValue = self.dValue
+                self.isSeeking = false
             })
         }
     }
@@ -81,18 +81,6 @@ struct PlayerSliderView: View {
     func barWidth(_ type: BarType, isDragging: Bool, proxy: GeometryProxy, value: Float, dValue: Float) -> CGFloat {
         let knobWidth = self.knobSize.width
         let v = isSeeking ? dValue : value
-        
-        DispatchQueue.main.async {
-            // Prevent the "value" from being updated to another position
-            guard self.isSeeking,
-                self.ignoreUpdateCount >= 0 else { return }
-            if self.ignoreUpdateCount > 5 {
-                self.isSeeking = false
-                self.ignoreUpdateCount = -1
-            } else {
-                self.ignoreUpdateCount += 1
-            }
-        }
         
         switch type {
         case .played:

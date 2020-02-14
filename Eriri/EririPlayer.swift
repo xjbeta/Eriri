@@ -12,8 +12,12 @@ import SwiftUI
 class PlayerInfo: ObservableObject, Identifiable {
     let id = UUID()
     @Published var windowSize: CGSize = .zero
-    
-    @Published var state: VLCMediaPlayerState = .opening
+    let date = Date()
+    @Published var state: VLCMediaPlayerState = .opening {
+        didSet {
+            print("state", date.timeIntervalSinceNow,state)
+        }
+    }
     @Published var position: Float = 0
     @Published var leftTime: String = "--:--"
     @Published var rightTime: String = "--:--"
@@ -23,6 +27,11 @@ class PlayerInfo: ObservableObject, Identifiable {
     @Published var vcvIsDragging = false
     @Published var hideVCV = false
     @Published var isFullScreen = false
+    @Published var playerSliderIsSeeking = false
+    @Published var playerSliderExpectedValue: Float = -1
+    @Published var playerBuffingValue: Float = 100
+    
+    
 }
 
 class EririPlayer: NSObject {
@@ -33,6 +42,8 @@ class EririPlayer: NSObject {
     
     var responses = [TrackingAreaResponse]()
     var timer: WaitTimer?
+    
+    private var positionIgnoreLimit = 0
     
     enum ActionsType {
         case mouseEntered(event: NSEvent),
@@ -220,16 +231,19 @@ extension EririPlayer: NSWindowDelegate {
         initTrackingArea(v, isFullScreen: true)
     }
     
+    
 }
 
 extension EririPlayer: VLCMediaPlayerDelegate {
+    func mediaPlayerBuffing(_ newCache: Float) {
+        playerInfo.playerBuffingValue = newCache
+    }
+    
     func mediaPlayerStateChanged(_ state: VLCMediaPlayerState) {
         switch state {
         case .opening:
             break
         case .stopped:
-            break
-        case .buffering:
             break
         case .ended:
             break
@@ -242,7 +256,6 @@ extension EririPlayer: VLCMediaPlayerDelegate {
         case .esAdded:
             break
         }
-        
         playerInfo.state = state
         initWindowFrame()
     }
@@ -257,7 +270,30 @@ extension EririPlayer: VLCMediaPlayerDelegate {
     }
     
     func mediaPlayerPositionChanged(_ value: Float) {
-        playerInfo.position = value
+        guard !playerInfo.playerSliderIsSeeking, playerInfo.playerBuffingValue == 100 else { return }
+        
+        let expectedValue = playerInfo.playerSliderExpectedValue
+        var v = value
+        func resetExpected() {
+            playerInfo.playerSliderExpectedValue = -1
+            positionIgnoreLimit = 0
+        }
+        
+        if expectedValue != -1 {
+            if v > expectedValue + 0.02
+                || v < expectedValue - 0.02 {
+                if positionIgnoreLimit <= 3 {
+                    v = expectedValue
+                    positionIgnoreLimit += 1
+                } else {
+                   resetExpected()
+                }
+            } else {
+                resetExpected()
+            }
+        }
+        
+        playerInfo.position = v
     }
     
     func mediaPlayerAudioVolume(_ value: Int) {

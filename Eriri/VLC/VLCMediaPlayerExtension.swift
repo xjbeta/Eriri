@@ -239,7 +239,8 @@ extension VLCMediaPlayer {
                 case libvlc_MediaPlayerPaused:
                     d.mediaPlayerStateChanged(.paused)
                 case libvlc_MediaPlayerBuffering:
-                    d.mediaPlayerStateChanged(.buffering)
+                    let newCache = event.u.media_player_buffering.new_cache
+                    d.mediaPlayerBuffing(newCache)
                 case libvlc_MediaPlayerStopped:
                     d.mediaPlayerStateChanged(.stopped)
                 case libvlc_MediaPlayerEndReached:

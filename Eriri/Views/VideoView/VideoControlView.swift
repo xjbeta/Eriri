@@ -96,9 +96,13 @@ struct VideoControlView: View {
                 Text(playerInfo.leftTime)
                     .font(Font.system(size: 12).monospacedDigit())
                     .foregroundColor(Color.white.opacity(0.8))
-                PlayerSliderView(value: $playerInfo.position) {
+                
+                PlayerSliderView(
+                    value: $playerInfo.position,
+                    isSeeking: $playerInfo.playerSliderIsSeeking, expectedValue: $playerInfo.playerSliderExpectedValue) {
                     self.player.position = $0
                 }
+                
                 Text(playerInfo.rightTime)
                     .font(Font.system(size: 12).monospacedDigit())
                     .foregroundColor(Color.white.opacity(0.8))
