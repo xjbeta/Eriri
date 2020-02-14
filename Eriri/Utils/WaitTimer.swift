@@ -11,7 +11,7 @@ import Cocoa
 class WaitTimer: NSObject {
     
 	required init(timeOut: DispatchTimeInterval,
-	              queue: DispatchQueue = DispatchQueue(label: "com.xjbeta.Aria2D.notificationWatchDogQueue"),
+                  queue: DispatchQueue = .global(),
 	              action: @escaping (() -> Void)) {
 		self.timeOut = timeOut
 		self.action = action

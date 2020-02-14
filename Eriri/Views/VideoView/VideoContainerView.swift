@@ -19,12 +19,15 @@ struct VideoContainerView: View {
     @State private var positionInited: Bool = false
     
     var body: some View {
-        videoView
-            .overlay(
-                self.videoControlView(playerInfo.windowSize)
-                    .opacity(self.playerInfo.hideVCV ? 0 : 1))
-            .frame(minWidth: limitWindowSize(playerInfo.videoSize).width,
-                   minHeight: limitWindowSize(playerInfo.videoSize).height)
+        
+        ZStack(alignment: .topTrailing) {
+            videoView
+                .frame(minWidth: limitWindowSize(playerInfo.videoSize).width,
+                       minHeight: limitWindowSize(playerInfo.videoSize).height)
+
+            notificationView()
+                .padding(EdgeInsets(top: (window.titleView()?.frame.height ?? 0) + 20, leading: 20, bottom: 20, trailing: 20))
+        }.overlay(videoControlView(playerInfo.windowSize))
     }
     
     var videoView: some View {
@@ -72,6 +75,7 @@ struct VideoContainerView: View {
             .offset(x: vcvCurrentPosition.x,
                     y: vcvCurrentPosition.y)
             .gesture(dragGesture)
+            .opacity(playerInfo.hideVCV ? 0 : 1)
     }
     
     func limitWindowSize(_ videoSize: CGSize) -> CGSize {
@@ -129,5 +133,23 @@ struct VideoContainerView: View {
         }
         
         return CGPoint(x: x, y: y)
+    }
+    
+    func notificationView() -> some View {
+        VStack(alignment: .leading) {
+            Text(playerInfo.notificationT1)
+                .font(.title)
+            if playerInfo.notificationT2 != "" {
+                Text(playerInfo.notificationT2)
+                .foregroundColor(.secondary)
+            } else {
+                EmptyView()
+            }
+        }.padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+            .background(VisualEffectView(
+                material: .hudWindow,
+                blendingMode: .withinWindow))
+            .cornerRadius(8)
+            .opacity(playerInfo.hideNotification ? 0 : 1)
     }
 }

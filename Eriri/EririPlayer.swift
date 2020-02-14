@@ -22,11 +22,14 @@ class PlayerInfo: ObservableObject, Identifiable {
     @Published var vcvIsDragging = false
     @Published var hideVCV = false
     @Published var isFullScreen = false
+    
     @Published var playerSliderIsSeeking = false
     @Published var playerSliderExpectedValue: Float = -1
     @Published var playerBuffingValue: Float = 100
     
-    
+    @Published var hideNotification = true
+    @Published var notificationT1 = ""
+    @Published var notificationT2 = ""
 }
 
 class EririPlayer: NSObject {
@@ -36,7 +39,8 @@ class EririPlayer: NSObject {
     private var videoSizeInited = false
     
     var responses = [TrackingAreaResponse]()
-    var timer: WaitTimer?
+    var hideVCVTimer: WaitTimer?
+    var playerNotificationTimer: WaitTimer?
     
     private var positionIgnoreLimit = 0
     
@@ -61,12 +65,31 @@ class EririPlayer: NSObject {
         window.setTitleWithRepresentedFilename(url.path)
         window.delegate = self
         
-        timer = .init(timeOut: .seconds(3)) {
+        hideVCVTimer = .init(timeOut: .seconds(3)) {
             DispatchQueue.main.async {
                 self.hideTitleAndVCV(true)
                 NSCursor.setHiddenUntilMouseMoves(true)
             }
         }
+        
+        playerNotificationTimer = .init(timeOut: .milliseconds(1500)) {
+            DispatchQueue.main.async {
+                let i = self.playerInfo
+                i.hideNotification = true
+                i.notificationT1 = ""
+                i.notificationT2 = ""
+            }
+        }
+    }
+    
+    func showNotification(_ label: String,
+                          _ second: String = "") {
+        
+        let i = self.playerInfo
+        i.notificationT1 = label
+        i.notificationT2 = second
+        i.hideNotification = false
+        playerNotificationTimer?.run()
     }
     
     func hideTitleAndVCV(_ hide: Bool, onlyVCV: Bool = false) {
@@ -145,7 +168,7 @@ class EririPlayer: NSObject {
             hideTitleAndVCV(false)
         case .mouseExited:
             hideTitleAndVCV(true, onlyVCV: isFullScreen)
-            timer?.stop()
+            hideVCVTimer?.stop()
         case .mouseMoved(let event):
             if playerInfo.hideVCV {
                 hideTitleAndVCV(false)
@@ -155,9 +178,9 @@ class EririPlayer: NSObject {
             let mouseOnTitleBar = event.isIn(views: [window.titleView()])
 
             if mouseOnVCV || mouseOnTitleBar {
-                timer?.stop()
+                hideVCVTimer?.stop()
             } else {
-                timer?.run()
+                hideVCVTimer?.run()
             }
         }
     }
@@ -193,7 +216,7 @@ class EririPlayer: NSObject {
 extension EririPlayer: NSWindowDelegate {
     func windowShouldClose(_ sender: NSWindow) -> Bool {
         player.stop()
-        timer?.stop()
+        hideVCVTimer?.stop()
         
         if let view = sender.contentView {
             view.trackingAreas.forEach {
@@ -247,7 +270,7 @@ extension EririPlayer: VLCMediaPlayerDelegate {
         case .playing:
              break
         case .paused:
-            break
+            showNotification("Paused")
         case .esAdded:
             break
         }
