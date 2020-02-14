@@ -64,7 +64,7 @@ class EririPlayer: NSObject {
         window.contentView = NSHostingView(rootView: contentView)
         window.setTitleWithRepresentedFilename(url.path)
         window.delegate = self
-        
+        window.backgroundColor = .black
         hideVCVTimer = .init(timeOut: .seconds(3)) {
             DispatchQueue.main.async {
                 self.hideTitleAndVCV(true)
