@@ -26,7 +26,9 @@ struct VideoContainerView: View {
                        minHeight: limitWindowSize(playerInfo.videoSize).height)
 
             notificationView()
-                .padding(EdgeInsets(top: (window.titleView()?.frame.height ?? 0) + 20, leading: 20, bottom: 20, trailing: 20))
+                .padding(EdgeInsets(top:
+                    (playerInfo.hideVCV ? 0 : (window.titleView()?.frame.height ?? 0))
+                     + 20, leading: 20, bottom: 20, trailing: 20))
         }.overlay(videoControlView(playerInfo.windowSize))
     }
     
