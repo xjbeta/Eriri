@@ -16,7 +16,7 @@ class PlayerInfo: ObservableObject, Identifiable {
     @Published var position: Float = 0
     @Published var leftTime: String = "--:--"
     @Published var rightTime: String = "--:--"
-    @Published var volume: Float = 0
+    @Published var volume: Float = -1
     @Published var videoSize: CGSize = .zero
     
     @Published var vcvIsDragging = false
@@ -320,7 +320,10 @@ extension EririPlayer: VLCMediaPlayerDelegate {
     }
     
     func mediaPlayerAudioVolume(_ value: Int) {
+        if playerInfo.volume != -1 {
+            postNotification("Volume: \(value)")
+        }
+        
         playerInfo.volume = Float(value)
-        postNotification("Volume: \(value)")
     }
 }
