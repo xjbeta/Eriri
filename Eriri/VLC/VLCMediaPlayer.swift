@@ -308,5 +308,15 @@ class VLCMediaPlayer: NSObject {
         libvlc_track_description_list_release(list)
         return re
     }
+    
+    func currentAudioPlaybackDelay() -> Float {
+        guard let mp = mediaPlayer else { return 0 }
+        return Float(libvlc_audio_get_delay(mp)) / 1000000
+    }
+    
+    func setCurrentAudioPlaybackDelay(_ value: Float) {
+        guard let mp = mediaPlayer else { return }
+        libvlc_audio_set_delay(mp, Int64(value * 1000000))
+    }
 }
 

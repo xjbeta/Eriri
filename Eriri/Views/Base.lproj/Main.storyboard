@@ -182,40 +182,6 @@
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Audio" id="7hN-wp-ldl">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Audio" id="qSW-dT-kc2">
-                                    <items>
-                                        <menuItem title="Increase Volume" keyEquivalent="" id="E0l-rY-p6G">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="increaseVolume:" target="HwL-s0-OUP" id="IOP-mE-5JP"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Decrease Volume" keyEquivalent="" id="jK4-XG-enI">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="decreaseVolume:" target="HwL-s0-OUP" id="kaz-he-IqF"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="UUk-7l-47Q"/>
-                                        <menuItem title="Mute" id="0aR-d5-6Sw">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="mute:" target="HwL-s0-OUP" id="3m7-NY-4ln"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Audio Track" id="2jg-Ct-8fK">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Audio Track" id="WcE-RQ-mOG">
-                                                <connections>
-                                                    <outlet property="delegate" destination="HwL-s0-OUP" id="IhX-vQ-bYb"/>
-                                                </connections>
-                                            </menu>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
                             <menuItem title="Video" id="CaT-Dg-yxv">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Video" id="y5H-vb-YcS">
@@ -271,6 +237,65 @@
                                             </connections>
                                         </menuItem>
                                     </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Audio" id="7hN-wp-ldl">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Audio" id="qSW-dT-kc2">
+                                    <items>
+                                        <menuItem title="Volume +5" keyEquivalent="" id="E0l-rY-p6G">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="increaseVolume:" target="HwL-s0-OUP" id="IOP-mE-5JP"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Volume -5" keyEquivalent="" id="jK4-XG-enI">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="decreaseVolume:" target="HwL-s0-OUP" id="kaz-he-IqF"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="UUk-7l-47Q"/>
+                                        <menuItem title="Mute" id="0aR-d5-6Sw">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="mute:" target="HwL-s0-OUP" id="3m7-NY-4ln"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Audio Track" id="2jg-Ct-8fK">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Audio Track" id="WcE-RQ-mOG">
+                                                <connections>
+                                                    <outlet property="delegate" destination="HwL-s0-OUP" id="IhX-vQ-bYb"/>
+                                                </connections>
+                                            </menu>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="wg4-v5-TRa"/>
+                                        <menuItem title="Audio Delay: 0s" enabled="NO" id="PBZ-h5-D6C">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="Audio Delay + 0.5s" id="8hx-DI-Mnu">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="audioDelayIncrease:" target="HwL-s0-OUP" id="qig-jE-fVD"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Audio Delay - 0.5s" id="0OL-Ax-nDV">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="audioDelayDecrease:" target="HwL-s0-OUP" id="uF0-GP-hLf"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Reset Audio Delay" id="9uP-B0-Ihi">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="resetAuidoDelay:" target="HwL-s0-OUP" id="OtM-6R-ECh"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                    <connections>
+                                        <outlet property="delegate" destination="HwL-s0-OUP" id="CQk-Vz-jhW"/>
+                                    </connections>
                                 </menu>
                             </menuItem>
                             <menuItem title="Subtitles" id="OAx-wN-Zfz">
@@ -374,6 +399,9 @@
                     <connections>
                         <outlet property="aboutMenuItem" destination="5kV-Vb-QxS" id="oZn-bn-H6m"/>
                         <outlet property="addSubtitleFileMenuItem" destination="ETR-ii-Ya9" id="DAb-Cc-usL"/>
+                        <outlet property="audioDelayDecreaseMenuItem" destination="0OL-Ax-nDV" id="uaQ-xZ-JJk"/>
+                        <outlet property="audioDelayIncreaseMenuItem" destination="8hx-DI-Mnu" id="dNM-0U-ZGo"/>
+                        <outlet property="audioDelayMenuItem" destination="PBZ-h5-D6C" id="RfL-Tm-09K"/>
                         <outlet property="audioMenu" destination="qSW-dT-kc2" id="2Jv-0V-Kfu"/>
                         <outlet property="audioTrackMenu" destination="WcE-RQ-mOG" id="Kid-G6-awA"/>
                         <outlet property="decreaseSizeMenuItem" destination="b9t-gL-u5P" id="aAn-aJ-G9f"/>
@@ -394,6 +422,7 @@
                         <outlet property="playbackMenu" destination="kRp-wb-dV0" id="8uy-vv-B4B"/>
                         <outlet property="preferencesMenuItem" destination="BOF-NM-1cW" id="ta7-oy-c3c"/>
                         <outlet property="previousChapterMenuItem" destination="jjL-gm-EFd" id="dgw-5B-ayb"/>
+                        <outlet property="resetAudioDelayMenuItem" destination="9uP-B0-Ihi" id="uVP-Zy-8eK"/>
                         <outlet property="resetSubtitleDelayMenuItem" destination="B6U-iB-h4Q" id="gPM-BG-ZC4"/>
                         <outlet property="snapshotMenuItem" destination="x5O-nR-aT3" id="9yI-sj-c9A"/>
                         <outlet property="stepBackwardMenuItem" destination="1PJ-O3-VU9" id="p4d-EG-nnu"/>

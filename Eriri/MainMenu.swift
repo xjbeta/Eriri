@@ -56,6 +56,9 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             let v = player.currentVideoSubTitleDelay()
             
             subtitleDelayMenuItem.title = "Subtitle Delay: \(v)s"
+        case audioMenu:
+            let v = player.currentAudioPlaybackDelay()
+            audioDelayMenuItem.title = "Audio Delay: \(v)s"
         default:
             break
         }
@@ -70,7 +73,7 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             guard let player = currentPlayer else { return false }
             return true
             
-        case decreaseVolumeMenuItem, increaseVolumeMenuItem, muteMenuItem:
+        case decreaseVolumeMenuItem, increaseVolumeMenuItem, muteMenuItem, audioDelayDecreaseMenuItem, audioDelayIncreaseMenuItem, resetAudioDelayMenuItem:
             guard let player = currentPlayer else { return false }
             return true
             
@@ -176,6 +179,30 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     
     @IBAction func audioTrackItemAction(_ sender: NSMenuItem) {
         currentPlayer?.player.setAudioTrackIndex(sender.tag)
+    }
+    
+    @IBOutlet weak var audioDelayMenuItem: NSMenuItem!
+    
+    @IBOutlet weak var audioDelayIncreaseMenuItem: NSMenuItem!
+    @IBAction func audioDelayIncrease(_ sender: NSMenuItem) {
+        // +0.5s
+        guard let p = currentPlayer?.player else { return }
+        let v = p.currentAudioPlaybackDelay() + 0.5
+        p.setCurrentAudioPlaybackDelay(v)
+    }
+    
+    @IBOutlet weak var audioDelayDecreaseMenuItem: NSMenuItem!
+    @IBAction func audioDelayDecrease(_ sender: NSMenuItem) {
+        // -0.5s
+        guard let p = currentPlayer?.player else { return }
+        let v = p.currentAudioPlaybackDelay() - 0.5
+        p.setCurrentAudioPlaybackDelay(v)
+    }
+    
+    @IBOutlet weak var resetAudioDelayMenuItem: NSMenuItem!
+    @IBAction func resetAuidoDelay(_ sender: Any) {
+        guard let p = currentPlayer?.player else { return }
+        p.setCurrentAudioPlaybackDelay(0)
     }
     
 // MARK: - Video
