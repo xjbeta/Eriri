@@ -68,10 +68,10 @@ class VLCLibrary: NSObject {
     }
     
     enum LogLevel: Int32 {
-        case debug = 0
-        case notice = 2
-        case warning = 3
-        case error = 4
+        case info = 0
+        case error = 1
+        case warning = 2
+        case debug = 4
     }
     
     

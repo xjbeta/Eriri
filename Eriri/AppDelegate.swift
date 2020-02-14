@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSApp.appearance = NSAppearance(named: .darkAqua)
-        VLCLibrary.shared.enableLogging(true, level: .debug)
+        VLCLibrary.shared.enableLogging(true)
         showMediaOpenPanel()
     }
     
