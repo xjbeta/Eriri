@@ -12,12 +12,7 @@ import SwiftUI
 class PlayerInfo: ObservableObject, Identifiable {
     let id = UUID()
     @Published var windowSize: CGSize = .zero
-    let date = Date()
-    @Published var state: VLCMediaPlayerState = .opening {
-        didSet {
-            print("state", date.timeIntervalSinceNow,state)
-        }
-    }
+    @Published var state: VLCMediaPlayerState = .opening
     @Published var position: Float = 0
     @Published var leftTime: String = "--:--"
     @Published var rightTime: String = "--:--"
