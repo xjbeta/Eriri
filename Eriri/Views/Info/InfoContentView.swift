@@ -52,3 +52,19 @@ struct InfoContentView: View {
     }
     
 }
+
+struct InfoContentView_Previews: PreviewProvider {
+    static var info: VLCInfomations {
+        let i = VLCInfomations()
+        i.infos = [
+            .init("Video", [("key1", "value1"), ("key2", "value2"), ("key3", "value3")]),
+            .init("Auido", [("key1", "value1"), ("key2", "value2"), ("key3", "value3")]),
+            .init("Subtitles", [("key1", "value1"), ("key2", "value2"), ("key3", "value3")]),
+        ]
+        return i
+    }
+    
+    static var previews: some View {
+        InfoContentView(infos: info)
+    }
+}
