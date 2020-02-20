@@ -10,6 +10,10 @@
 		0105D8CE23E1BCB700141E11 /* VLCInfomations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0105D8CD23E1BCB700141E11 /* VLCInfomations.swift */; };
 		0105D8D023E1C84300141E11 /* EririPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0105D8CF23E1C84300141E11 /* EririPlayer.swift */; };
 		01097A3F23E56C1900958F6E /* PlayerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01097A3E23E56C1900958F6E /* PlayerSliderView.swift */; };
+		012AB6E223FE68BF00B6A477 /* libvlccore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 012AB6E023FE68BF00B6A477 /* libvlccore.dylib */; };
+		012AB6E323FE68BF00B6A477 /* libvlc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 012AB6E123FE68BF00B6A477 /* libvlc.dylib */; };
+		012AB6E423FE68C700B6A477 /* libvlccore.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 012AB6E023FE68BF00B6A477 /* libvlccore.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		012AB6E523FE68C700B6A477 /* libvlc.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 012AB6E123FE68BF00B6A477 /* libvlc.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		01301CE823F3CAAF005CD657 /* VLCTrackDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01301CE723F3CAAF005CD657 /* VLCTrackDescription.swift */; };
 		0138CD3023E95046008E8DEE /* WindowButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0138CD2F23E95046008E8DEE /* WindowButtons.swift */; };
 		0138CD3523E964DC008E8DEE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0138CD3423E964DC008E8DEE /* LoginView.swift */; };
@@ -25,8 +29,6 @@
 		0189C97923D5E8C700FAAF83 /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0189C97023D5E8BF00FAAF83 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0189C97B23D5E8C800FAAF83 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0189C96F23D5E8BF00FAAF83 /* Sparkle.framework */; };
 		0189C97C23D5E8C800FAAF83 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0189C96F23D5E8BF00FAAF83 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0189C97D23D5E8CA00FAAF83 /* VLCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0189C97123D5E8BF00FAAF83 /* VLCKit.framework */; };
-		0189C97E23D5E8CA00FAAF83 /* VLCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0189C97123D5E8BF00FAAF83 /* VLCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0189C98023D5E8F000FAAF83 /* PromiseKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0189C97223D5E8BF00FAAF83 /* PromiseKit.framework.dSYM */; };
 		0189C98123D5E8F000FAAF83 /* Sparkle.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0189C96E23D5E8BF00FAAF83 /* Sparkle.framework.dSYM */; };
 		0189C98423D5ED2600FAAF83 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0189C98323D5ED2600FAAF83 /* VideoView.swift */; };
@@ -56,7 +58,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0189C97E23D5E8CA00FAAF83 /* VLCKit.framework in Embed Frameworks */,
+				012AB6E423FE68C700B6A477 /* libvlccore.dylib in Embed Frameworks */,
+				012AB6E523FE68C700B6A477 /* libvlc.dylib in Embed Frameworks */,
 				0189C97923D5E8C700FAAF83 /* PromiseKit.framework in Embed Frameworks */,
 				0189C97C23D5E8C800FAAF83 /* Sparkle.framework in Embed Frameworks */,
 			);
@@ -80,6 +83,22 @@
 		0105D8CD23E1BCB700141E11 /* VLCInfomations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCInfomations.swift; sourceTree = "<group>"; };
 		0105D8CF23E1C84300141E11 /* EririPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EririPlayer.swift; sourceTree = "<group>"; };
 		01097A3E23E56C1900958F6E /* PlayerSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSliderView.swift; sourceTree = "<group>"; };
+		012AB6D123FE68BF00B6A477 /* libvlc_dialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc_dialog.h; sourceTree = "<group>"; };
+		012AB6D223FE68BF00B6A477 /* libvlc_renderer_discoverer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc_renderer_discoverer.h; sourceTree = "<group>"; };
+		012AB6D323FE68BF00B6A477 /* libvlc_media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc_media.h; sourceTree = "<group>"; };
+		012AB6D423FE68BF00B6A477 /* libvlc_media_list_player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc_media_list_player.h; sourceTree = "<group>"; };
+		012AB6D523FE68BF00B6A477 /* libvlc_media_player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc_media_player.h; sourceTree = "<group>"; };
+		012AB6D623FE68BF00B6A477 /* libvlc_events.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc_events.h; sourceTree = "<group>"; };
+		012AB6D723FE68BF00B6A477 /* vlc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vlc.h; sourceTree = "<group>"; };
+		012AB6D823FE68BF00B6A477 /* libvlc_media_discoverer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc_media_discoverer.h; sourceTree = "<group>"; };
+		012AB6D923FE68BF00B6A477 /* deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = deprecated.h; sourceTree = "<group>"; };
+		012AB6DA23FE68BF00B6A477 /* libvlc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc.h; sourceTree = "<group>"; };
+		012AB6DB23FE68BF00B6A477 /* libvlc_media_list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc_media_list.h; sourceTree = "<group>"; };
+		012AB6DC23FE68BF00B6A477 /* libvlc_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc_version.h; sourceTree = "<group>"; };
+		012AB6DD23FE68BF00B6A477 /* libvlc_picture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc_picture.h; sourceTree = "<group>"; };
+		012AB6DE23FE68BF00B6A477 /* libvlc_media_library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc_media_library.h; sourceTree = "<group>"; };
+		012AB6E023FE68BF00B6A477 /* libvlccore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libvlccore.dylib; sourceTree = "<group>"; };
+		012AB6E123FE68BF00B6A477 /* libvlc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libvlc.dylib; sourceTree = "<group>"; };
 		01301CE723F3CAAF005CD657 /* VLCTrackDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCTrackDescription.swift; sourceTree = "<group>"; };
 		0138CD2F23E95046008E8DEE /* WindowButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowButtons.swift; sourceTree = "<group>"; };
 		0138CD3423E964DC008E8DEE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -98,7 +117,6 @@
 		0189C96E23D5E8BF00FAAF83 /* Sparkle.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Sparkle.framework.dSYM; path = Carthage/Build/Mac/Sparkle.framework.dSYM; sourceTree = SOURCE_ROOT; };
 		0189C96F23D5E8BF00FAAF83 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Carthage/Build/Mac/Sparkle.framework; sourceTree = SOURCE_ROOT; };
 		0189C97023D5E8BF00FAAF83 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/Mac/PromiseKit.framework; sourceTree = SOURCE_ROOT; };
-		0189C97123D5E8BF00FAAF83 /* VLCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VLCKit.framework; path = Carthage/Build/Mac/VLCKit.framework; sourceTree = SOURCE_ROOT; };
 		0189C97223D5E8BF00FAAF83 /* PromiseKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = PromiseKit.framework.dSYM; path = Carthage/Build/Mac/PromiseKit.framework.dSYM; sourceTree = SOURCE_ROOT; };
 		0189C98323D5ED2600FAAF83 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		018F0C2A23D6DEDB008ACF4B /* VideoControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControlView.swift; sourceTree = "<group>"; };
@@ -116,18 +134,6 @@
 		01D4A39723DEA40200CAA688 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		01D4A39923DEE6D300CAA688 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		01D4A3A123DF387800CAA688 /* WaitTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaitTimer.swift; sourceTree = "<group>"; };
-		01E2087F23F29074002A2EBA /* libvlc_media_player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libvlc_media_player.h; sourceTree = "<group>"; };
-		01E2088023F29075002A2EBA /* libvlc_media_list.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libvlc_media_list.h; sourceTree = "<group>"; };
-		01E2088123F29075002A2EBA /* libvlc_renderer_discoverer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libvlc_renderer_discoverer.h; sourceTree = "<group>"; };
-		01E2088223F29075002A2EBA /* libvlc_vlm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libvlc_vlm.h; sourceTree = "<group>"; };
-		01E2088323F29075002A2EBA /* libvlc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libvlc.h; sourceTree = "<group>"; };
-		01E2088423F29075002A2EBA /* libvlc_media_list_player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libvlc_media_list_player.h; sourceTree = "<group>"; };
-		01E2088523F29075002A2EBA /* libvlc_media_discoverer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libvlc_media_discoverer.h; sourceTree = "<group>"; };
-		01E2088623F29075002A2EBA /* libvlc_media_library.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libvlc_media_library.h; sourceTree = "<group>"; };
-		01E2088723F29075002A2EBA /* vlc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vlc.h; sourceTree = "<group>"; };
-		01E2088823F29075002A2EBA /* libvlc_events.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libvlc_events.h; sourceTree = "<group>"; };
-		01E2088923F29075002A2EBA /* libvlc_media.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libvlc_media.h; sourceTree = "<group>"; };
-		01E2088A23F29075002A2EBA /* deprecated.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = deprecated.h; sourceTree = "<group>"; };
 		01E2088B23F2BDD5002A2EBA /* VLCEventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCEventManager.swift; sourceTree = "<group>"; };
 		01F103E723E01ECA00D12931 /* NSWindowExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindowExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -137,8 +143,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0189C97D23D5E8CA00FAAF83 /* VLCKit.framework in Frameworks */,
+				012AB6E223FE68BF00B6A477 /* libvlccore.dylib in Frameworks */,
 				0189C97823D5E8C700FAAF83 /* PromiseKit.framework in Frameworks */,
+				012AB6E323FE68BF00B6A477 /* libvlc.dylib in Frameworks */,
 				0189C97B23D5E8C800FAAF83 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -168,6 +175,53 @@
 			path = Info;
 			sourceTree = "<group>";
 		};
+		012AB6CE23FE68BF00B6A477 /* libvlc */ = {
+			isa = PBXGroup;
+			children = (
+				012AB6CF23FE68BF00B6A477 /* include */,
+				012AB6DF23FE68BF00B6A477 /* lib */,
+			);
+			path = libvlc;
+			sourceTree = "<group>";
+		};
+		012AB6CF23FE68BF00B6A477 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				012AB6D023FE68BF00B6A477 /* vlc */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		012AB6D023FE68BF00B6A477 /* vlc */ = {
+			isa = PBXGroup;
+			children = (
+				012AB6D123FE68BF00B6A477 /* libvlc_dialog.h */,
+				012AB6D223FE68BF00B6A477 /* libvlc_renderer_discoverer.h */,
+				012AB6D323FE68BF00B6A477 /* libvlc_media.h */,
+				012AB6D423FE68BF00B6A477 /* libvlc_media_list_player.h */,
+				012AB6D523FE68BF00B6A477 /* libvlc_media_player.h */,
+				012AB6D623FE68BF00B6A477 /* libvlc_events.h */,
+				012AB6D723FE68BF00B6A477 /* vlc.h */,
+				012AB6D823FE68BF00B6A477 /* libvlc_media_discoverer.h */,
+				012AB6D923FE68BF00B6A477 /* deprecated.h */,
+				012AB6DA23FE68BF00B6A477 /* libvlc.h */,
+				012AB6DB23FE68BF00B6A477 /* libvlc_media_list.h */,
+				012AB6DC23FE68BF00B6A477 /* libvlc_version.h */,
+				012AB6DD23FE68BF00B6A477 /* libvlc_picture.h */,
+				012AB6DE23FE68BF00B6A477 /* libvlc_media_library.h */,
+			);
+			path = vlc;
+			sourceTree = "<group>";
+		};
+		012AB6DF23FE68BF00B6A477 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				012AB6E023FE68BF00B6A477 /* libvlccore.dylib */,
+				012AB6E123FE68BF00B6A477 /* libvlc.dylib */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
 		0138CD3323E964C2008E8DEE /* LoginView */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,37 +231,10 @@
 			path = LoginView;
 			sourceTree = "<group>";
 		};
-		01889FB323F145E500FAAE0C /* include */ = {
-			isa = PBXGroup;
-			children = (
-				01889FB423F145E500FAAE0C /* vlc */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		01889FB423F145E500FAAE0C /* vlc */ = {
-			isa = PBXGroup;
-			children = (
-				01E2088A23F29075002A2EBA /* deprecated.h */,
-				01E2088823F29075002A2EBA /* libvlc_events.h */,
-				01E2088523F29075002A2EBA /* libvlc_media_discoverer.h */,
-				01E2088623F29075002A2EBA /* libvlc_media_library.h */,
-				01E2088423F29075002A2EBA /* libvlc_media_list_player.h */,
-				01E2088023F29075002A2EBA /* libvlc_media_list.h */,
-				01E2087F23F29074002A2EBA /* libvlc_media_player.h */,
-				01E2088923F29075002A2EBA /* libvlc_media.h */,
-				01E2088123F29075002A2EBA /* libvlc_renderer_discoverer.h */,
-				01E2088223F29075002A2EBA /* libvlc_vlm.h */,
-				01E2088323F29075002A2EBA /* libvlc.h */,
-				01E2088723F29075002A2EBA /* vlc.h */,
-			);
-			path = vlc;
-			sourceTree = "<group>";
-		};
 		0189C94E23D5CA2F00FAAF83 = {
 			isa = PBXGroup;
 			children = (
-				01C70AA423F06623008D08E8 /* libvlc */,
+				012AB6CE23FE68BF00B6A477 /* libvlc */,
 				0189C95923D5CA2F00FAAF83 /* Eriri */,
 				0189C95823D5CA2F00FAAF83 /* Products */,
 				0189C96D23D5E89D00FAAF83 /* Frameworks */,
@@ -256,7 +283,6 @@
 				0189C97223D5E8BF00FAAF83 /* PromiseKit.framework.dSYM */,
 				0189C96F23D5E8BF00FAAF83 /* Sparkle.framework */,
 				0189C96E23D5E8BF00FAAF83 /* Sparkle.framework.dSYM */,
-				0189C97123D5E8BF00FAAF83 /* VLCKit.framework */,
 			);
 			path = Frameworks;
 			sourceTree = "<group>";
@@ -295,14 +321,6 @@
 				01BA948623F3E84F00DEE6D5 /* VLCVideoView.swift */,
 			);
 			path = VLC;
-			sourceTree = "<group>";
-		};
-		01C70AA423F06623008D08E8 /* libvlc */ = {
-			isa = PBXGroup;
-			children = (
-				01889FB323F145E500FAAE0C /* include */,
-			);
-			path = libvlc;
 			sourceTree = "<group>";
 		};
 		01F103E623E01EB300D12931 /* Extensions */ = {
@@ -578,6 +596,10 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libvlc/lib",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xjbeta.Eriri;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -607,6 +629,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libvlc/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xjbeta.Eriri;

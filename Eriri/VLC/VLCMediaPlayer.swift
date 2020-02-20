@@ -101,7 +101,7 @@ class VLCMediaPlayer: NSObject {
         set {
             guard let mp = mediaPlayer else { return }
             if libvlc_media_player_is_seekable(mp) == 1 {
-                libvlc_media_player_set_position(mp, newValue)
+                libvlc_media_player_set_position(mp, newValue, true)
             }
         }
     }
@@ -229,7 +229,7 @@ class VLCMediaPlayer: NSObject {
     
     func setTime(_ time: VLCTime) {
         guard let mp = mediaPlayer else { return }
-        libvlc_media_player_set_time(mp, libvlc_time_t(time.value))
+        libvlc_media_player_set_time(mp, libvlc_time_t(time.value), true)
     }
     
     func isSeekable() -> Bool {

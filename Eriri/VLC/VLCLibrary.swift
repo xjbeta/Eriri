@@ -54,10 +54,10 @@ class VLCLibrary: NSObject {
     
     fileprivate override init() {
         super.init()
-//        let path = "/Users/xjbeta/Developer/Eriri/libvlc/plugins"
-//        if setenv("VLC_PLUGIN_PATH", path, 1) != 0 {
-//            print("Set plugins path error \(errno)")
-//        }
+        let path = "/Applications/VLC.app/Contents/MacOS/plugins"
+        if setenv("VLC_PLUGIN_PATH", path, 1) != 0 {
+            print("Set plugins path error \(errno)")
+        }
         
         let options = defaultOptions
         let argv: [UnsafePointer<Int8>?] = options.map({ $0.withCString({ $0 }) })
