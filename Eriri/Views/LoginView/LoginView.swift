@@ -27,7 +27,7 @@ struct LoginView: View {
                 .font(.system(size: 11))
             SecureField("", text: $info.password)
             Spacer(minLength: 20)
-            HStack {
+            HStack(alignment: .center) {
                 Toggle("Remenber", isOn: $info.storePassword)
                     .opacity(info.askingForStorage ? 1 : 0)
                 WindowButtons(window: window, title: "OK") {
@@ -46,5 +46,22 @@ struct LoginView: View {
                 .frame(width: 70, height: 70)
             rightView
         }.padding(.all, 20)
+    }
+}
+
+struct LoginView_Previews: PreviewProvider {
+    static var info: LoginViewInfo {
+        let i = LoginViewInfo()
+        i.title = "LoginView Title"
+        i.message = "LoginView Message"
+        i.askingForStorage = true
+        return i
+    }
+    static var complete: (() -> Void) = {
+        print("complete")
+    }
+    
+    static var previews: some View {
+        LoginView(window: NSWindow(), info: info, complete: complete)
     }
 }
