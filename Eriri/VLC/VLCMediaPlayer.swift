@@ -223,7 +223,7 @@ class VLCMediaPlayer: NSObject {
             let interval = Int64(seconds) * 1000
             let time = currentTime()
             time.value = Int64(time.value) + interval
-            setTime(time)
+            setTime(time, fast)
         }
     }
     
