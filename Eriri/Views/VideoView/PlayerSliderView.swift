@@ -107,3 +107,15 @@ struct PlayerSliderView: View {
     }
 }
 
+struct PlayerSliderView_Previews: PreviewProvider {
+    @State static var value: Float = 0.25
+    @State static var expectedValue: Float = 0.25
+    @State static var isSeeking = false
+    static var previews: some View {
+        PlayerSliderView.init(value: $value, isSeeking: $isSeeking, expectedValue: $expectedValue, onChanged: {
+            print("onChanged", $0)
+        }) {
+            print("onEnded", $0)
+        }
+    }
+}
