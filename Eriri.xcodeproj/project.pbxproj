@@ -21,7 +21,7 @@
 		0155757D23E0686200ECC898 /* InfoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0155757C23E0686200ECC898 /* InfoContentView.swift */; };
 		015C2BB423EE8B0300C90D08 /* VLCMediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015C2BB323EE8B0200C90D08 /* VLCMediaPlayer.swift */; };
 		0189C95B23D5CA2F00FAAF83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0189C95A23D5CA2F00FAAF83 /* AppDelegate.swift */; };
-		0189C95D23D5CA2F00FAAF83 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0189C95C23D5CA2F00FAAF83 /* ContentView.swift */; };
+		0189C95D23D5CA2F00FAAF83 /* VideoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0189C95C23D5CA2F00FAAF83 /* VideoContentView.swift */; };
 		0189C95F23D5CA3300FAAF83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0189C95E23D5CA3300FAAF83 /* Assets.xcassets */; };
 		0189C96223D5CA3300FAAF83 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0189C96123D5CA3300FAAF83 /* Preview Assets.xcassets */; };
 		0189C96523D5CA3300FAAF83 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0189C96323D5CA3300FAAF83 /* Main.storyboard */; };
@@ -33,7 +33,6 @@
 		0189C98123D5E8F000FAAF83 /* Sparkle.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0189C96E23D5E8BF00FAAF83 /* Sparkle.framework.dSYM */; };
 		0189C98423D5ED2600FAAF83 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0189C98323D5ED2600FAAF83 /* VideoView.swift */; };
 		018F0C2B23D6DEDB008ACF4B /* VideoControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018F0C2A23D6DEDB008ACF4B /* VideoControlView.swift */; };
-		018F0C3523D9E574008ACF4B /* VideoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018F0C3423D9E574008ACF4B /* VideoContainerView.swift */; };
 		0196C53023E6DB59007A0C96 /* OpenURLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0196C52F23E6DB59007A0C96 /* OpenURLView.swift */; };
 		0196C53223E93014007A0C96 /* UtilsVLCProtocolExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0196C53123E93014007A0C96 /* UtilsVLCProtocolExtension.swift */; };
 		0196C53423E93DA2007A0C96 /* URLTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0196C53323E93DA2007A0C96 /* URLTextField.swift */; };
@@ -108,7 +107,7 @@
 		017E2D3123F02E86009D1A8C /* Eriri-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Eriri-Bridging-Header.h"; sourceTree = "<group>"; };
 		0189C95723D5CA2F00FAAF83 /* Eriri.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eriri.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0189C95A23D5CA2F00FAAF83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0189C95C23D5CA2F00FAAF83 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0189C95C23D5CA2F00FAAF83 /* VideoContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoContentView.swift; sourceTree = "<group>"; };
 		0189C95E23D5CA3300FAAF83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0189C96123D5CA3300FAAF83 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0189C96423D5CA3300FAAF83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -120,7 +119,6 @@
 		0189C97223D5E8BF00FAAF83 /* PromiseKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = PromiseKit.framework.dSYM; path = Carthage/Build/Mac/PromiseKit.framework.dSYM; sourceTree = SOURCE_ROOT; };
 		0189C98323D5ED2600FAAF83 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		018F0C2A23D6DEDB008ACF4B /* VideoControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControlView.swift; sourceTree = "<group>"; };
-		018F0C3423D9E574008ACF4B /* VideoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoContainerView.swift; sourceTree = "<group>"; };
 		0196C52F23E6DB59007A0C96 /* OpenURLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenURLView.swift; sourceTree = "<group>"; };
 		0196C53123E93014007A0C96 /* UtilsVLCProtocolExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilsVLCProtocolExtension.swift; sourceTree = "<group>"; };
 		0196C53323E93DA2007A0C96 /* URLTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTextField.swift; sourceTree = "<group>"; };
@@ -156,8 +154,7 @@
 		01097A3523E3EEE400958F6E /* VideoView */ = {
 			isa = PBXGroup;
 			children = (
-				0189C95C23D5CA2F00FAAF83 /* ContentView.swift */,
-				018F0C3423D9E574008ACF4B /* VideoContainerView.swift */,
+				0189C95C23D5CA2F00FAAF83 /* VideoContentView.swift */,
 				018F0C2A23D6DEDB008ACF4B /* VideoControlView.swift */,
 				0189C98323D5ED2600FAAF83 /* VideoView.swift */,
 				01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */,
@@ -430,11 +427,10 @@
 				015C2BB423EE8B0300C90D08 /* VLCMediaPlayer.swift in Sources */,
 				01BA949323F5456B00DEE6D5 /* PointerExtension.swift in Sources */,
 				01B1BBAC23EF989A00E24BD4 /* VLCLibrary.swift in Sources */,
-				0189C95D23D5CA2F00FAAF83 /* ContentView.swift in Sources */,
+				0189C95D23D5CA2F00FAAF83 /* VideoContentView.swift in Sources */,
 				01F103E823E01ECA00D12931 /* NSWindowExtension.swift in Sources */,
 				0196C53223E93014007A0C96 /* UtilsVLCProtocolExtension.swift in Sources */,
 				01E2088C23F2BDD5002A2EBA /* VLCEventManager.swift in Sources */,
-				018F0C3523D9E574008ACF4B /* VideoContainerView.swift in Sources */,
 				0138CD3023E95046008E8DEE /* WindowButtons.swift in Sources */,
 				01D4A39823DEA40200CAA688 /* Utils.swift in Sources */,
 				0196C53023E6DB59007A0C96 /* OpenURLView.swift in Sources */,

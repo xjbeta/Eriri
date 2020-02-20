@@ -57,7 +57,7 @@ class EririPlayer: NSObject {
         player.setMedia(url.absoluteString)
         player.delegate = self
         
-        let contentView = ContentView(window: window, player: player, playerInfo: playerInfo)
+        let contentView = VideoContentView(window: window, player: player, playerInfo: playerInfo)
         
         window.minSize = windowMinSize
         window.isMovableByWindowBackground = true

@@ -1,25 +1,23 @@
 //
-//  VideoContainerView.swift
+//  ContentView.swift
 //  Eriri
 //
-//  Created by xjbeta on 2020/1/23.
+//  Created by xjbeta on 2020/1/20.
 //  Copyright © 2020 xjbeta. All rights reserved.
 //
 
 import SwiftUI
 
-struct VideoContainerView: View {
-    @State private var vcvCurrentPosition: CGPoint = .zero
-    @State private var vcvNewPosition: CGPoint = .zero
-    
+struct VideoContentView: View {
     let window: NSWindow
-    var player: VLCMediaPlayer
+    let player: VLCMediaPlayer
     @ObservedObject var playerInfo: PlayerInfo
     
+    @State private var vcvCurrentPosition: CGPoint = .zero
+    @State private var vcvNewPosition: CGPoint = .zero
     @State private var positionInited: Bool = false
     
     var body: some View {
-        
         ZStack(alignment: .topTrailing) {
             videoView
                 .frame(minWidth: limitWindowSize(playerInfo.videoSize).width,
@@ -29,7 +27,9 @@ struct VideoContainerView: View {
                 .padding(EdgeInsets(top:
                     (playerInfo.hideVCV ? 0 : (window.titleView()?.frame.height ?? 0))
                      + 20, leading: 20, bottom: 20, trailing: 20))
-        }.overlay(videoControlView(playerInfo.windowSize))
+        }
+        .overlay(videoControlView(playerInfo.windowSize))
+        .padding(.top, (window.titleView()?.frame.height ?? 0) * -1)
     }
     
     var videoView: some View {
@@ -153,5 +153,25 @@ struct VideoContainerView: View {
                 blendingMode: .withinWindow))
             .cornerRadius(8)
             .opacity(playerInfo.hideNotification ? 0 : 1)
+    }
+}
+
+struct VideoContentView_Previews: PreviewProvider {
+    static var info: PlayerInfo {
+        let i = PlayerInfo()
+        i.hideVCV = false
+        i.isFullScreen = false
+        i.leftTime = "00:00"
+        i.rightTime = "66:66"
+        i.position = 0.25
+        i.volume = 75
+        i.state = .playing
+        return i
+    }
+    
+    static var previews: some View {
+        VideoContentView(window: NSWindow(),
+                         player: VLCMediaPlayer(),
+                         playerInfo: info)
     }
 }
