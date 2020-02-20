@@ -14,6 +14,7 @@ struct PlayerSliderView: View {
     @Binding var expectedValue: Float
     
     var onChanged: ((Float) -> Void)
+    var onEnded: ((Float) -> Void)
     
     @State private var dValue: Float = 0
     
@@ -71,9 +72,11 @@ struct PlayerSliderView: View {
                     self.dValue = v
                     self.onChanged(v)
             }.onEnded { _ in
-                self.value = self.dValue
-                self.expectedValue = self.dValue
+                let v = self.dValue
+                self.value = v
+                self.expectedValue = v
                 self.isSeeking = false
+                self.onEnded(v)
             })
         }
     }

@@ -260,7 +260,9 @@ extension VLCMediaPlayer {
                     
                 case libvlc_MediaPlayerLengthChanged:
                     let time = event.u.media_player_length_changed.new_length
-                    d.mediaPlayerLengthChanged(VLCTime(with: time))
+                    let t = VLCTime(with: time)
+                    mp.mediaLength = t
+                    d.mediaPlayerLengthChanged(t)
                     
                 case libvlc_MediaPlayerAudioVolume:
                     let v = event.u.media_player_audio_volume.volume

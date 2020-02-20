@@ -85,6 +85,8 @@ class VLCMediaPlayer: NSObject {
         }
     }
     
+    var mediaLength = VLCTime(with: 0)
+    
     var remainingTime: VLCTime {
         get {
             //        libvlc_media_player_get
@@ -98,11 +100,16 @@ class VLCMediaPlayer: NSObject {
             guard let mp = mediaPlayer else { return 0 }
             return libvlc_media_player_get_position(mp)
         }
-        set {
-            guard let mp = mediaPlayer else { return }
-            if libvlc_media_player_is_seekable(mp) == 1 {
-                libvlc_media_player_set_position(mp, newValue, true)
-            }
+    }
+    
+    func setPosition(_ value: Float,
+                     _ fast: Bool) {
+        guard let mp = mediaPlayer else { return }
+        
+        let v = Int64(Float(mediaLength.value) * value)
+        delegate?.mediaPlayerTimeChanged(VLCTime(with: v))
+        if libvlc_media_player_is_seekable(mp) == 1 {
+            libvlc_media_player_set_position(mp, value, fast)
         }
     }
     
