@@ -55,6 +55,9 @@ class VLCLibrary: NSObject {
     fileprivate override init() {
         super.init()
         let path = "/Applications/VLC.app/Contents/MacOS/plugins"
+        
+//        let path = Bundle.main.bundlePath + "/Contents/Frameworks/plugins"
+        
         if setenv("VLC_PLUGIN_PATH", path, 1) != 0 {
             print("Set plugins path error \(errno)")
         }
