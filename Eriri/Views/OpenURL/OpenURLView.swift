@@ -42,3 +42,9 @@ struct OpenURLView: View {
         self.window.close()
     }
 }
+
+struct OpenURLView_Previews: PreviewProvider {
+    static var previews: some View {
+        OpenURLView(urlValue: "url", window: NSWindow())
+    }
+}
