@@ -81,6 +81,28 @@ struct VideoControlView: View {
         }
     }
     
+    var timeSliderItems: some View {
+        HStack(spacing: 12) {
+            Text(playerInfo.leftTime)
+                .font(Font.system(size: 12).monospacedDigit())
+                .foregroundColor(Color.white.opacity(0.8))
+            
+            PlayerSliderView(value: $playerInfo.position, isSeeking: $playerInfo.playerSliderIsSeeking, expectedValue: $playerInfo.playerSliderExpectedValue, onChanged: {
+                self.player.setPosition($0, true)
+            }) {
+                self.player.setPosition($0, false)
+            }
+            
+            Text(playerInfo.rightTime)
+                .font(Font.system(size: 12).monospacedDigit())
+                .foregroundColor(Color.white.opacity(0.8))
+                .onTapGesture {
+                    
+                    
+            }
+        }
+    }
+    
     var body: some View {
         
         VStack(alignment: .center, spacing: 8) {
@@ -92,25 +114,7 @@ struct VideoControlView: View {
             }.overlay(centerItems)
             
             // Buttom Items
-            HStack(spacing: 12) {
-                Text(playerInfo.leftTime)
-                    .font(Font.system(size: 12).monospacedDigit())
-                    .foregroundColor(Color.white.opacity(0.8))
-                
-                PlayerSliderView(value: $playerInfo.position, isSeeking: $playerInfo.playerSliderIsSeeking, expectedValue: $playerInfo.playerSliderExpectedValue, onChanged: {
-                    self.player.setPosition($0, true)
-                }) {
-                    self.player.setPosition($0, false)
-                }
-                
-                Text(playerInfo.rightTime)
-                    .font(Font.system(size: 12).monospacedDigit())
-                    .foregroundColor(Color.white.opacity(0.8))
-                    .onTapGesture {
-                        
-                        
-                }
-            }
+            timeSliderItems
         }.padding(.all, 14)
             .background(VisualEffectView(
                 material: .hudWindow,
