@@ -131,3 +131,23 @@ struct VideoControlView: View {
         }
     }
 }
+
+struct VideoControlView_Previews: PreviewProvider {
+    static var info: PlayerInfo {
+        let i = PlayerInfo()
+        i.hideVCV = false
+        i.isFullScreen = false
+        i.leftTime = "00:00"
+        i.rightTime = "66:66"
+        i.position = 0.25
+        i.volume = 75
+        i.state = .playing
+        return i
+    }
+    
+    static var previews: some View {
+        VideoControlView(window: NSWindow(),
+                         player: VLCMediaPlayer(),
+                         playerInfo: info)
+    }
+}
