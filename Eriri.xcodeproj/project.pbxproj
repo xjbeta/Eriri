@@ -251,16 +251,15 @@
 			children = (
 				0189C95A23D5CA2F00FAAF83 /* AppDelegate.swift */,
 				01D4A39923DEE6D300CAA688 /* MainMenu.swift */,
-				0105D8CF23E1C84300141E11 /* EririPlayer.swift */,
 				01BA948823F3E86600DEE6D5 /* VLC */,
 				01F103E923E0206800D12931 /* Utils */,
+				0189C98223D5ECFD00FAAF83 /* Views */,
+				01F103E623E01EB300D12931 /* Extensions */,
+				0189C96023D5CA3300FAAF83 /* Preview Content */,
 				0189C95E23D5CA3300FAAF83 /* Assets.xcassets */,
 				0189C96623D5CA3300FAAF83 /* Info.plist */,
 				0189C96723D5CA3300FAAF83 /* Eriri.entitlements */,
 				017E2D3123F02E86009D1A8C /* Eriri-Bridging-Header.h */,
-				0189C96023D5CA3300FAAF83 /* Preview Content */,
-				0189C98223D5ECFD00FAAF83 /* Views */,
-				01F103E623E01EB300D12931 /* Extensions */,
 			);
 			path = Eriri;
 			sourceTree = "<group>";
@@ -333,8 +332,9 @@
 		01F103E923E0206800D12931 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				01D4A3A123DF387800CAA688 /* WaitTimer.swift */,
+				0105D8CF23E1C84300141E11 /* EririPlayer.swift */,
 				01D4A39723DEA40200CAA688 /* Utils.swift */,
+				01D4A3A123DF387800CAA688 /* WaitTimer.swift */,
 				0196C53123E93014007A0C96 /* UtilsVLCProtocolExtension.swift */,
 			);
 			path = Utils;
