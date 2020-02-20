@@ -218,7 +218,7 @@ class VLCMediaPlayer: NSObject {
         libvlc_media_player_stop(mp)
     }
     
-    func seek(_ seconds: Int) {
+    func seek(_ seconds: Int, _ fast: Bool) {
         if isSeekable() {
             let interval = Int64(seconds) * 1000
             let time = currentTime()
@@ -234,9 +234,9 @@ class VLCMediaPlayer: NSObject {
         return time
     }
     
-    func setTime(_ time: VLCTime) {
+    func setTime(_ time: VLCTime, _ fast: Bool) {
         guard let mp = mediaPlayer else { return }
-        libvlc_media_player_set_time(mp, libvlc_time_t(time.value), true)
+        libvlc_media_player_set_time(mp, libvlc_time_t(time.value), fast)
     }
     
     func isSeekable() -> Bool {

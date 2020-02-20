@@ -134,14 +134,12 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     
     @IBOutlet weak var stepForwardMenuItem: NSMenuItem!
     @IBAction func stepForward5S(_ sender: NSMenuItem) {
-
-        currentPlayer?.player.seek(5)
+        currentPlayer?.player.seek(5, false)
     }
     
     @IBOutlet weak var stepBackwardMenuItem: NSMenuItem!
     @IBAction func stepBackward5S(_ sender: NSMenuItem) {
-        
-        currentPlayer?.player.seek(-5)
+        currentPlayer?.player.seek(-5, false)
     }
     
     @IBOutlet weak var nextChapterMenuItem: NSMenuItem!
