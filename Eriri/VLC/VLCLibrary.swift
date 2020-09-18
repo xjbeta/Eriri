@@ -54,9 +54,9 @@ class VLCLibrary: NSObject {
     
     fileprivate override init() {
         super.init()
-        let path = "/Applications/VLC.app/Contents/MacOS/plugins"
+        let path = "/Applications/VLC.app/Contents/Frameworks/plugins"
         
-//        let path = Bundle.main.bundlePath + "/Contents/Frameworks/plugins"
+//        let path = Bundle.main.privateFrameworksPath!.appending("/plugins")
         
         if setenv("VLC_PLUGIN_PATH", path, 1) != 0 {
             print("Set plugins path error \(errno)")
@@ -88,7 +88,7 @@ class VLCLibrary: NSObject {
 
         libvlc_log_set(i, { data, level, ctx, fmt, args in
             var str: UnsafeMutablePointer<Int8>?
-            if vasprintf(&str, fmt, args) == -1 {
+            if vasprintf(&str, fmt, args!) == -1 {
                 if str != nil {
                     free(str)
                 }

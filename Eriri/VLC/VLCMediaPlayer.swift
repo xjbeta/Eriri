@@ -108,7 +108,7 @@ class VLCMediaPlayer: NSObject {
         
         let v = Int64(Float(mediaLength.value) * value)
         delegate?.mediaPlayerTimeChanged(VLCTime(with: v))
-        if libvlc_media_player_is_seekable(mp) == 1 {
+        if libvlc_media_player_is_seekable(mp) {
             libvlc_media_player_set_position(mp, value, fast)
         }
     }
@@ -194,8 +194,7 @@ class VLCMediaPlayer: NSObject {
     
     func isPlaying() -> Bool {
         guard let mp = mediaPlayer else { return false }
-        return libvlc_media_player_is_playing(mp) == 1
-        
+        return libvlc_media_player_is_playing(mp)
     }
     
     func play() {
@@ -215,7 +214,7 @@ class VLCMediaPlayer: NSObject {
     
     func stop() {
         guard let mp = mediaPlayer else { return }
-        libvlc_media_player_stop(mp)
+        libvlc_media_player_stop_async(mp)
     }
     
     func seek(_ seconds: Int, _ fast: Bool) {
@@ -241,7 +240,7 @@ class VLCMediaPlayer: NSObject {
     
     func isSeekable() -> Bool {
         guard let mp = mediaPlayer else { return false }
-        return libvlc_media_player_is_seekable(mp) == 1
+        return libvlc_media_player_is_seekable(mp)
     }
     
     
