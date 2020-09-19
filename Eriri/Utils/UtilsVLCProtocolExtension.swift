@@ -44,7 +44,7 @@ extension Utils: VLCDialogRendererDelegate {
     }
     
     func updateProgress(withReference reference: NSValue, message: String?, position: Float) {
-        print("Dialog Renderer", #function, message)
+        print("Dialog Renderer", #function, message ?? "")
     }
     
     func cancelDialog(withReference reference: OpaquePointer) {
