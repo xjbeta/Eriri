@@ -57,6 +57,8 @@ class EririPlayer: NSObject {
         player.setMedia(url.absoluteString)
         player.delegate = self
         
+        playerInfo.volume = Float(player.volume)
+        
         let contentView = VideoContentView(window: window, player: player, playerInfo: playerInfo)
         
         window.minSize = windowMinSize
