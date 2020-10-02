@@ -79,24 +79,24 @@ class VLCLibrary: NSObject {
     
     
     func enableLogging(_ enable: Bool, level: LogLevel = .debug) {
-        guard let i = instance else { return }
         enableLogging = enable
         guard enable else {
-            libvlc_log_unset(i)
+            libvlc_log_unset(instance)
             return
         }
 
-        libvlc_log_set(i, { data, level, ctx, fmt, args in
+        libvlc_log_set(instance, { data, level, ctx, fmt, args in
             var str: UnsafeMutablePointer<Int8>?
             if vasprintf(&str, fmt, args!) == -1 {
                 if str != nil {
                     free(str)
                 }
             }
-            guard let s = str else { return }
-            
-            print("VLC LOG: \(s.toString())")
-            
+                
+            guard let d = data,
+                  let s = str?.toString() else { return }
+            let l = Unmanaged<VLCLibrary>.fromOpaque(d).takeUnretainedValue()
+            l.vlcLog(s)
         }, Unmanaged.passUnretained(self).toOpaque())
     }
     
@@ -107,6 +107,10 @@ class VLCLibrary: NSObject {
         return v.toString()
     }
     
+    private func vlcLog(_ string: String) {
+        let s = string
+        print("VLC LOG: \(s)")
+    }
     
     // MARK: - Dialog
     
