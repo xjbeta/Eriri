@@ -154,8 +154,6 @@ class VLCMediaPlayer: NSObject {
         }
     }
     
-    let libVLCBackgroundQueue = DispatchQueue(label: "libvlcQueue")
-    
     private var _videoView: NSView?
     var videoView: NSView? {
         set {
@@ -204,16 +202,12 @@ class VLCMediaPlayer: NSObject {
     
     func play() {
         guard let mp = mediaPlayer else { return }
-        libVLCBackgroundQueue.async {
-            libvlc_media_player_play(mp)
-        }
+        libvlc_media_player_play(mp)
     }
     
     func pause() {
         guard let mp = mediaPlayer else { return }
-        libVLCBackgroundQueue.async {
-            libvlc_media_player_set_pause(mp, 1)
-        }
+        libvlc_media_player_set_pause(mp, 1)
     }
     
     
@@ -293,9 +287,7 @@ class VLCMediaPlayer: NSObject {
     
     func setCurrentVideoSubTitleDelay(_ value: Float) {
         guard let mp = mediaPlayer else { return }
-        libVLCBackgroundQueue.async {
-            libvlc_video_set_spu_delay(mp, Int64(value * 1000000))
-        }
+        libvlc_video_set_spu_delay(mp, Int64(value * 1000000))
     }
     
     // MARK: - Audio
