@@ -42,7 +42,7 @@ class VLCMediaPlayer: NSObject {
     let volumeMIN = 0
     
     var mediaPlayer: UnsafeMutablePointer<libvlc_media_player_t>?
-//    var player: UnsafeMutablePointer<vlc_player_t>?
+    var player: UnsafeMutablePointer<vlc_player_t>?
     
     
     var eventManager: UnsafeMutablePointer<libvlc_event_manager_t>?
@@ -175,7 +175,7 @@ class VLCMediaPlayer: NSObject {
         super.init()
         let instance = VLCLibrary.shared.instance
         mediaPlayer = libvlc_media_player_new(instance)
-//        player = mediaPlayer?.pointee.player
+        player = mediaPlayer?.pointee.player
     }
     
     func setMedia(_ url: String) {
@@ -258,6 +258,13 @@ class VLCMediaPlayer: NSObject {
     func setSubtitleIndex(_ index: Int) {
         guard let mp = mediaPlayer else { return }
         libvlc_video_set_spu(mp, Int32(index))
+    }
+    
+    func disableSubtitle() {
+        guard let p = player else { return }
+        vlc_player_Lock(p)
+        vlc_player_UnselectTrackCategory(p, SPU_ES)
+        vlc_player_Unlock(p)
     }
     
     func subtitles() -> VLCTrackDescription {

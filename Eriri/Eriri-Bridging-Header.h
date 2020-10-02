@@ -5,3 +5,5 @@
 #import <vlc/vlc.h>
 #import <vlc/libvlc_internal.h>
 #import <vlc/media_player_internal.h>
+#import <vlc/player.h>
+
