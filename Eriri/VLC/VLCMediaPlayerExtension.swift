@@ -209,7 +209,7 @@ extension VLCMediaPlayer {
 //        libvlc_event_detach
     }
     
-    func addEventAttach(_ event: libvlc_event_e, to eventManager: OpaquePointer) {
+    func addEventAttach(_ event: libvlc_event_e, to eventManager: UnsafeMutablePointer<libvlc_event_manager_t>) {
         let s = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
     
         

@@ -26,8 +26,7 @@ protocol VLCDialogRendererDelegate {
 
 class VLCLibrary: NSObject {
     static let shared = VLCLibrary()
-    var instance: OpaquePointer?
-    
+    var instance: UnsafeMutablePointer<libvlc_instance_t>
     private var enableLogging = false
     
     
@@ -53,7 +52,6 @@ class VLCLibrary: NSObject {
     
     
     fileprivate override init() {
-        super.init()
         let path = "/Applications/VLC.app/Contents/Frameworks/plugins"
         
 //        let path = Bundle.main.privateFrameworksPath!.appending("/plugins")
@@ -65,9 +63,11 @@ class VLCLibrary: NSObject {
         let options = defaultOptions
         let argv: [UnsafePointer<Int8>?] = options.map({ $0.withCString({ $0 }) })
         
-        instance = libvlc_new(Int32(options.count), argv)
+        instance = libvlc_new(Int32(argv.count), argv)
         
         libvlc_set_app_id(instance, "com.xjbeta.Eriri", "1.0", "foobar")
+        
+        super.init()
     }
     
     enum LogLevel: Int32 {

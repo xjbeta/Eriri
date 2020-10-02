@@ -41,8 +41,11 @@ class VLCMediaPlayer: NSObject {
     let volumeMAX = 100
     let volumeMIN = 0
     
-    var mediaPlayer: OpaquePointer?
-    var eventManager: OpaquePointer?
+    var mediaPlayer: UnsafeMutablePointer<libvlc_media_player_t>?
+//    var player: UnsafeMutablePointer<vlc_player_t>?
+    
+    
+    var eventManager: UnsafeMutablePointer<libvlc_event_manager_t>?
     var eventsAttached = false
     
     let attachEvents: [libvlc_event_e] = [
@@ -169,14 +172,16 @@ class VLCMediaPlayer: NSObject {
         }
     }
     
+    
     override init() {
         super.init()
-        guard let instance = VLCLibrary.shared.instance else { return }
+        let instance = VLCLibrary.shared.instance
         mediaPlayer = libvlc_media_player_new(instance)
+//        player = mediaPlayer?.pointee.player
     }
     
     func setMedia(_ url: String) {
-        guard let instance = VLCLibrary.shared.instance else { return }
+        let instance = VLCLibrary.shared.instance
         let media = libvlc_media_new_location(instance, url)
         guard let mp = mediaPlayer, let m = media else { return }
         libvlc_media_player_set_media(mp, m)
