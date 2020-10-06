@@ -26,8 +26,7 @@ protocol VLCDialogRendererDelegate {
 
 class VLCLibrary: NSObject {
     static let shared = VLCLibrary()
-    var instance: OpaquePointer?
-    
+    var instance: UnsafeMutablePointer<libvlc_instance_t>
     private var enableLogging = false
     
     
@@ -53,7 +52,6 @@ class VLCLibrary: NSObject {
     
     
     fileprivate override init() {
-        super.init()
         let path = "/Applications/VLC.app/Contents/Frameworks/plugins"
         
 //        let path = Bundle.main.privateFrameworksPath!.appending("/plugins")
@@ -65,9 +63,11 @@ class VLCLibrary: NSObject {
         let options = defaultOptions
         let argv: [UnsafePointer<Int8>?] = options.map({ $0.withCString({ $0 }) })
         
-        instance = libvlc_new(Int32(options.count), argv)
+        instance = libvlc_new(Int32(argv.count), argv)
         
         libvlc_set_app_id(instance, "com.xjbeta.Eriri", "1.0", "foobar")
+        
+        super.init()
     }
     
     enum LogLevel: Int32 {
@@ -79,24 +79,24 @@ class VLCLibrary: NSObject {
     
     
     func enableLogging(_ enable: Bool, level: LogLevel = .debug) {
-        guard let i = instance else { return }
         enableLogging = enable
         guard enable else {
-            libvlc_log_unset(i)
+            libvlc_log_unset(instance)
             return
         }
 
-        libvlc_log_set(i, { data, level, ctx, fmt, args in
+        libvlc_log_set(instance, { data, level, ctx, fmt, args in
             var str: UnsafeMutablePointer<Int8>?
             if vasprintf(&str, fmt, args!) == -1 {
                 if str != nil {
                     free(str)
                 }
             }
-            guard let s = str else { return }
-            
-            print("VLC LOG: \(s.toString())")
-            
+                
+            guard let d = data,
+                  let s = str?.toString() else { return }
+            let l = Unmanaged<VLCLibrary>.fromOpaque(d).takeUnretainedValue()
+            l.vlcLog(s)
         }, Unmanaged.passUnretained(self).toOpaque())
     }
     
@@ -107,6 +107,10 @@ class VLCLibrary: NSObject {
         return v.toString()
     }
     
+    private func vlcLog(_ string: String) {
+        let s = string
+        print("VLC LOG: \(s)")
+    }
     
     // MARK: - Dialog
     

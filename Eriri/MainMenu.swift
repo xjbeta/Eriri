@@ -26,6 +26,12 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             menu.removeAllItems()
             let subtitles = player.subtitles()
             let current = subtitles.currentIndex
+            let noneItem = NSMenuItem()
+            noneItem.state = current == -1 ? .on : .off
+            noneItem.title = "Disable"
+            noneItem.target = self
+            noneItem.action = #selector(self.disableSubtitle(_:))
+            menu.addItem(noneItem)
             subtitles.descriptions.forEach {
                 let item = NSMenuItem()
                 item.title = $0.name
@@ -268,6 +274,10 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         if re == .OK, let u = panel.url?.absoluteString {
             cp.player.loadSubtitle(u)
         }
+    }
+    
+    @IBAction func disableSubtitle(_ sender: NSMenuItem) {
+        currentPlayer?.player.disableSubtitle()
     }
     
     @IBAction func subtitleItemAction(_ sender: NSMenuItem) {

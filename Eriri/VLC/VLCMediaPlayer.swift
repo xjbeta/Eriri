@@ -41,8 +41,11 @@ class VLCMediaPlayer: NSObject {
     let volumeMAX = 100
     let volumeMIN = 0
     
-    var mediaPlayer: OpaquePointer?
-    var eventManager: OpaquePointer?
+    var mediaPlayer: UnsafeMutablePointer<libvlc_media_player_t>?
+    var player: UnsafeMutablePointer<vlc_player_t>?
+    
+    
+    var eventManager: UnsafeMutablePointer<libvlc_event_manager_t>?
     var eventsAttached = false
     
     let attachEvents: [libvlc_event_e] = [
@@ -70,6 +73,69 @@ class VLCMediaPlayer: NSObject {
         libvlc_MediaPlayerMuted,
         libvlc_MediaPlayerUnmuted
     ]
+    
+    var eventCallBack: libvlc_callback_t = { new, s in
+        
+        guard let n = new,
+            let ss = s else { return }
+        let event = n.pointee
+        let mp = Unmanaged<VLCMediaPlayer>.fromOpaque(ss).takeUnretainedValue()
+        guard let d = mp.delegate else { return }
+        
+        let rValue = event.type
+        let type = libvlc_event_type_t(rValue)
+        
+        DispatchQueue.main.async {
+            switch libvlc_event_e(UInt32(type)) {
+            // State
+            case libvlc_MediaPlayerOpening:
+                d.mediaPlayerStateChanged(.opening)
+            case libvlc_MediaPlayerPlaying:
+                d.mediaPlayerStateChanged(.playing)
+            case libvlc_MediaPlayerPaused:
+                d.mediaPlayerStateChanged(.paused)
+            case libvlc_MediaPlayerBuffering:
+                let newCache = event.u.media_player_buffering.new_cache
+                d.mediaPlayerBuffing(newCache)
+            case libvlc_MediaPlayerStopped:
+                d.mediaPlayerStateChanged(.stopped)
+            case libvlc_MediaPlayerEndReached:
+                d.mediaPlayerStateChanged(.ended)
+            case libvlc_MediaPlayerESAdded:
+                d.mediaPlayerStateChanged(.esAdded)
+            case libvlc_MediaPlayerEncounteredError:
+                d.mediaPlayerStateChanged(.error)
+                
+            // Player info
+            case libvlc_MediaPlayerPositionChanged:
+                let f = event.u.media_player_position_changed.new_position
+                d.mediaPlayerPositionChanged(f)
+            case libvlc_MediaPlayerTimeChanged:
+                let time = event.u.media_player_time_changed.new_time
+                d.mediaPlayerTimeChanged(VLCTime(with: time))
+                
+            case libvlc_MediaPlayerLengthChanged:
+                let time = event.u.media_player_length_changed.new_length
+                let t = VLCTime(with: time)
+                mp.mediaLength = t
+                d.mediaPlayerLengthChanged(t)
+                
+            case libvlc_MediaPlayerAudioVolume:
+                let v = event.u.media_player_audio_volume.volume
+                
+//                let volume = Int(v * Float(mp.volumeMAX))
+                let volume = lroundf(v * 100)
+                d.mediaPlayerAudioVolume(volume)
+            case libvlc_MediaPlayerMuted:
+                d.mediaPlayerAudioMuted(true)
+            case libvlc_MediaPlayerUnmuted:
+                d.mediaPlayerAudioMuted(false)
+            default:
+                break
+            }
+        }
+    }
+    
     
     var videoSize: CGSize {
         get {
@@ -151,8 +217,6 @@ class VLCMediaPlayer: NSObject {
         }
     }
     
-    let libVLCBackgroundQueue = DispatchQueue(label: "libvlcQueue")
-    
     private var _videoView: NSView?
     var videoView: NSView? {
         set {
@@ -169,14 +233,16 @@ class VLCMediaPlayer: NSObject {
         }
     }
     
+    
     override init() {
         super.init()
-        guard let instance = VLCLibrary.shared.instance else { return }
+        let instance = VLCLibrary.shared.instance
         mediaPlayer = libvlc_media_player_new(instance)
+        player = mediaPlayer?.pointee.player
     }
     
     func setMedia(_ url: String) {
-        guard let instance = VLCLibrary.shared.instance else { return }
+        let instance = VLCLibrary.shared.instance
         let media = libvlc_media_new_location(instance, url)
         guard let mp = mediaPlayer, let m = media else { return }
         libvlc_media_player_set_media(mp, m)
@@ -199,16 +265,12 @@ class VLCMediaPlayer: NSObject {
     
     func play() {
         guard let mp = mediaPlayer else { return }
-        libVLCBackgroundQueue.async {
-            libvlc_media_player_play(mp)
-        }
+        libvlc_media_player_play(mp)
     }
     
     func pause() {
         guard let mp = mediaPlayer else { return }
-        libVLCBackgroundQueue.async {
-            libvlc_media_player_set_pause(mp, 1)
-        }
+        libvlc_media_player_set_pause(mp, 1)
     }
     
     
@@ -261,6 +323,13 @@ class VLCMediaPlayer: NSObject {
         libvlc_video_set_spu(mp, Int32(index))
     }
     
+    func disableSubtitle() {
+        guard let p = player else { return }
+        vlc_player_Lock(p)
+        vlc_player_UnselectTrackCategory(p, SPU_ES)
+        vlc_player_Unlock(p)
+    }
+    
     func subtitles() -> VLCTrackDescription {
         var re = VLCTrackDescription()
         guard let mp = mediaPlayer else { return re }
@@ -288,9 +357,7 @@ class VLCMediaPlayer: NSObject {
     
     func setCurrentVideoSubTitleDelay(_ value: Float) {
         guard let mp = mediaPlayer else { return }
-        libVLCBackgroundQueue.async {
-            libvlc_video_set_spu_delay(mp, Int64(value * 1000000))
-        }
+        libvlc_video_set_spu_delay(mp, Int64(value * 1000000))
     }
     
     // MARK: - Audio
