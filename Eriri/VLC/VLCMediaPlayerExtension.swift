@@ -204,77 +204,16 @@ extension VLCMediaPlayer {
     }
     
     func deinitEventAttachs() {
-        
-        
-//        libvlc_event_detach
+        guard eventsAttached, let em = eventManager else { return }
+        let s = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
+        attachEvents.forEach {
+            libvlc_event_detach(em, libvlc_event_type_t($0.rawValue), eventCallBack, s)
+        }
     }
     
     func addEventAttach(_ event: libvlc_event_e, to eventManager: UnsafeMutablePointer<libvlc_event_manager_t>) {
         let s = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
     
-        
-        libvlc_event_attach(eventManager, libvlc_event_type_t(event.rawValue), { new, s in
-            
-
-            guard let n = new,
-                let ss = s else { return }
-            let event = n.pointee
-            let mp = Unmanaged<VLCMediaPlayer>.fromOpaque(ss).takeUnretainedValue()
-            guard let d = mp.delegate else { return }
-            
-            let rValue = event.type
-            let type = libvlc_event_type_t(rValue)
-            
-//            if let name = libvlc_event_type_name(type) {
-//                print("Event Attach: \(name.toString())")
-//            }
-            
-            DispatchQueue.main.async {
-                switch libvlc_event_e(UInt32(type)) {
-                // State
-                case libvlc_MediaPlayerOpening:
-                    d.mediaPlayerStateChanged(.opening)
-                case libvlc_MediaPlayerPlaying:
-                    d.mediaPlayerStateChanged(.playing)
-                case libvlc_MediaPlayerPaused:
-                    d.mediaPlayerStateChanged(.paused)
-                case libvlc_MediaPlayerBuffering:
-                    let newCache = event.u.media_player_buffering.new_cache
-                    d.mediaPlayerBuffing(newCache)
-                case libvlc_MediaPlayerStopped:
-                    d.mediaPlayerStateChanged(.stopped)
-                case libvlc_MediaPlayerEndReached:
-                    d.mediaPlayerStateChanged(.ended)
-                case libvlc_MediaPlayerESAdded:
-                    d.mediaPlayerStateChanged(.esAdded)
-                case libvlc_MediaPlayerEncounteredError:
-                    d.mediaPlayerStateChanged(.error)
-                    
-                // Player info
-                case libvlc_MediaPlayerPositionChanged:
-                    let f = event.u.media_player_position_changed.new_position
-                    d.mediaPlayerPositionChanged(f)
-                case libvlc_MediaPlayerTimeChanged:
-                    let time = event.u.media_player_time_changed.new_time
-                    d.mediaPlayerTimeChanged(VLCTime(with: time))
-                    
-                case libvlc_MediaPlayerLengthChanged:
-                    let time = event.u.media_player_length_changed.new_length
-                    let t = VLCTime(with: time)
-                    mp.mediaLength = t
-                    d.mediaPlayerLengthChanged(t)
-                    
-                case libvlc_MediaPlayerAudioVolume:
-                    let v = event.u.media_player_audio_volume.volume
-                    d.mediaPlayerAudioVolume(Int(v * Float(mp.volumeMAX)))
-                case libvlc_MediaPlayerMuted:
-                    d.mediaPlayerAudioMuted(true)
-                case libvlc_MediaPlayerUnmuted:
-                    d.mediaPlayerAudioMuted(false)
-                default:
-                    break
-                }
-            }
-        }, s)
+        libvlc_event_attach(eventManager, libvlc_event_type_t(event.rawValue), eventCallBack, s)
     }
 }
