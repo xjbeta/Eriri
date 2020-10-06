@@ -93,12 +93,13 @@ struct VideoControlView: View {
                 self.player.setPosition($0, false)
             }
             
-            Text(playerInfo.rightTime)
+            Text(playerInfo.showRemainingTime ? playerInfo.rightTimeR : playerInfo.rightTime)
                 .font(Font.system(size: 12).monospacedDigit())
                 .foregroundColor(Color.white.opacity(0.8))
                 .onTapGesture {
-                    
-                    
+                    let s = !playerInfo.showRemainingTime
+                    playerInfo.showRemainingTime = s
+//                    preferences
             }
         }
     }

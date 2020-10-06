@@ -16,6 +16,8 @@ class PlayerInfo: ObservableObject, Identifiable {
     @Published var position: Float = 0
     @Published var leftTime: String = "--:--"
     @Published var rightTime: String = "--:--"
+    @Published var rightTimeR: String = "--:--"
+    @Published var showRemainingTime: Bool = false
     @Published var volume: Float = -1
     @Published var videoSize: CGSize = .zero
     
@@ -288,10 +290,14 @@ extension EririPlayer: VLCMediaPlayerDelegate {
     
     func mediaPlayerTimeChanged(_ time: VLCTime) {
         playerInfo.leftTime = time.stringValue()
+        let r = VLCTime(with: player.mediaLength.value - time.value).stringValue()
+        playerInfo.rightTimeR = "-\(r)"
     }
     
     func mediaPlayerLengthChanged(_ time: VLCTime) {
         playerInfo.rightTime = time.stringValue()
+        let r = VLCTime(with: time.value - player.currentTime().value).stringValue()
+        playerInfo.rightTimeR = "-\(r)"
     }
     
     func mediaPlayerPositionChanged(_ value: Float) {
