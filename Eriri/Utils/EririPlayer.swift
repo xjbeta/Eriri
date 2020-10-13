@@ -71,6 +71,10 @@ class EririPlayer: NSObject {
         window.backgroundColor = .black
         hideVCVTimer = .init(timeOut: .seconds(3)) {
             DispatchQueue.main.async {
+                guard self.window.isMovableByWindowBackground else {
+                    return
+                }
+                
                 self.hideTitleAndVCV(true)
                 NSCursor.setHiddenUntilMouseMoves(true)
             }
@@ -162,14 +166,26 @@ class EririPlayer: NSObject {
     }
     
     func handleMouseActions(_ type: ActionsType) {
+        func updateTimer(_ event: NSEvent) {
+            let mouseOnVCV = !window.isMovableByWindowBackground
+            let mouseOnTitleBar = event.isIn(views: [window.titleView()])
+            print("mouse", mouseOnVCV, mouseOnTitleBar)
+            if mouseOnVCV || mouseOnTitleBar {
+                hideVCVTimer?.stop()
+            } else {
+                hideVCVTimer?.run()
+            }
+        }
+        
         let isFullScreen = window.styleMask.contains(.fullScreen)
         
         guard !window.inLiveResize,
             !playerInfo.vcvIsDragging else { return }
         
         switch type {
-        case .mouseEntered:
+        case .mouseEntered(let event):
             hideTitleAndVCV(false)
+            updateTimer(event)
         case .mouseExited:
             hideTitleAndVCV(true, onlyVCV: isFullScreen)
             hideVCVTimer?.stop()
@@ -177,15 +193,7 @@ class EririPlayer: NSObject {
             if playerInfo.hideVCV {
                 hideTitleAndVCV(false)
             }
-
-            let mouseOnVCV = !window.isMovableByWindowBackground
-            let mouseOnTitleBar = event.isIn(views: [window.titleView()])
-
-            if mouseOnVCV || mouseOnTitleBar {
-                hideVCVTimer?.stop()
-            } else {
-                hideVCVTimer?.run()
-            }
+            updateTimer(event)
         }
     }
     
