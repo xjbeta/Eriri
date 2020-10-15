@@ -169,7 +169,6 @@ class EririPlayer: NSObject {
         func updateTimer(_ event: NSEvent) {
             let mouseOnVCV = !window.isMovableByWindowBackground
             let mouseOnTitleBar = event.isIn(views: [window.titleView()])
-            print("mouse", mouseOnVCV, mouseOnTitleBar)
             if mouseOnVCV || mouseOnTitleBar {
                 hideVCVTimer?.stop()
             } else {
