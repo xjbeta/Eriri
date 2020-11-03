@@ -287,7 +287,10 @@ extension EririPlayer: VLCMediaPlayerDelegate {
             postNotification("Playing")
         case .paused:
             postNotification("Paused")
-        case .esAdded:
+            break
+        case .nothingSpecial:
+            break
+        case .buffering:
             break
         }
         playerInfo.state = state

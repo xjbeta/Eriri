@@ -8,16 +8,6 @@
 
 import Cocoa
 
-enum VLCMediaPlayerState: Int {
-    case stopped
-    case opening
-    case ended
-    case error
-    case playing
-    case paused
-    case esAdded
-}
-
 protocol VLCMediaPlayerDelegate {
     func mediaPlayerTimeChanged(_ time: VLCTime)
     func mediaPlayerPositionChanged(_ value: Float)
@@ -86,7 +76,8 @@ class VLCMediaPlayer: NSObject {
         let type = libvlc_event_type_t(rValue)
         
         DispatchQueue.main.async {
-            switch libvlc_event_e(UInt32(type)) {
+            let e = libvlc_event_e(UInt32(type))
+            switch e {
             // State
             case libvlc_MediaPlayerOpening:
                 d.mediaPlayerStateChanged(.opening)
@@ -102,7 +93,8 @@ class VLCMediaPlayer: NSObject {
             case libvlc_MediaPlayerEndReached:
                 d.mediaPlayerStateChanged(.ended)
             case libvlc_MediaPlayerESAdded:
-                d.mediaPlayerStateChanged(.esAdded)
+//                d.mediaPlayerStateChanged(.esAdded)
+                break
             case libvlc_MediaPlayerEncounteredError:
                 d.mediaPlayerStateChanged(.error)
                 
@@ -244,8 +236,31 @@ class VLCMediaPlayer: NSObject {
     func setMedia(_ url: String) {
         let instance = VLCLibrary.shared.instance
         let media = libvlc_media_new_location(instance, url)
-        guard let mp = mediaPlayer, let m = media else { return }
-        libvlc_media_player_set_media(mp, m)
+        libvlc_media_parse(media)
+        let status = libvlc_media_get_parsed_status(media)
+        print("parsed_status", status)
+        switch status {
+        case libvlc_media_parsed_status_skipped:
+            break
+        case libvlc_media_parsed_status_failed:
+            break
+        case libvlc_media_parsed_status_timeout:
+            break
+        case libvlc_media_parsed_status_done:
+            break
+        default:
+            break
+        }
+        
+        let mType = libvlc_media_get_type(media)
+        let type = VLCMediaType(type: mType)
+        
+        switch type {
+        case .file:
+            libvlc_media_player_set_media(mediaPlayer, media)
+        default:
+            assert(false, "VLCMediaType: \(type)")
+        }
     }
     
     func togglePlay() {
