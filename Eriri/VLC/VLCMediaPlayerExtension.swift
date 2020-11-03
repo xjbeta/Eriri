@@ -66,8 +66,7 @@ extension VLCMediaPlayer {
     
     func tracksInformation() -> [VLCInfomation] {
         var re = [VLCInfomation]()
-        guard let mp = mediaPlayer,
-            let m = libvlc_media_player_get_media(mp) else { return re }
+        guard let m = libvlc_media_player_get_media(mediaPlayer) else { return re }
 //        libvlc_media_get_parsed_status(m)
         
         libvlc_media_parse_with_options(m, libvlc_media_parse_local, 0)
@@ -191,10 +190,8 @@ extension VLCMediaPlayer {
 // MARK: - Observer
     
     func initEventAttachs() {
-        guard !eventsAttached,
-            let mp = mediaPlayer else { return }
-        eventManager = libvlc_media_player_event_manager(mp)
-        
+        guard !eventsAttached else { return }
+        eventManager = libvlc_media_player_event_manager(mediaPlayer)
         guard let em = eventManager else { return }
         
         attachEvents.forEach {

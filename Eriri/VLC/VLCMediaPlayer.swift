@@ -31,9 +31,8 @@ class VLCMediaPlayer: NSObject {
     let volumeMAX = 100
     let volumeMIN = 0
     
-    var mediaPlayer: UnsafeMutablePointer<libvlc_media_player_t>?
-    var player: UnsafeMutablePointer<vlc_player_t>?
-    
+    var mediaPlayer: UnsafeMutablePointer<libvlc_media_player_t>
+    var player: UnsafeMutablePointer<vlc_player_t>
     
     var eventManager: UnsafeMutablePointer<libvlc_event_manager_t>?
     var eventsAttached = false
@@ -131,12 +130,11 @@ class VLCMediaPlayer: NSObject {
     
     var videoSize: CGSize {
         get {
-            guard let mp = mediaPlayer else { return .zero }
             var width: UInt32 = 0
             var height: UInt32 = 0
             
-            guard libvlc_video_get_size(mp, 0, &width, &height) == 0 else {
-                return .zero
+            guard libvlc_video_get_size(mediaPlayer, 0, &width, &height) == 0 else {
+                return .init(width: 800, height: 450)
             }
             return .init(width: CGFloat(width),
                          height: CGFloat(height))
@@ -155,30 +153,25 @@ class VLCMediaPlayer: NSObject {
     
     var position: Float {
         get {
-            guard let mp = mediaPlayer else { return 0 }
-            return libvlc_media_player_get_position(mp)
+            return libvlc_media_player_get_position(mediaPlayer)
         }
     }
     
     func setPosition(_ value: Float,
                      _ fast: Bool) {
-        guard let mp = mediaPlayer else { return }
-        
         let v = Int64(Float(mediaLength.value) * value)
         delegate?.mediaPlayerTimeChanged(VLCTime(with: v))
-        if libvlc_media_player_is_seekable(mp) {
-            libvlc_media_player_set_position(mp, value, fast)
+        if libvlc_media_player_is_seekable(mediaPlayer) {
+            libvlc_media_player_set_position(mediaPlayer, value, fast)
         }
     }
     
     var volume: Int {
         get {
-            guard let mp = mediaPlayer else { return 0 }
-            let v = libvlc_audio_get_volume(mp)
+            let v = libvlc_audio_get_volume(mediaPlayer)
             return Int(v)
         }
         set {
-            guard let mp = mediaPlayer else { return }
             var v = newValue
             if v > volumeMAX {
                 v = volumeMAX
@@ -186,25 +179,31 @@ class VLCMediaPlayer: NSObject {
             if v < volumeMIN {
                 v = volumeMIN
             }
-            libvlc_audio_set_volume(mp, Int32(v))
+            libvlc_audio_set_volume(mediaPlayer, Int32(v))
+        }
+    }
+    
+    var rate: Float {
+        get {
+            return libvlc_media_player_get_rate(mediaPlayer)
+        }
+        set {
+            libvlc_media_player_set_rate(mediaPlayer, newValue)
         }
     }
     
     var mute: Bool {
         get {
-            guard let mp = mediaPlayer else { return true }
-            return libvlc_audio_get_mute(mp) == 1
+            return libvlc_audio_get_mute(mediaPlayer) == 1
         }
         set {
-            guard let mp = mediaPlayer else { return }
-            libvlc_audio_set_mute(mp, Int32(newValue ? 1 : 0))
+            libvlc_audio_set_mute(mediaPlayer, Int32(newValue ? 1 : 0))
         }
     }
     
     var delegate: VLCMediaPlayerDelegate? {
         didSet {
-            guard let mp = mediaPlayer else { return }
-            eventManager = libvlc_media_player_event_manager(mp)
+            eventManager = libvlc_media_player_event_manager(mediaPlayer)
             self.initEventAttachs()
         }
     }
@@ -214,11 +213,10 @@ class VLCMediaPlayer: NSObject {
         set {
             _videoView = newValue
             
-            guard let p = mediaPlayer,
-                let vv = _videoView else { return }
+            guard let vv = _videoView else { return }
             let v = UnsafeMutableRawPointer(Unmanaged.passUnretained(vv).toOpaque())
             
-            libvlc_media_player_set_nsobject(p, v)
+            libvlc_media_player_set_nsobject(mediaPlayer, v)
         }
         get {
             return _videoView
@@ -227,10 +225,10 @@ class VLCMediaPlayer: NSObject {
     
     
     override init() {
-        super.init()
         let instance = VLCLibrary.shared.instance
         mediaPlayer = libvlc_media_player_new(instance)
-        player = mediaPlayer?.pointee.player
+        player = mediaPlayer.pointee.player
+        super.init()
     }
     
     func setMedia(_ url: String) {
@@ -264,34 +262,23 @@ class VLCMediaPlayer: NSObject {
     }
     
     func togglePlay() {
-        guard let mp = mediaPlayer else { return }
-        libvlc_media_player_pause(mp)
+        libvlc_media_player_pause(mediaPlayer)
     }
     
     func toggleMute() {
-        guard let mp = mediaPlayer else { return }
-        libvlc_audio_toggle_mute(mp)
+        libvlc_audio_toggle_mute(mediaPlayer)
     }
     
     func isPlaying() -> Bool {
-        guard let mp = mediaPlayer else { return false }
-        return libvlc_media_player_is_playing(mp)
+        return libvlc_media_player_is_playing(mediaPlayer)
     }
     
     func play() {
-        guard let mp = mediaPlayer else { return }
-        libvlc_media_player_play(mp)
+        libvlc_media_player_play(mediaPlayer)
     }
-    
-    func pause() {
-        guard let mp = mediaPlayer else { return }
-        libvlc_media_player_set_pause(mp, 1)
-    }
-    
     
     func stop() {
-        guard let mp = mediaPlayer else { return }
-        libvlc_media_player_stop_async(mp)
+        libvlc_media_player_stop_async(mediaPlayer)
     }
     
     func seek(_ seconds: Int, _ fast: Bool) {
@@ -304,53 +291,68 @@ class VLCMediaPlayer: NSObject {
     }
     
     func currentTime() -> VLCTime {
-        let time = VLCTime(with: 0)
-        guard let mp = mediaPlayer else { return time }
-        time.value = libvlc_media_player_get_time(mp)
-        return time
+        let t = libvlc_media_player_get_time(mediaPlayer)
+        return VLCTime(with: t)
     }
     
     func setTime(_ time: VLCTime, _ fast: Bool) {
-        guard let mp = mediaPlayer else { return }
-        libvlc_media_player_set_time(mp, libvlc_time_t(time.value), fast)
+        libvlc_media_player_set_time(mediaPlayer, libvlc_time_t(time.value), fast)
     }
     
     func isSeekable() -> Bool {
-        guard let mp = mediaPlayer else { return false }
-        return libvlc_media_player_is_seekable(mp)
+        return libvlc_media_player_is_seekable(mediaPlayer)
     }
     
     
     func nextChapter() {
-        guard let mp = mediaPlayer else { return }
-        libvlc_media_player_next_chapter(mp)
+        libvlc_media_player_next_chapter(mediaPlayer)
     }
     
     func previousChapter() {
-        guard let mp = mediaPlayer else { return }
-        libvlc_media_player_previous_chapter(mp)
+        libvlc_media_player_previous_chapter(mediaPlayer)
     }
+    
+    func currentMedia() -> UnsafeMutablePointer<libvlc_media_t>? {
+        let media = libvlc_media_player_get_media(mediaPlayer)
+        return media
+    }
+    
+    func title() -> String {
+        let media = currentMedia()
+        let title = libvlc_media_get_meta(media, libvlc_meta_Title).toString()
+        return title
+    }
+    
+    func path() -> String {
+        let media = currentMedia()
+        guard let u = media?.pointee.p_input_item.pointee.psz_uri else { return "" }
+        return String(cString: u)
+    }
+    
+    func state() -> VLCMediaPlayerState {
+        let s = libvlc_media_player_get_state(mediaPlayer)
+        
+        return VLCMediaPlayerState(state: s)
+    }
+    
     
     // MARK: - Subtitles
     
     func setSubtitleIndex(_ index: Int) {
-        guard let mp = mediaPlayer else { return }
-        libvlc_video_set_spu(mp, Int32(index))
+        libvlc_video_set_spu(mediaPlayer, Int32(index))
     }
     
     func disableSubtitle() {
-        guard let p = player else { return }
-        vlc_player_Lock(p)
-        vlc_player_UnselectTrackCategory(p, SPU_ES)
-        vlc_player_Unlock(p)
+        vlc_player_Lock(player)
+        vlc_player_UnselectTrackCategory(player, SPU_ES)
+        vlc_player_Unlock(player)
     }
     
     func subtitles() -> VLCTrackDescription {
         var re = VLCTrackDescription()
-        guard let mp = mediaPlayer else { return re }
-        let count = libvlc_video_get_spu_count(mp)
-        let currentIndex = libvlc_video_get_spu(mp)
-        guard let list = libvlc_video_get_spu_description(mp) else {
+        let count = libvlc_video_get_spu_count(mediaPlayer)
+        let currentIndex = libvlc_video_get_spu(mediaPlayer)
+        guard let list = libvlc_video_get_spu_description(mediaPlayer) else {
             return re
         }
 
@@ -361,33 +363,32 @@ class VLCMediaPlayer: NSObject {
     }
     
     func loadSubtitle(_ url: String) {
-        guard let mp = mediaPlayer else { return }
-        libvlc_media_player_add_slave(mp, libvlc_media_slave_type_subtitle, NSString(string: url).utf8String, true)
+        libvlc_media_player_add_slave(
+            mediaPlayer,
+            libvlc_media_slave_type_subtitle,
+            url.cString(),
+            true)
     }
     
     func currentVideoSubTitleDelay() -> Float {
-        guard let mp = mediaPlayer else { return 0 }
-        return Float(libvlc_video_get_spu_delay(mp)) / 1000000
+        return Float(libvlc_video_get_spu_delay(mediaPlayer)) / 1000000
     }
     
     func setCurrentVideoSubTitleDelay(_ value: Float) {
-        guard let mp = mediaPlayer else { return }
-        libvlc_video_set_spu_delay(mp, Int64(value * 1000000))
+        libvlc_video_set_spu_delay(mediaPlayer, Int64(value * 1000000))
     }
     
     // MARK: - Audio
     
     func setAudioTrackIndex(_ index: Int) {
-        guard let mp = mediaPlayer else { return }
-        libvlc_audio_set_track(mp, Int32(index))
+        libvlc_audio_set_track(mediaPlayer, Int32(index))
     }
     
     func audioTracks() -> VLCTrackDescription {
         var re = VLCTrackDescription()
-        guard let mp = mediaPlayer else { return re }
-        let count = libvlc_audio_get_track_count(mp)
-        let currentIndex = libvlc_audio_get_track(mp)
-        guard let list = libvlc_audio_get_track_description(mp) else {
+        let count = libvlc_audio_get_track_count(mediaPlayer)
+        let currentIndex = libvlc_audio_get_track(mediaPlayer)
+        guard let list = libvlc_audio_get_track_description(mediaPlayer) else {
             return re
         }
         
@@ -398,13 +399,11 @@ class VLCMediaPlayer: NSObject {
     }
     
     func currentAudioPlaybackDelay() -> Float {
-        guard let mp = mediaPlayer else { return 0 }
-        return Float(libvlc_audio_get_delay(mp)) / 1000000
+        return Float(libvlc_audio_get_delay(mediaPlayer)) / 1000000
     }
     
     func setCurrentAudioPlaybackDelay(_ value: Float) {
-        guard let mp = mediaPlayer else { return }
-        libvlc_audio_set_delay(mp, Int64(value * 1000000))
+        libvlc_audio_set_delay(mediaPlayer, Int64(value * 1000000))
     }
 }
 
