@@ -66,7 +66,6 @@ class EririPlayer: NSObject {
         window.minSize = windowMinSize
         window.isMovableByWindowBackground = true
         window.contentView = NSHostingView(rootView: contentView)
-        window.setTitleWithRepresentedFilename(url.path)
         window.delegate = self
         window.backgroundColor = .black
         hideVCVTimer = .init(timeOut: .seconds(3)) {
@@ -293,6 +292,14 @@ extension EririPlayer: VLCMediaPlayerDelegate {
         case .buffering:
             break
         }
+        
+        if playerInfo.state == .opening,
+           (state == .paused || state == .playing || state == .buffering) {
+            let path = player.path()
+            let p = URL(string: path)?.path.removingPercentEncoding ?? ""
+            window.setTitleWithRepresentedFilename(p)
+        }
+        
         playerInfo.state = state
         initWindowFrame()
     }
