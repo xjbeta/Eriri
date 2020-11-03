@@ -229,6 +229,7 @@ class VLCMediaPlayer: NSObject {
         mediaPlayer = libvlc_media_player_new(instance)
         player = mediaPlayer.pointee.player
         super.init()
+        libvlc_set_user_agent(instance, "eriri".cString(), "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15".cString())
     }
     
     func setMedia(_ url: String) {
