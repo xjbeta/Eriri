@@ -85,15 +85,18 @@ struct PlayerSliderView: View {
         let knobWidth = self.knobSize.width
         let v = isSeeking ? dValue : value
         
+        var re: CGFloat = 0
+        
         switch type {
         case .played:
-            return proxy.size.width * CGFloat(v) - (knobWidth / 2 + 1)
+            re = proxy.size.width * CGFloat(v) - (knobWidth / 2 + 1)
         case .other:
-            return proxy.size.width * CGFloat(1 - v) - (knobWidth / 2 + 1)
+            re = proxy.size.width * CGFloat(1 - v) - (knobWidth / 2 + 1)
         default:
             break
         }
-        return 0
+        
+        return re > 0 ? re : 0
     }
     
     func knobOffset(isDragging: Bool, proxy: GeometryProxy, value: Float, dValue: Float) -> CGSize {
