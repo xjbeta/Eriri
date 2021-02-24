@@ -18,6 +18,8 @@
 		0138CD3023E95046008E8DEE /* WindowButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0138CD2F23E95046008E8DEE /* WindowButtons.swift */; };
 		0138CD3523E964DC008E8DEE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0138CD3423E964DC008E8DEE /* LoginView.swift */; };
 		0138CD3923E96A1E008E8DEE /* LoginViewInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0138CD3823E96A1E008E8DEE /* LoginViewInfo.swift */; };
+		01408B0A255254B800422FFD /* Libass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01408B09255254B800422FFD /* Libass.swift */; };
+		01408B602554CED900422FFD /* LibassBlendImage.c in Sources */ = {isa = PBXBuildFile; fileRef = 01408B5F2554CED900422FFD /* LibassBlendImage.c */; };
 		0155757D23E0686200ECC898 /* InfoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0155757C23E0686200ECC898 /* InfoContentView.swift */; };
 		015C2BB423EE8B0300C90D08 /* VLCMediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015C2BB323EE8B0200C90D08 /* VLCMediaPlayer.swift */; };
 		0189C95B23D5CA2F00FAAF83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0189C95A23D5CA2F00FAAF83 /* AppDelegate.swift */; };
@@ -44,6 +46,9 @@
 		01BA948A23F4286800DEE6D5 /* NSEventExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA948923F4286800DEE6D5 /* NSEventExtension.swift */; };
 		01BA949123F53B3E00DEE6D5 /* VLCMediaPlayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA949023F53B3E00DEE6D5 /* VLCMediaPlayerExtension.swift */; };
 		01BA949323F5456B00DEE6D5 /* PointerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA949223F5456B00DEE6D5 /* PointerExtension.swift */; };
+		01CC0EE425E3A4930057CA8D /* ASSShaderTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CC0EE225E3A4920057CA8D /* ASSShaderTypes.swift */; };
+		01CC0EE525E3A4930057CA8D /* ASSShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 01CC0EE325E3A4920057CA8D /* ASSShaders.metal */; };
+		01CC0EE925E3CC4B0057CA8D /* ASSRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CC0EE825E3CC4B0057CA8D /* ASSRenderer.swift */; };
 		01D4A39623DDBE4600CAA688 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */; };
 		01D4A39823DEA40200CAA688 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39723DEA40200CAA688 /* Utils.swift */; };
 		01D4A39A23DEE6D300CAA688 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39923DEE6D300CAA688 /* MainMenu.swift */; };
@@ -90,6 +95,9 @@
 		0138CD2F23E95046008E8DEE /* WindowButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowButtons.swift; sourceTree = "<group>"; };
 		0138CD3423E964DC008E8DEE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0138CD3823E96A1E008E8DEE /* LoginViewInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewInfo.swift; sourceTree = "<group>"; };
+		01408B09255254B800422FFD /* Libass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Libass.swift; sourceTree = "<group>"; };
+		01408B5E2554CED900422FFD /* LibassBlendImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibassBlendImage.h; sourceTree = "<group>"; };
+		01408B5F2554CED900422FFD /* LibassBlendImage.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = LibassBlendImage.c; sourceTree = "<group>"; };
 		014EB7CD2524C50200B7DEB3 /* gestures.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = gestures.c; sourceTree = "<group>"; };
 		014EB7CE2525A34E00B7DEB3 /* input.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = input.c; sourceTree = "<group>"; };
 		014EB7CF2525C0AA00B7DEB3 /* timer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = timer.c; sourceTree = "<group>"; };
@@ -239,6 +247,9 @@
 		01BA948923F4286800DEE6D5 /* NSEventExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSEventExtension.swift; sourceTree = "<group>"; };
 		01BA949023F53B3E00DEE6D5 /* VLCMediaPlayerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCMediaPlayerExtension.swift; sourceTree = "<group>"; };
 		01BA949223F5456B00DEE6D5 /* PointerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointerExtension.swift; sourceTree = "<group>"; };
+		01CC0EE225E3A4920057CA8D /* ASSShaderTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASSShaderTypes.swift; sourceTree = "<group>"; };
+		01CC0EE325E3A4920057CA8D /* ASSShaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = ASSShaders.metal; sourceTree = "<group>"; };
+		01CC0EE825E3CC4B0057CA8D /* ASSRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASSRenderer.swift; sourceTree = "<group>"; };
 		01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		01D4A39723DEA40200CAA688 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		01D4A39923DEE6D300CAA688 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
@@ -353,6 +364,19 @@
 			path = LoginView;
 			sourceTree = "<group>";
 		};
+		01408B082552548B00422FFD /* Libass */ = {
+			isa = PBXGroup;
+			children = (
+				01408B09255254B800422FFD /* Libass.swift */,
+				01CC0EE825E3CC4B0057CA8D /* ASSRenderer.swift */,
+				01408B5E2554CED900422FFD /* LibassBlendImage.h */,
+				01408B5F2554CED900422FFD /* LibassBlendImage.c */,
+				01CC0EE325E3A4920057CA8D /* ASSShaders.metal */,
+				01CC0EE225E3A4920057CA8D /* ASSShaderTypes.swift */,
+			);
+			path = Libass;
+			sourceTree = "<group>";
+		};
 		0189C94E23D5CA2F00FAAF83 = {
 			isa = PBXGroup;
 			children = (
@@ -376,6 +400,7 @@
 			children = (
 				0189C95A23D5CA2F00FAAF83 /* AppDelegate.swift */,
 				01D4A39923DEE6D300CAA688 /* MainMenu.swift */,
+				01408B082552548B00422FFD /* Libass */,
 				01BA948823F3E86600DEE6D5 /* VLC */,
 				01F103E923E0206800D12931 /* Utils */,
 				0189C98223D5ECFD00FAAF83 /* Views */,
@@ -646,15 +671,19 @@
 				018F0C2B23D6DEDB008ACF4B /* VideoControlView.swift in Sources */,
 				01BA949123F53B3E00DEE6D5 /* VLCMediaPlayerExtension.swift in Sources */,
 				01D4A3A223DF387900CAA688 /* WaitTimer.swift in Sources */,
+				01408B0A255254B800422FFD /* Libass.swift in Sources */,
 				0189C98423D5ED2600FAAF83 /* VideoView.swift in Sources */,
+				01CC0EE525E3A4930057CA8D /* ASSShaders.metal in Sources */,
 				019E2033254E4A94004D242F /* VLCMediaPlayerState.swift in Sources */,
 				01B1BBAE23EFA04200E24BD4 /* VLCTime.swift in Sources */,
 				0105D8D023E1C84300141E11 /* EririPlayer.swift in Sources */,
 				01D4A39623DDBE4600CAA688 /* VisualEffectView.swift in Sources */,
 				019E2035254FC982004D242F /* VLCMediaType.swift in Sources */,
+				01408B602554CED900422FFD /* LibassBlendImage.c in Sources */,
 				01D4A39A23DEE6D300CAA688 /* MainMenu.swift in Sources */,
 				0196C53423E93DA2007A0C96 /* URLTextField.swift in Sources */,
 				015C2BB423EE8B0300C90D08 /* VLCMediaPlayer.swift in Sources */,
+				01CC0EE425E3A4930057CA8D /* ASSShaderTypes.swift in Sources */,
 				01BA949323F5456B00DEE6D5 /* PointerExtension.swift in Sources */,
 				01B1BBAC23EF989A00E24BD4 /* VLCLibrary.swift in Sources */,
 				0189C95D23D5CA2F00FAAF83 /* VideoContentView.swift in Sources */,
@@ -662,6 +691,7 @@
 				0196C53223E93014007A0C96 /* UtilsVLCProtocolExtension.swift in Sources */,
 				01E2088C23F2BDD5002A2EBA /* VLCEventManager.swift in Sources */,
 				0138CD3023E95046008E8DEE /* WindowButtons.swift in Sources */,
+				01CC0EE925E3CC4B0057CA8D /* ASSRenderer.swift in Sources */,
 				01D4A39823DEA40200CAA688 /* Utils.swift in Sources */,
 				0196C53023E6DB59007A0C96 /* OpenURLView.swift in Sources */,
 				0138CD3923E96A1E008E8DEE /* LoginViewInfo.swift in Sources */,
