@@ -7,12 +7,14 @@
 //
 
 import SwiftUI
+import MetalKit
 
 struct VideoContentView: View {
     let window: NSWindow
     let player: VLCMediaPlayer
+    let mtkView: MTKView
     @ObservedObject var playerInfo: PlayerInfo
-    
+
     @State private var vcvCurrentPosition: CGPoint = .zero
     @State private var vcvNewPosition: CGPoint = .zero
     @State private var positionInited: Bool = false
@@ -23,6 +25,8 @@ struct VideoContentView: View {
                 .frame(minWidth: limitWindowSize(playerInfo.videoSize).width,
                        minHeight: limitWindowSize(playerInfo.videoSize).height)
 
+//            MetalView(mtkView: mtkView)
+            
             notificationView()
                 .padding(EdgeInsets(top:
                     (playerInfo.hideVCV ? 0 : (window.titleView()?.frame.height ?? 0))
@@ -172,6 +176,7 @@ struct VideoContentView_Previews: PreviewProvider {
     static var previews: some View {
         VideoContentView(window: NSWindow(),
                          player: VLCMediaPlayer(),
+                         mtkView: MTKView(),
                          playerInfo: info)
     }
 }

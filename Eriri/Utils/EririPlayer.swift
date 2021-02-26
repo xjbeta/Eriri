@@ -8,9 +8,13 @@
 
 import Cocoa
 import SwiftUI
+import MetalKit
 
 class PlayerInfo: ObservableObject, Identifiable {
     let id = UUID()
+    
+    var time: Int64 = 0
+    
     @Published var windowSize: CGSize = .zero
     @Published var state: VLCMediaPlayerState = .opening
     @Published var position: Float = 0
@@ -46,6 +50,9 @@ class EririPlayer: NSObject {
     
     private var positionIgnoreLimit = 0
     
+    let mtkView: MTKView
+//    let assRenderer: ASSRenderer
+
     enum ActionsType {
         case mouseEntered(event: NSEvent),
         mouseExited(event: NSEvent),
@@ -53,6 +60,9 @@ class EririPlayer: NSObject {
     }
     
     init(_ url: URL) {
+        mtkView = MTKView()
+//        assRenderer = ASSRenderer(mtkView, "/Users/xjbeta/Downloads/test files/Shelter.ass")
+        
         super.init()
         let windowMinSize = CGSize(width: 480, height: 270)
         window.styleMask = [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView]
@@ -61,7 +71,11 @@ class EririPlayer: NSObject {
         
         playerInfo.volume = Float(player.volume)
         
-        let contentView = VideoContentView(window: window, player: player, playerInfo: playerInfo)
+        let contentView = VideoContentView(
+            window: window,
+            player: player,
+            mtkView: mtkView,
+            playerInfo: playerInfo)
         
         window.minSize = windowMinSize
         window.isMovableByWindowBackground = true
@@ -87,11 +101,15 @@ class EririPlayer: NSObject {
                 i.notificationT2 = ""
             }
         }
+        
+
+        
     }
     
     func postNotification(_ label: String,
                           _ second: String = "") {
         
+        return 
         let i = self.playerInfo
         i.notificationT1 = label
         i.notificationT2 = second
@@ -306,6 +324,11 @@ extension EririPlayer: VLCMediaPlayerDelegate {
     
     
     func mediaPlayerTimeChanged(_ time: VLCTime) {
+        guard time.value != playerInfo.time else { return }
+        playerInfo.time = time.value
+        
+//        assRenderer.update(time.value)
+        
         playerInfo.leftTime = time.stringValue()
         let r = VLCTime(with: player.mediaLength.value - time.value).stringValue()
         playerInfo.rightTimeR = "-\(r)"
