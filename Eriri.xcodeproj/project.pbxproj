@@ -18,6 +18,8 @@
 		0138CD3023E95046008E8DEE /* WindowButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0138CD2F23E95046008E8DEE /* WindowButtons.swift */; };
 		0138CD3523E964DC008E8DEE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0138CD3423E964DC008E8DEE /* LoginView.swift */; };
 		0138CD3923E96A1E008E8DEE /* LoginViewInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0138CD3823E96A1E008E8DEE /* LoginViewInfo.swift */; };
+		01408AED25524F1F00422FFD /* libass.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 01408AEC25524F1F00422FFD /* libass.9.dylib */; };
+		01408B06255250C200422FFD /* libass.9.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 01408AEC25524F1F00422FFD /* libass.9.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		01408B0A255254B800422FFD /* Libass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01408B09255254B800422FFD /* Libass.swift */; };
 		01408B602554CED900422FFD /* LibassBlendImage.c in Sources */ = {isa = PBXBuildFile; fileRef = 01408B5F2554CED900422FFD /* LibassBlendImage.c */; };
 		0155757D23E0686200ECC898 /* InfoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0155757C23E0686200ECC898 /* InfoContentView.swift */; };
@@ -64,6 +66,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				01408B06255250C200422FFD /* libass.9.dylib in Embed Frameworks */,
 				012AB6E423FE68C700B6A477 /* libvlccore.dylib in Embed Frameworks */,
 				012AB6E523FE68C700B6A477 /* libvlc.dylib in Embed Frameworks */,
 				0189C97923D5E8C700FAAF83 /* PromiseKit.framework in Embed Frameworks */,
@@ -95,6 +98,9 @@
 		0138CD2F23E95046008E8DEE /* WindowButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowButtons.swift; sourceTree = "<group>"; };
 		0138CD3423E964DC008E8DEE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0138CD3823E96A1E008E8DEE /* LoginViewInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewInfo.swift; sourceTree = "<group>"; };
+		01408AEC25524F1F00422FFD /* libass.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libass.9.dylib; sourceTree = "<group>"; };
+		01408AF52552507800422FFD /* ass_types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ass_types.h; sourceTree = "<group>"; };
+		01408AFE2552507800422FFD /* ass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ass.h; sourceTree = "<group>"; };
 		01408B09255254B800422FFD /* Libass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Libass.swift; sourceTree = "<group>"; };
 		01408B5E2554CED900422FFD /* LibassBlendImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibassBlendImage.h; sourceTree = "<group>"; };
 		01408B5F2554CED900422FFD /* LibassBlendImage.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = LibassBlendImage.c; sourceTree = "<group>"; };
@@ -267,6 +273,7 @@
 				0189C97823D5E8C700FAAF83 /* PromiseKit.framework in Frameworks */,
 				012AB6E323FE68BF00B6A477 /* libvlc.dylib in Frameworks */,
 				0189C97B23D5E8C800FAAF83 /* Sparkle.framework in Frameworks */,
+				01408AED25524F1F00422FFD /* libass.9.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,6 +371,32 @@
 			path = LoginView;
 			sourceTree = "<group>";
 		};
+		01408AEA25524EF400422FFD /* libass */ = {
+			isa = PBXGroup;
+			children = (
+				01408AEE25524F2D00422FFD /* include */,
+				01408AEB25524F0F00422FFD /* lib */,
+			);
+			path = libass;
+			sourceTree = "<group>";
+		};
+		01408AEB25524F0F00422FFD /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				01408AEC25524F1F00422FFD /* libass.9.dylib */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		01408AEE25524F2D00422FFD /* include */ = {
+			isa = PBXGroup;
+			children = (
+				01408AF52552507800422FFD /* ass_types.h */,
+				01408AFE2552507800422FFD /* ass.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
 		01408B082552548B00422FFD /* Libass */ = {
 			isa = PBXGroup;
 			children = (
@@ -380,6 +413,7 @@
 		0189C94E23D5CA2F00FAAF83 = {
 			isa = PBXGroup;
 			children = (
+				01408AEA25524EF400422FFD /* libass */,
 				012AB6CE23FE68BF00B6A477 /* libvlc */,
 				0189C95923D5CA2F00FAAF83 /* Eriri */,
 				0189C95823D5CA2F00FAAF83 /* Products */,
@@ -851,6 +885,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/libvlc/include",
 					"$(PROJECT_DIR)/libvlc/include/vlc/plugins",
+					"$(PROJECT_DIR)/libass/include",
 				);
 				INFOPLIST_FILE = Eriri/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -860,6 +895,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libvlc/lib",
+					"$(PROJECT_DIR)/libass/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xjbeta.Eriri;
@@ -888,6 +924,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/libvlc/include",
 					"$(PROJECT_DIR)/libvlc/include/vlc/plugins",
+					"$(PROJECT_DIR)/libass/include",
 				);
 				INFOPLIST_FILE = Eriri/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -897,6 +934,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libvlc/lib",
+					"$(PROJECT_DIR)/libass/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xjbeta.Eriri;
