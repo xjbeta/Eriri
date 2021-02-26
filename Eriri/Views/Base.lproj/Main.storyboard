@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -338,6 +339,28 @@
                                                 <action selector="resetSubtitleDelay:" target="HwL-s0-OUP" id="gtU-L0-rhp"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="bbz-Ot-AbW"/>
+                                        <menuItem title="Subtitle Scale: 1" enabled="NO" id="h7M-KT-EHu">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="Subtitle Scale + 0.1" id="1j8-yD-Svf">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="subtitleScaleIncrease:" target="HwL-s0-OUP" id="Mh1-3u-AZV"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Subtitle Scale - 0.1" id="460-4n-6ZP">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="subtitleScaleDecrease:" target="HwL-s0-OUP" id="bWh-ZN-Omt"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Reset Subtitle Scale" id="CeM-VT-eKl">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="resetSubtitleScale:" target="HwL-s0-OUP" id="rbV-ku-gY1"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                     <connections>
                                         <outlet property="delegate" destination="HwL-s0-OUP" id="Kd4-HQ-rfl"/>
@@ -424,6 +447,7 @@
                         <outlet property="previousChapterMenuItem" destination="jjL-gm-EFd" id="dgw-5B-ayb"/>
                         <outlet property="resetAudioDelayMenuItem" destination="9uP-B0-Ihi" id="uVP-Zy-8eK"/>
                         <outlet property="resetSubtitleDelayMenuItem" destination="B6U-iB-h4Q" id="gPM-BG-ZC4"/>
+                        <outlet property="resetSubtitleScaleMenuItem" destination="CeM-VT-eKl" id="7jA-KS-x3b"/>
                         <outlet property="snapshotMenuItem" destination="x5O-nR-aT3" id="9yI-sj-c9A"/>
                         <outlet property="stepBackwardMenuItem" destination="1PJ-O3-VU9" id="p4d-EG-nnu"/>
                         <outlet property="stepForwardMenuItem" destination="NJI-HD-4Ut" id="oDZ-lp-jN5"/>
@@ -431,6 +455,9 @@
                         <outlet property="subtitleDelayIncreaseMenuItem" destination="GYC-Fg-FEQ" id="v64-y2-z6h"/>
                         <outlet property="subtitleDelayMenuItem" destination="qPH-ON-nLb" id="ZTf-iW-rUA"/>
                         <outlet property="subtitleListMenu" destination="nWA-mt-cn7" id="CFh-JT-vY7"/>
+                        <outlet property="subtitleScaleDecreaseMenuItem" destination="460-4n-6ZP" id="KGL-yc-8Yi"/>
+                        <outlet property="subtitleScaleIncreaseMenuItem" destination="1j8-yD-Svf" id="SW9-Ln-VdG"/>
+                        <outlet property="subtitleScaleMenuItem" destination="h7M-KT-EHu" id="0qV-Iv-KJb"/>
                         <outlet property="subtitlesMenu" destination="lDg-Qw-Mvn" id="XJX-uS-6c4"/>
                         <outlet property="subtitlesMenuItem" destination="rra-Dn-UcE" id="Um7-LO-Wgd"/>
                         <outlet property="videoMenu" destination="y5H-vb-YcS" id="cLN-u8-De7"/>

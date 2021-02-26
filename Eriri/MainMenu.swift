@@ -93,6 +93,13 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             guard let player = currentPlayer else { return false }
             return true
             
+            
+        case subtitleScaleIncreaseMenuItem,
+                 subtitleScaleDecreaseMenuItem, resetSubtitleScaleMenuItem:
+                guard let player = currentPlayer else { return false }
+                
+                return true
+            
         case infoMenuItem:
             guard let player = currentPlayer else { return false }
             return true
@@ -306,6 +313,22 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     @IBAction func resetSubtitleDelay(_ sender: NSMenuItem) {
         guard let p = currentPlayer?.player else { return }
         p.setCurrentVideoSubTitleDelay(0)
+    }
+    
+    @IBOutlet weak var subtitleScaleMenuItem: NSMenuItem!
+    
+    @IBOutlet weak var subtitleScaleIncreaseMenuItem: NSMenuItem!
+    @IBAction func subtitleScaleIncrease(_ sender: NSMenuItem) {
+        guard let p = currentPlayer else { return }
+//        p.assRenderer.libass.setFontScale(2)
+    }
+    
+    @IBOutlet weak var subtitleScaleDecreaseMenuItem: NSMenuItem!
+    @IBAction func subtitleScaleDecrease(_ sender: NSMenuItem) {
+    }
+    
+    @IBOutlet weak var resetSubtitleScaleMenuItem: NSMenuItem!
+    @IBAction func resetSubtitleScale(_ sender: NSMenuItem) {
     }
     
 // MARK: - Window
