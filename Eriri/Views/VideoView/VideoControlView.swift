@@ -48,11 +48,10 @@ struct VideoControlView: View {
     var centerItems: some View {
         HStack(alignment: .center, spacing: 30) {
             Button(action: {
-                print("Previous")
+                player.rate *= 0.5
             }) {
-                Image(nsImage: NSImage(named: .init("NSSkipBackTemplate"))!)
+                Image(nsImage: NSImage(named: .init("NSRewindTemplate"))!)
             }.buttonStyle(ImageButtonStyle())
-                .foregroundColor(Color.green)
             
             Button(action: {
                 self.player.togglePlay()
@@ -64,9 +63,9 @@ struct VideoControlView: View {
                 .frame(width: 26, height: 24, alignment: .center)
             
             Button(action: {
-                print("Next")
+                player.rate *= 2
             }) {
-                Image(nsImage: NSImage(named: .init("NSSkipAheadTemplate"))!)
+                Image(nsImage: NSImage(named: .init("NSFastForwardTemplate"))!)
             }.buttonStyle(ImageButtonStyle())
         }
     }
@@ -125,10 +124,13 @@ struct VideoControlView: View {
     }
     
     struct ImageButtonStyle: ButtonStyle {
+        var disabled: Bool = false
+        
         func makeBody(configuration: Self.Configuration) -> some View {
             configuration.label
                 .foregroundColor(Color.white)
-                .opacity(configuration.isPressed ? 0.9 : 0.75)
+                .disabled(disabled)
+                .opacity(disabled ? 0.3 : (configuration.isPressed ? 0.9 : 0.75))
         }
     }
 }
