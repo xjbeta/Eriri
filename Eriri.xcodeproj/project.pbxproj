@@ -50,6 +50,7 @@
 		01BA949323F5456B00DEE6D5 /* PointerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA949223F5456B00DEE6D5 /* PointerExtension.swift */; };
 		01CC0EE425E3A4930057CA8D /* ASSShaderTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CC0EE225E3A4920057CA8D /* ASSShaderTypes.swift */; };
 		01CC0EE525E3A4930057CA8D /* ASSShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 01CC0EE325E3A4920057CA8D /* ASSShaders.metal */; };
+		01CC0EE725E3A4E30057CA8D /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CC0EE625E3A4E30057CA8D /* MetalView.swift */; };
 		01CC0EE925E3CC4B0057CA8D /* ASSRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CC0EE825E3CC4B0057CA8D /* ASSRenderer.swift */; };
 		01D4A39623DDBE4600CAA688 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */; };
 		01D4A39823DEA40200CAA688 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D4A39723DEA40200CAA688 /* Utils.swift */; };
@@ -255,6 +256,7 @@
 		01BA949223F5456B00DEE6D5 /* PointerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointerExtension.swift; sourceTree = "<group>"; };
 		01CC0EE225E3A4920057CA8D /* ASSShaderTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASSShaderTypes.swift; sourceTree = "<group>"; };
 		01CC0EE325E3A4920057CA8D /* ASSShaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = ASSShaders.metal; sourceTree = "<group>"; };
+		01CC0EE625E3A4E30057CA8D /* MetalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 		01CC0EE825E3CC4B0057CA8D /* ASSRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASSRenderer.swift; sourceTree = "<group>"; };
 		01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		01D4A39723DEA40200CAA688 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 				0189C98323D5ED2600FAAF83 /* VideoView.swift */,
 				01D4A39523DDBE4600CAA688 /* VisualEffectView.swift */,
 				01097A3E23E56C1900958F6E /* PlayerSliderView.swift */,
+				01CC0EE625E3A4E30057CA8D /* MetalView.swift */,
 			);
 			path = VideoView;
 			sourceTree = "<group>";
@@ -723,6 +726,7 @@
 				0189C95D23D5CA2F00FAAF83 /* VideoContentView.swift in Sources */,
 				01F103E823E01ECA00D12931 /* NSWindowExtension.swift in Sources */,
 				0196C53223E93014007A0C96 /* UtilsVLCProtocolExtension.swift in Sources */,
+				01CC0EE725E3A4E30057CA8D /* MetalView.swift in Sources */,
 				01E2088C23F2BDD5002A2EBA /* VLCEventManager.swift in Sources */,
 				0138CD3023E95046008E8DEE /* WindowButtons.swift in Sources */,
 				01CC0EE925E3CC4B0057CA8D /* ASSRenderer.swift in Sources */,
