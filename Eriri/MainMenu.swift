@@ -20,11 +20,11 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     }
     
     func menuNeedsUpdate(_ menu: NSMenu) {
-        guard let player = currentPlayer?.player else { return }
+        guard let p = currentPlayer else { return }
         switch menu {
         case subtitleListMenu:
             menu.removeAllItems()
-            let subtitles = player.subtitles()
+            let subtitles = p.player.subtitles()
             let current = subtitles.currentIndex
             let noneItem = NSMenuItem()
             noneItem.state = current == -1 ? .on : .off
@@ -45,7 +45,7 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             }
         case audioTrackMenu:
             menu.removeAllItems()
-            let tracks = player.audioTracks()
+            let tracks = p.player.audioTracks()
             let current = tracks.currentIndex
             tracks.descriptions.forEach {
                 let item = NSMenuItem()
@@ -59,12 +59,17 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
                 menu.addItem(item)
             }
         case subtitlesMenu:
-            let v = player.currentVideoSubTitleDelay()
+            let v = p.player.currentVideoSubTitleDelay()
             
             subtitleDelayMenuItem.title = "Subtitle Delay: \(v)s"
         case audioMenu:
-            let v = player.currentAudioPlaybackDelay()
+            let v = p.player.currentAudioPlaybackDelay()
             audioDelayMenuItem.title = "Audio Delay: \(v)s"
+            
+        case videoMenu:
+            floatOnTopMenuItem.state = p.window.level == .floating ? .on : .off
+            
+            
         default:
             break
         }
@@ -260,6 +265,10 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     
     @IBOutlet weak var floatOnTopMenuItem: NSMenuItem!
     @IBAction func floatOnTop(_ sender: NSMenuItem) {
+        guard let w = currentPlayer?.window else { return }
+        let isFloating = w.level == .floating
+        w.level = isFloating ? .normal : .floating
+        sender.state = isFloating ? .off : .off
     }
     
     @IBOutlet weak var snapshotMenuItem: NSMenuItem!

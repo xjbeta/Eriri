@@ -238,6 +238,9 @@
                                             </connections>
                                         </menuItem>
                                     </items>
+                                    <connections>
+                                        <outlet property="delegate" destination="HwL-s0-OUP" id="QZl-Bk-gzx"/>
+                                    </connections>
                                 </menu>
                             </menuItem>
                             <menuItem title="Audio" id="7hN-wp-ldl">
