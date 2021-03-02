@@ -136,8 +136,8 @@ class VLCMediaPlayer: NSObject {
             guard libvlc_video_get_size(mediaPlayer, 0, &width, &height) == 0 else {
                 return .init(width: 800, height: 450)
             }
-            return .init(width: CGFloat(width),
-                         height: CGFloat(height))
+            return .init(width: CGFloat(width / 2),
+                         height: CGFloat(height / 2))
         }
     }
     
