@@ -1,7 +1,10 @@
 /*****************************************************************************
- * interrupt.h:
+ * vlc_main.h: access to all program variables
+ * Declaration and extern access to LibVLC instance object.
  *****************************************************************************
- * Copyright (C) 2015 Rémi Denis-Courmont
+ * Copyright (C) 1999, 2000, 2001, 2002, 2008 VLC authors and VideoLAN
+ *
+ * Authors: Vincent Seguin <seguin@via.ecp.fr>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -18,23 +21,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-/** @ingroup interrupt */
-#ifndef LIBVLC_INPUT_SIGNAL_H
-# define LIBVLC_INPUT_SIGNAL_H 1
+/**
+ * \file
+ * This file defines libvlc_int_t internal libvlc instance
+ */
 
-# include <stdatomic.h>
-
-# include <vlc_interrupt.h>
-
-void vlc_interrupt_init(vlc_interrupt_t *);
-void vlc_interrupt_deinit(vlc_interrupt_t *);
-
-struct vlc_interrupt
+/*****************************************************************************
+ * libvlc_internal_instance_t
+ *****************************************************************************
+ * This structure is a LibVLC instance, for use by libvlc core and plugins
+ *****************************************************************************/
+struct libvlc_int_t
 {
-    vlc_mutex_t lock;
-    bool interrupted;
-    atomic_bool killed;
-    void (*callback)(void *);
-    void *data;
+    VLC_COMMON_MEMBERS
 };
-#endif
+

@@ -3,6 +3,7 @@
  * Also contains some internal utility functions
  *****************************************************************************
  * Copyright (C) 2005-2009 VLC authors and VideoLAN
+ * $Id: d1cc28486cda2cbe750663123eabe6bdc50df02e $
  *
  * Authors: Clément Stenac <zorglub@videolan.org>
  *
@@ -30,15 +31,10 @@
 
 #include <vlc/libvlc.h>
 #include <vlc/libvlc_dialog.h>
-#include <vlc/libvlc_picture.h>
 #include <vlc/libvlc_media.h>
 #include <vlc/libvlc_events.h>
-#include <vlc_atomic.h>
 
 #include <vlc_common.h>
-
-#include <vlc_interface.h>
-
 
 /* Note well: this header is included from LibVLC core.
  * Therefore, static inline functions MUST NOT call LibVLC functions here
@@ -47,7 +43,6 @@
 /***************************************************************************
  * Internal creation and destruction functions
  ***************************************************************************/
-VLC_API intf_thread_t *libvlc_InterfaceThread (libvlc_int_t *libvlc);
 VLC_API libvlc_int_t *libvlc_InternalCreate( void );
 VLC_API int libvlc_InternalInit( libvlc_int_t *, int, const char *ppsz_argv[] );
 VLC_API void libvlc_InternalCleanup( libvlc_int_t * );
@@ -65,7 +60,9 @@ VLC_API void libvlc_SetExitHandler( libvlc_int_t *, void (*) (void *), void * );
 struct libvlc_instance_t
 {
     libvlc_int_t *p_libvlc_int;
-    vlc_atomic_rc_t ref_count;
+    struct libvlc_vlm_t *vlm;
+    unsigned      ref_count;
+    vlc_mutex_t   instance_lock;
     struct libvlc_callback_entry_list_t *p_callback_list;
     struct
     {
@@ -102,14 +99,14 @@ void libvlc_event_send(
         libvlc_event_manager_t * p_em,
         libvlc_event_t * p_event );
 
-static inline libvlc_time_t from_mtime(vlc_tick_t time)
+static inline libvlc_time_t from_mtime(mtime_t time)
 {
     return (time + 500ULL)/ 1000ULL;
 }
 
-static inline vlc_tick_t to_mtime(libvlc_time_t time)
+static inline mtime_t to_mtime(libvlc_time_t time)
 {
-    return VLC_TICK_FROM_MS(time);
+    return time * 1000ULL;
 }
 
 #endif

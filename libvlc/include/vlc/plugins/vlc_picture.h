@@ -2,6 +2,7 @@
  * vlc_picture.h: picture definitions
  *****************************************************************************
  * Copyright (C) 1999 - 2009 VLC authors and VideoLAN
+ * $Id: 74f156fbbd6e6a4479754c0e79fbd5374a4a1e2e $
  *
  * Authors: Vincent Seguin <seguin@via.ecp.fr>
  *          Samuel Hocevar <sam@via.ecp.fr>
@@ -25,16 +26,6 @@
 #ifndef VLC_PICTURE_H
 #define VLC_PICTURE_H 1
 
-#include <assert.h>
-#ifndef __cplusplus
-#include <stdatomic.h>
-#else
-#include <atomic>
-using std::atomic_uintptr_t;
-using std::memory_order_relaxed;
-using std::memory_order_release;
-#endif
-
 /**
  * \file
  * This file defines picture structures and functions in vlc
@@ -55,8 +46,8 @@ typedef struct plane_t
     int i_pixel_pitch;
 
     /* Variables used for pictures with margins */
-    int i_visible_lines;            /**< How many visible lines are there? */
-    int i_visible_pitch;            /**< How many visible pixels are there? */
+    int i_visible_lines;            /**< How many visible lines are there ? */
+    int i_visible_pitch;            /**< How many visible pixels are there ? */
 
 } plane_t;
 
@@ -69,56 +60,7 @@ typedef struct picture_context_t
 {
     void (*destroy)(struct picture_context_t *);
     struct picture_context_t *(*copy)(struct picture_context_t *);
-    struct vlc_video_context *vctx;
 } picture_context_t;
-
-typedef struct picture_buffer_t
-{
-    int fd;
-    void *base;
-    size_t size;
-    off_t offset;
-} picture_buffer_t;
-
-typedef struct vlc_decoder_device vlc_decoder_device;
-typedef struct vlc_video_context vlc_video_context;
-
-struct vlc_video_context_operations
-{
-    void (*destroy)(void *priv);
-};
-
-/** Decoder device type */
-enum vlc_video_context_type
-{
-    VLC_VIDEO_CONTEXT_NONE,
-    VLC_VIDEO_CONTEXT_VAAPI,
-    VLC_VIDEO_CONTEXT_VDPAU,
-    VLC_VIDEO_CONTEXT_DXVA2, /**< private: d3d9_video_context_t* */
-    VLC_VIDEO_CONTEXT_D3D11VA,  /**< private: d3d11_video_context_t* */
-    VLC_VIDEO_CONTEXT_AWINDOW, /**< private: android_video_context_t* */
-    VLC_VIDEO_CONTEXT_NVDEC,
-    VLC_VIDEO_CONTEXT_CVPX,
-    VLC_VIDEO_CONTEXT_MMAL,
-};
-
-VLC_API vlc_video_context * vlc_video_context_Create(vlc_decoder_device *,
-                                        enum vlc_video_context_type private_type,
-                                        size_t private_size,
-                                        const struct vlc_video_context_operations *);
-VLC_API void vlc_video_context_Release(vlc_video_context *);
-
-VLC_API enum vlc_video_context_type vlc_video_context_GetType(const vlc_video_context *);
-VLC_API void *vlc_video_context_GetPrivate(vlc_video_context *, enum vlc_video_context_type);
-VLC_API vlc_video_context *vlc_video_context_Hold(vlc_video_context *);
-
-/**
- * Get the decoder device used by the device context.
- *
- * This will increment the refcount of the decoder device.
- */
-VLC_API vlc_decoder_device *vlc_video_context_HoldDevice(vlc_video_context *);
-
 
 /**
  * Video picture
@@ -137,35 +79,27 @@ struct picture_t
      * These properties can be modified using the video output thread API,
      * but should never be written directly */
     /**@{*/
-    vlc_tick_t      date;                                  /**< display date */
+    mtime_t         date;                                  /**< display date */
     bool            b_force;
-    bool            b_still;
     /**@}*/
 
     /** \name Picture dynamic properties
      * Those properties can be changed by the decoder
      * @{
      */
-    bool            b_progressive;          /**< is it a progressive frame? */
+    bool            b_progressive;          /**< is it a progressive frame ? */
     bool            b_top_field_first;             /**< which field is first */
-    unsigned int    i_nb_fields;                  /**< number of displayed fields */
+    unsigned int    i_nb_fields;                  /**< # of displayed fields */
     picture_context_t *context;      /**< video format-specific data pointer */
     /**@}*/
 
     /** Private data - the video output plugin might want to put stuff here to
      * keep track of the picture */
-    void           *p_sys;
+    picture_sys_t * p_sys;
 
     /** Next picture in a FIFO a pictures */
     struct picture_t *p_next;
-
-    atomic_uintptr_t refs;
 };
-
-static inline vlc_video_context* picture_GetVideoContext(picture_t *pic)
-{
-    return pic->context ? pic->context->vctx : NULL;
-}
 
 /**
  * This function will create a new picture.
@@ -188,7 +122,7 @@ VLC_API picture_t * picture_NewFromFormat( const video_format_t *p_fmt ) VLC_USE
  */
 typedef struct
 {
-    void *p_sys;
+    picture_sys_t *p_sys;
     void (*pf_destroy)(picture_t *);
 
     /* Plane resources
@@ -205,44 +139,24 @@ typedef struct
 
 /**
  * This function will create a new picture using the provided resource.
+ *
+ * If the resource is NULL then a plain picture_NewFromFormat is returned.
  */
 VLC_API picture_t * picture_NewFromResource( const video_format_t *, const picture_resource_t * ) VLC_USED;
 
 /**
- * Destroys a picture without references.
+ * This function will increase the picture reference count.
+ * It will not have any effect on picture obtained from vout
  *
- * This function destroys a picture with zero references left.
- * Never call this function directly. Use picture_Release() instead.
+ * It returns the given picture for convenience.
  */
-VLC_API void picture_Destroy(picture_t *picture);
+VLC_API picture_t *picture_Hold( picture_t *p_picture );
 
 /**
- * Increments the picture reference count.
- *
- * \return picture
+ * This function will release a picture.
+ * It will not have any effect on picture obtained from vout
  */
-static inline picture_t *picture_Hold(picture_t *picture)
-{
-    atomic_fetch_add_explicit(&picture->refs, (uintptr_t)1,
-                              memory_order_relaxed);
-    return picture;
-}
-
-/**
- * Decrements the picture reference count.
- *
- * If the reference count reaches zero, the picture is destroyed. If it was
- * allocated from a pool, the underlying picture buffer will be returned to the
- * pool. Otherwise, the picture buffer will be freed.
- */
-static inline void picture_Release(picture_t *picture)
-{
-    uintptr_t refs = atomic_fetch_sub_explicit(&picture->refs, (uintptr_t)1,
-                                               memory_order_release);
-    vlc_assert(refs > 0);
-    if (refs == 1)
-        picture_Destroy(picture);
-}
+VLC_API void picture_Release( picture_t *p_picture );
 
 /**
  * This function will copy all picture dynamic properties.
@@ -298,13 +212,10 @@ VLC_API picture_t *picture_Clone(picture_t *pic);
  *  - if strictly lower than 0, the original dimension will be used.
  *  - if equal to 0, it will be deduced from the other dimension which must be
  *  different to 0.
- *  - if strictly higher than 0, it will either override the dimension if b_crop
- *  is false, or crop the picture to the provided size if b_crop is true.
+ *  - if strictly higher than 0, it will override the dimension.
  * If at most one of them is > 0 then the picture aspect ratio will be kept.
  */
-VLC_API int picture_Export( vlc_object_t *p_obj, block_t **pp_image, video_format_t *p_fmt,
-                            picture_t *p_picture, vlc_fourcc_t i_format, int i_override_width,
-                            int i_override_height, bool b_crop );
+VLC_API int picture_Export( vlc_object_t *p_obj, block_t **pp_image, video_format_t *p_fmt, picture_t *p_picture, vlc_fourcc_t i_format, int i_override_width, int i_override_height );
 
 /**
  * This function will setup all fields of a picture_t without allocating any
@@ -342,20 +253,6 @@ enum
 #define V_PITCH      p[V_PLANE].i_pitch
 #define A_PIXELS     p[A_PLANE].p_pixels
 #define A_PITCH      p[A_PLANE].i_pitch
-
-/**
- * Swap UV planes of a Tri Planars picture.
- *
- * It just swap the planes information without doing any copy.
- */
-static inline void picture_SwapUV(picture_t *picture)
-{
-    vlc_assert(picture->i_planes == 3);
-
-    plane_t tmp_plane   = picture->p[U_PLANE];
-    picture->p[U_PLANE] = picture->p[V_PLANE];
-    picture->p[V_PLANE] = tmp_plane;
-}
 
 /**@}*/
 

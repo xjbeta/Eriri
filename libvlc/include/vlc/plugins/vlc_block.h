@@ -2,6 +2,7 @@
  * vlc_block.h: Data blocks management functions
  *****************************************************************************
  * Copyright (C) 2003 VLC authors and VideoLAN
+ * $Id: 1c9478301687233398adbb7de7da4ffc4a101f89 $
  *
  * Authors: Laurent Aimar <fenrir@via.ecp.fr>
  *
@@ -48,7 +49,7 @@
  * - i_flags may not always be set (ie could be 0, even for a key frame
  *      it depends where you receive the buffer (before/after a packetizer
  *      and the demux/packetizer implementations.
- * - i_dts/i_pts could be VLC_TICK_INVALID, it means no pts/dts
+ * - i_dts/i_pts could be VLC_TS_INVALID, it means no pts/dts
  * - i_length: length in microseond of the packet, can be null except in the
  *      sout where it is mandatory.
  *
@@ -84,14 +85,12 @@
 #define BLOCK_FLAG_PREROLL       0x0200
 /** This block is corrupted and/or there is data loss  */
 #define BLOCK_FLAG_CORRUPTED     0x0400
-/** This block is last of its access unit */
-#define BLOCK_FLAG_AU_END        0x0800
 /** This block contains an interlaced picture with top field stored first */
-#define BLOCK_FLAG_TOP_FIELD_FIRST 0x1000
+#define BLOCK_FLAG_TOP_FIELD_FIRST 0x0800
 /** This block contains an interlaced picture with bottom field stored first */
-#define BLOCK_FLAG_BOTTOM_FIELD_FIRST 0x2000
+#define BLOCK_FLAG_BOTTOM_FIELD_FIRST 0x1000
 /** This block contains a single field from interlaced picture. */
-#define BLOCK_FLAG_SINGLE_FIELD  0x4000
+#define BLOCK_FLAG_SINGLE_FIELD  0x2000
 
 /** This block contains an interlaced picture */
 #define BLOCK_FLAG_INTERLACED_MASK \
@@ -108,10 +107,7 @@
 #define BLOCK_FLAG_PRIVATE_MASK  0xff000000
 #define BLOCK_FLAG_PRIVATE_SHIFT 24
 
-struct vlc_block_callbacks
-{
-    void (*free)(block_t *);
-};
+typedef void (*block_free_t) (block_t *);
 
 struct block_t
 {
@@ -125,32 +121,15 @@ struct block_t
     uint32_t    i_flags;
     unsigned    i_nb_samples; /* Used for audio */
 
-    vlc_tick_t  i_pts;
-    vlc_tick_t  i_dts;
-    vlc_tick_t  i_length;
+    mtime_t     i_pts;
+    mtime_t     i_dts;
+    mtime_t     i_length;
 
-    const struct vlc_block_callbacks *cbs;
+    /* Rudimentary support for overloading block (de)allocation. */
+    block_free_t pf_release;
 };
 
-/**
- * Initializes a custom block.
- *
- * This function initialize a block of timed data allocated by custom means.
- * This allows passing data with copying even if the data has been allocated
- * with unusual means or outside of LibVLC.
- *
- * Normally, blocks are allocated and initialized by block_Alloc() instead.
- *
- * @param block allocated block structure to initialize
- * @param cbs structure of custom callbacks to handle the block [IN]
- * @param base start address of the block data
- * @param length byte length of the block data
- *
- * @return @c block (this function cannot fail)
- */
-VLC_API block_t *block_Init(block_t *block,
-                            const struct vlc_block_callbacks *cbs,
-                            void *base, size_t length);
+VLC_API void block_Init( block_t *, void *, size_t );
 
 /**
  * Allocates a block.
@@ -196,13 +175,16 @@ VLC_API block_t *block_Realloc(block_t *, ssize_t pre, size_t body) VLC_USED;
  *
  * @note
  * If the block is in a chain, this function does <b>not</b> release any
- * subsequent block in the chain. Use block_ChainRelease() for that purpose.
+ * subsequent block in the chain. Use block_ChainRelease() for that purpose. 
  *
  * @param block block to release (cannot be NULL)
  */
-VLC_API void block_Release(block_t *block);
+static inline void block_Release(block_t *block)
+{
+    block->pf_release(block);
+}
 
-static inline void block_CopyProperties( block_t *dst, const block_t *src )
+static inline void block_CopyProperties( block_t *dst, block_t *src )
 {
     dst->i_flags   = src->i_flags;
     dst->i_nb_samples = src->i_nb_samples;
@@ -219,7 +201,7 @@ static inline void block_CopyProperties( block_t *dst, const block_t *src )
  * @return the duplicate on success, NULL on error.
  */
 VLC_USED
-static inline block_t *block_Duplicate( const block_t *p_block )
+static inline block_t *block_Duplicate( block_t *p_block )
 {
     block_t *p_dup = block_Alloc( p_block->i_buffer );
     if( p_dup == NULL )
@@ -313,7 +295,7 @@ static inline void block_Cleanup (void *block)
 #define block_cleanup_push( block ) vlc_cleanup_push (block_Cleanup, block)
 
 /**
- * \defgroup block_chain Block chain
+ * \defgroup block_fifo Block chain
  * @{
  */
 
@@ -382,10 +364,10 @@ static size_t block_ChainExtract( block_t *p_list, void *p_data, size_t i_max )
     return i_total;
 }
 
-static inline void block_ChainProperties( block_t *p_list, int *pi_count, size_t *pi_size, vlc_tick_t *pi_length )
+static inline void block_ChainProperties( block_t *p_list, int *pi_count, size_t *pi_size, mtime_t *pi_length )
 {
     size_t i_size = 0;
-    vlc_tick_t i_length = 0;
+    mtime_t i_length = 0;
     int i_count = 0;
 
     while( p_list )
@@ -408,7 +390,7 @@ static inline void block_ChainProperties( block_t *p_list, int *pi_count, size_t
 static inline block_t *block_ChainGather( block_t *p_list )
 {
     size_t  i_total = 0;
-    vlc_tick_t i_length = 0;
+    mtime_t i_length = 0;
     block_t *g;
 
     if( p_list->p_next == NULL )
@@ -433,12 +415,10 @@ static inline block_t *block_ChainGather( block_t *p_list )
 
 /**
  * @}
- * \defgroup block_fifo Block FIFO
+ * \defgroup fifo Block FIFO
  * Thread-safe block queue functions
  * @{
  */
-
-#include <vlc_queue.h>
 
 /**
  * Creates a thread-safe FIFO queue of blocks.
@@ -458,6 +438,19 @@ VLC_API block_fifo_t *block_FifoNew(void) VLC_USED VLC_MALLOC;
  * called. Otherwise, undefined behaviour will occur.
  */
 VLC_API void block_FifoRelease(block_fifo_t *);
+
+/**
+ * Clears all blocks in a FIFO.
+ */
+VLC_API void block_FifoEmpty(block_fifo_t *);
+
+/**
+ * Immediately queue one block at the end of a FIFO.
+ *
+ * @param fifo queue
+ * @param block head of a block list to queue (may be NULL)
+ */
+VLC_API void block_FifoPut(block_fifo_t *fifo, block_t *block);
 
 /**
  * Dequeue the first block from the FIFO. If necessary, wait until there is
@@ -480,12 +473,10 @@ VLC_API block_t *block_FifoGet(block_fifo_t *) VLC_USED;
  */
 VLC_API block_t *block_FifoShow(block_fifo_t *);
 
-typedef struct block_fifo_t vlc_fifo_t;
+size_t block_FifoSize(block_fifo_t *) VLC_USED VLC_DEPRECATED;
+VLC_API size_t block_FifoCount(block_fifo_t *) VLC_USED VLC_DEPRECATED;
 
-static inline vlc_queue_t *vlc_fifo_queue(const vlc_fifo_t *fifo)
-{
-    return (vlc_queue_t *)fifo;
-}
+typedef struct block_fifo_t vlc_fifo_t;
 
 /**
  * Locks a block FIFO.
@@ -500,10 +491,7 @@ static inline vlc_queue_t *vlc_fifo_queue(const vlc_fifo_t *fifo)
  * @warning Recursively locking a single FIFO is undefined. Locking more than
  * one FIFO at a time may lead to lock inversion; mind the locking order.
  */
-static inline void vlc_fifo_Lock(vlc_fifo_t *fifo)
-{
-    vlc_queue_Lock(vlc_fifo_queue(fifo));
-}
+VLC_API void vlc_fifo_Lock(vlc_fifo_t *);
 
 /**
  * Unlocks a block FIFO.
@@ -513,10 +501,7 @@ static inline void vlc_fifo_Lock(vlc_fifo_t *fifo)
  *
  * @note This function is not a cancellation point.
  */
-static inline void vlc_fifo_Unlock(vlc_fifo_t *fifo)
-{
-    vlc_queue_Unlock(vlc_fifo_queue(fifo));
-}
+VLC_API void vlc_fifo_Unlock(vlc_fifo_t *);
 
 /**
  * Wakes up one thread waiting on the FIFO, if any.
@@ -526,10 +511,7 @@ static inline void vlc_fifo_Unlock(vlc_fifo_t *fifo)
  * @warning For race-free operations, the FIFO should be locked by the calling
  * thread. The function can be called on a unlocked FIFO however.
  */
-static inline void vlc_fifo_Signal(vlc_fifo_t *fifo)
-{
-    vlc_queue_Signal(vlc_fifo_queue(fifo));
-}
+VLC_API void vlc_fifo_Signal(vlc_fifo_t *);
 
 /**
  * Waits on the FIFO.
@@ -542,17 +524,17 @@ static inline void vlc_fifo_Signal(vlc_fifo_t *fifo)
  * @note This function is a cancellation point. In case of cancellation, the
  * the FIFO will be locked before cancellation cleanup handlers are processed.
  */
-static inline void vlc_fifo_Wait(vlc_fifo_t *fifo)
-{
-    vlc_queue_Wait(vlc_fifo_queue(fifo));
-}
+VLC_API void vlc_fifo_Wait(vlc_fifo_t *);
 
-static inline void vlc_fifo_WaitCond(vlc_fifo_t *fifo, vlc_cond_t *condvar)
-{
-    vlc_queue_t *q = vlc_fifo_queue(fifo);
+VLC_API void vlc_fifo_WaitCond(vlc_fifo_t *, vlc_cond_t *);
 
-    vlc_cond_wait(condvar, &q->lock);
-}
+/**
+ * Timed variant of vlc_fifo_WaitCond().
+ *
+ * Atomically unlocks the FIFO and waits until one thread signals the FIFO up
+ * to a certain date, then locks the FIFO again. See vlc_fifo_Wait().
+ */
+int vlc_fifo_TimedWaitCond(vlc_fifo_t *, vlc_cond_t *, mtime_t);
 
 /**
  * Queues a linked-list of blocks into a locked FIFO.
@@ -565,7 +547,7 @@ static inline void vlc_fifo_WaitCond(vlc_fifo_t *fifo, vlc_cond_t *condvar)
  * @warning The FIFO must be locked by the calling thread using
  * vlc_fifo_Lock(). Otherwise behaviour is undefined.
  */
-VLC_API void vlc_fifo_QueueUnlocked(vlc_fifo_t *fifo, block_t *);
+VLC_API void vlc_fifo_QueueUnlocked(vlc_fifo_t *, block_t *);
 
 /**
  * Dequeues the first block from a locked FIFO, if any.
@@ -628,7 +610,7 @@ VLC_API size_t vlc_fifo_GetBytes(const vlc_fifo_t *) VLC_USED;
 
 VLC_USED static inline bool vlc_fifo_IsEmpty(const vlc_fifo_t *fifo)
 {
-    return vlc_queue_IsEmpty(vlc_fifo_queue(fifo));
+    return vlc_fifo_GetCount(fifo) == 0;
 }
 
 static inline void vlc_fifo_Cleanup(void *fifo)
@@ -636,56 +618,6 @@ static inline void vlc_fifo_Cleanup(void *fifo)
     vlc_fifo_Unlock((vlc_fifo_t *)fifo);
 }
 #define vlc_fifo_CleanupPush(fifo) vlc_cleanup_push(vlc_fifo_Cleanup, fifo)
-
-/**
- * Clears all blocks in a FIFO.
- */
-static inline void block_FifoEmpty(block_fifo_t *fifo)
-{
-    block_t *block;
-
-    vlc_fifo_Lock(fifo);
-    block = vlc_fifo_DequeueAllUnlocked(fifo);
-    vlc_fifo_Unlock(fifo);
-    block_ChainRelease(block);
-}
-
-/**
- * Immediately queue one block at the end of a FIFO.
- *
- * @param fifo queue
- * @param block head of a block list to queue (may be NULL)
- */
-static inline void block_FifoPut(block_fifo_t *fifo, block_t *block)
-{
-    vlc_fifo_Lock(fifo);
-    vlc_fifo_QueueUnlocked(fifo, block);
-    vlc_fifo_Unlock(fifo);
-}
-
-/* FIXME: not (really) thread-safe */
-VLC_USED VLC_DEPRECATED
-static inline size_t block_FifoSize (block_fifo_t *fifo)
-{
-    size_t size;
-
-    vlc_fifo_Lock(fifo);
-    size = vlc_fifo_GetBytes(fifo);
-    vlc_fifo_Unlock(fifo);
-    return size;
-}
-
-/* FIXME: not (really) thread-safe */
-VLC_USED VLC_DEPRECATED
-static inline size_t block_FifoCount (block_fifo_t *fifo)
-{
-    size_t depth;
-
-    vlc_fifo_Lock(fifo);
-    depth = vlc_fifo_GetCount(fifo);
-    vlc_fifo_Unlock(fifo);
-    return depth;
-}
 
 /** @} */
 
