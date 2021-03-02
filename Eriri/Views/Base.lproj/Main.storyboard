@@ -432,6 +432,7 @@
                         <outlet property="audioMenu" destination="qSW-dT-kc2" id="2Jv-0V-Kfu"/>
                         <outlet property="audioTrackMenu" destination="WcE-RQ-mOG" id="Kid-G6-awA"/>
                         <outlet property="decreaseSizeMenuItem" destination="b9t-gL-u5P" id="aAn-aJ-G9f"/>
+                        <outlet property="cropMenu" destination="FLh-ai-RlL" id="NOe-I2-iTY"/>
                         <outlet property="decreaseVolumeMenuItem" destination="jK4-XG-enI" id="eMo-0e-ioc"/>
                         <outlet property="doubleSizeMenuItem" destination="ZjY-l0-CWR" id="dnD-Ke-Xs4"/>
                         <outlet property="fitToScreenMenuItem" destination="1LM-Ai-Muh" id="k1F-IA-tz6"/>
