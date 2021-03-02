@@ -9,6 +9,23 @@
 import Cocoa
 
 class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
+    
+    struct AspectRatioValue {
+        let title: String
+        let value: String
+    }
+    
+    let aspectRatioValues: [AspectRatioValue] =
+        [.init(title: "16:9",   value: "16:9"),
+         .init(title: "4:3",    value: "4:3"),
+         .init(title: "1:1",    value: "1:1"),
+         .init(title: "16:10",  value: "16:10"),
+         .init(title: "2.21:1", value: "221:100"),
+         .init(title: "2.35:1", value: "235:100"),
+         .init(title: "2.39:1", value: "239:100"),
+         .init(title: "5:4",    value: "5:4")]
+    
+    
     var appDelegate: AppDelegate? {
         return NSApp.delegate as? AppDelegate
     }
@@ -66,6 +83,24 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             let v = p.player.currentAudioPlaybackDelay()
             audioDelayMenuItem.title = "Audio Delay: \(v)s"
             
+        case aspectRatioMenu:
+            if menu.items.count == 0 {
+                aspectRatioValues.forEach {
+                    let item = NSMenuItem()
+                    item.title = $0.title
+                    item.target = self
+                    item.action = #selector(self.setAspectRatio(_:))
+                    menu.addItem(item)
+                }
+            }
+            
+            let ar = libvlc_video_get_aspect_ratio(p.player.mediaPlayer)
+            guard let arStr = ar?.toString(),
+                  let value = aspectRatioValues.first (where: { $0.value == arStr }) else { return }
+            
+            menu.items.forEach {
+                $0.state = $0.title == value.title ? .on : .off
+            }
         case videoMenu:
             floatOnTopMenuItem.state = p.window.level == .floating ? .on : .off
             
@@ -109,6 +144,8 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             guard let player = currentPlayer else { return false }
             return true
             
+        case _ where menuItem.menu == aspectRatioMenu:
+            return true
         case _ where menuItem.menu == subtitleListMenu:
             return true
         case _ where menuItem.menu == audioTrackMenu:
@@ -274,6 +311,18 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     @IBOutlet weak var snapshotMenuItem: NSMenuItem!
     @IBAction func snapshot(_ sender: NSMenuItem) {
     }
+    
+    @IBOutlet weak var aspectRatioMenu: NSMenu!
+    
+    @IBAction func setAspectRatio(_ sender: NSMenuItem) {
+        guard let p = currentPlayer?.player.mediaPlayer,
+              let v = aspectRatioValues.first(where: { $0.title == sender.title })?.value,
+              let cv = v.cString() else { return }
+        libvlc_video_set_aspect_ratio(p, cv)
+        
+        // Update Content Size?
+    }
+    
     
 // MARK: - Subtitles
     

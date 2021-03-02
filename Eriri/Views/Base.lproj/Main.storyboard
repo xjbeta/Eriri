@@ -425,6 +425,7 @@
                     <connections>
                         <outlet property="aboutMenuItem" destination="5kV-Vb-QxS" id="oZn-bn-H6m"/>
                         <outlet property="addSubtitleFileMenuItem" destination="ETR-ii-Ya9" id="DAb-Cc-usL"/>
+                        <outlet property="aspectRatioMenu" destination="PYC-sa-7Uj" id="AkZ-r4-fev"/>
                         <outlet property="audioDelayDecreaseMenuItem" destination="0OL-Ax-nDV" id="uaQ-xZ-JJk"/>
                         <outlet property="audioDelayIncreaseMenuItem" destination="8hx-DI-Mnu" id="dNM-0U-ZGo"/>
                         <outlet property="audioDelayMenuItem" destination="PBZ-h5-D6C" id="RfL-Tm-09K"/>
