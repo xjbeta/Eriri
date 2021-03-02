@@ -52,7 +52,7 @@ class VLCLibrary: NSObject {
     
     
     fileprivate override init() {
-        let path = "/Applications/VLC.app/Contents/Frameworks/plugins"
+        let path = "/Applications/VLC.app/Contents/MacOS/plugins"
         
 //        let path = Bundle.main.privateFrameworksPath!.appending("/plugins")
         
