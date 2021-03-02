@@ -191,20 +191,17 @@ extension VLCMediaPlayer {
     
     func initEventAttachs() {
         guard !eventsAttached else { return }
-        eventManager = libvlc_media_player_event_manager(mediaPlayer)
-        guard let em = eventManager else { return }
-        
         attachEvents.forEach {
-            addEventAttach($0, to: em)
+            addEventAttach($0, to: eventManager)
         }
         eventsAttached = true
     }
     
     func deinitEventAttachs() {
-        guard eventsAttached, let em = eventManager else { return }
+        guard eventsAttached else { return }
         let s = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
         attachEvents.forEach {
-            libvlc_event_detach(em, libvlc_event_type_t($0.rawValue), eventCallBack, s)
+            libvlc_event_detach(eventManager, libvlc_event_type_t($0.rawValue), eventCallBack, s)
         }
     }
     

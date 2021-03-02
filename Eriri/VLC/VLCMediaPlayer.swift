@@ -34,7 +34,7 @@ class VLCMediaPlayer: NSObject {
     var mediaPlayer: UnsafeMutablePointer<libvlc_media_player_t>
     var player: UnsafeMutablePointer<vlc_player_t>
     
-    var eventManager: UnsafeMutablePointer<libvlc_event_manager_t>?
+    var eventManager: UnsafeMutablePointer<libvlc_event_manager_t>!
     var eventsAttached = false
     
     let attachEvents: [libvlc_event_e] = [
@@ -203,7 +203,6 @@ class VLCMediaPlayer: NSObject {
     
     var delegate: VLCMediaPlayerDelegate? {
         didSet {
-            eventManager = libvlc_media_player_event_manager(mediaPlayer)
             self.initEventAttachs()
         }
     }
@@ -228,6 +227,8 @@ class VLCMediaPlayer: NSObject {
         let instance = VLCLibrary.shared.instance
         mediaPlayer = libvlc_media_player_new(instance)
         player = mediaPlayer.pointee.player
+        eventManager = libvlc_media_player_event_manager(mediaPlayer)
+        
         super.init()
         libvlc_set_user_agent(instance, "eriri".cString(), "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15".cString())
     }

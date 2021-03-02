@@ -288,6 +288,11 @@ extension EririPlayer: VLCMediaPlayerDelegate {
     
     func mediaPlayerBuffing(_ newCache: Float) {
         playerInfo.playerBuffingValue = newCache
+        
+        if playerInfo.state == .paused {
+            mediaPlayerTimeChanged(player.currentTime())
+            mediaPlayerPositionChanged(player.position)
+        }
     }
     
     func mediaPlayerStateChanged(_ state: VLCMediaPlayerState) {
