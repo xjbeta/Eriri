@@ -99,18 +99,30 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             
         case aspectRatioMenu:
             if menu.items.count == 0 {
-                aspectRatioValues.forEach {
+                func item(_ title: String) -> NSMenuItem {
                     let item = NSMenuItem()
-                    item.title = $0.title
+                    item.title = title
                     item.target = self
                     item.action = #selector(self.setAspectRatio(_:))
-                    menu.addItem(item)
+                    return item
+                }
+                
+                menu.addItem(item("Default"))
+                menu.addItem(.separator())
+                aspectRatioValues.forEach {
+                    menu.addItem(item($0.title))
                 }
             }
             
             let ar = libvlc_video_get_aspect_ratio(p.player.mediaPlayer)
             guard let arStr = ar?.toString(),
-                  let value = aspectRatioValues.first (where: { $0.value == arStr }) else { return }
+                  let value = aspectRatioValues.first (where: { $0.value == arStr }) else {
+                menu.items.forEach {
+                    $0.state = .off
+                }
+                menu.items.first?.state = .on
+                return
+            }
             
             menu.items.forEach {
                 $0.state = $0.title == value.title ? .on : .off
@@ -118,18 +130,31 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             
         case cropMenu:
             if menu.items.count == 0 {
-                cropValues.forEach {
+                func item(_ title: String) -> NSMenuItem {
                     let item = NSMenuItem()
-                    item.title = $0.title
+                    item.title = title
                     item.target = self
                     item.action = #selector(self.setCrop(_:))
-                    menu.addItem(item)
+                    return item
+                }
+                
+                menu.addItem(item("Default"))
+                menu.addItem(.separator())
+                cropValues.forEach {
+                    menu.addItem(item($0.title))
                 }
             }
             
             let cg = libvlc_video_get_crop_geometry(p.player.mediaPlayer)
             guard let cgStr = cg?.toString(),
-                  let value = cropValues.first (where: { $0.value == cgStr }) else { return }
+                  let value = cropValues.first (where: { $0.value == cgStr }) else {
+                
+                menu.items.forEach {
+                    $0.state = .off
+                }
+                menu.items.first?.state = .on
+                return
+            }
             
             menu.items.forEach {
                 $0.state = $0.title == value.title ? .on : .off
@@ -387,10 +412,15 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     @IBOutlet weak var aspectRatioMenu: NSMenu!
     
     @IBAction func setAspectRatio(_ sender: NSMenuItem) {
-        guard let p = currentPlayer?.player.mediaPlayer,
-              let v = aspectRatioValues.first(where: { $0.title == sender.title })?.value,
-              let cv = v.cString() else { return }
-        libvlc_video_set_aspect_ratio(p, cv)
+        guard let p = currentPlayer?.player.mediaPlayer else { return }
+        
+        if let v = aspectRatioValues.first(where: { $0.title == sender.title })?.value,
+           let cv = v.cString() {
+            libvlc_video_set_aspect_ratio(p, cv)
+        } else {
+            libvlc_video_set_aspect_ratio(p, nil)
+        }
+        
         
         // Update Content Size?
     }
@@ -398,13 +428,19 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     @IBOutlet weak var cropMenu: NSMenu!
     
     @IBAction func setCrop(_ sender: NSMenuItem) {
-        guard let p = currentPlayer?.player.mediaPlayer,
-              let v = cropValues.first(where: { $0.title == sender.title })?.value,
-              let cv = v.cString() else { return }
+        guard let p = currentPlayer?.player.mediaPlayer else { return }
         
-        libvlc_video_set_crop_geometry(p, cv)
+        
+        if let v = cropValues.first(where: { $0.title == sender.title })?.value,
+           let cv = v.cString() {
+            libvlc_video_set_crop_geometry(p, cv)
+        } else {
+            libvlc_video_set_crop_geometry(p, nil)
+        }
+        
         
         // Update Content Size?
+        
     }
     
     
