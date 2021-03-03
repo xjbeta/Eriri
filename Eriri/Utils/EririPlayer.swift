@@ -132,9 +132,7 @@ class EririPlayer: NSObject {
 
         playerInfo.videoSize = videoSize
         updateWindowFrame()
-        if let view = window.contentView {
-            initTrackingArea(view, isFullScreen: false)
-        }
+        initTrackingArea()
         videoSizeInited = true
     }
     
@@ -161,7 +159,10 @@ class EririPlayer: NSObject {
         window.makeKeyAndOrderFront(nil)
     }
     
-    func initTrackingArea(_ view: NSView, isFullScreen: Bool) {
+    func initTrackingArea() {
+        guard let view = window.contentView else { return }
+        let isFullScreen = playerInfo.isFullScreen
+        
         let response = TrackingAreaResponse {
             self.handleMouseActions($0)
         }
@@ -171,15 +172,12 @@ class EririPlayer: NSObject {
                 [.mouseEnteredAndExited, .mouseMoved, .activeAlways]
         
         let trackingArea = NSTrackingArea(rect: view.frame, options: options, owner: response)
-        deinitTrackingArea(view)
-
-        view.addTrackingArea(trackingArea)
-    }
-    
-    func deinitTrackingArea(_ view: NSView) {
+        
         view.trackingAreas.forEach {
             view.removeTrackingArea($0)
         }
+
+        view.addTrackingArea(trackingArea)
     }
     
     func handleMouseActions(_ type: ActionsType) {
@@ -260,21 +258,17 @@ extension EririPlayer: NSWindowDelegate {
 
     func windowDidResize(_ notification: Notification) {
         playerInfo.windowSize = window.frame.size
+        initTrackingArea()
     }
     
     func windowWillExitFullScreen(_ notification: Notification) {
         playerInfo.isFullScreen = false
-        guard let v = window.contentView else { return }
-        deinitTrackingArea(v)
-        initTrackingArea(v, isFullScreen: false)
-        
+        initTrackingArea()
     }
     
     func windowWillEnterFullScreen(_ notification: Notification) {
         playerInfo.isFullScreen = true
-        guard let v = window.contentView else { return }
-        deinitTrackingArea(v)
-        initTrackingArea(v, isFullScreen: true)
+        initTrackingArea()
     }
     
     
