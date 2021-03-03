@@ -38,6 +38,8 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
          .init(title: "5:4",    value: "5:4"),
          .init(title: "1:1",    value: "1:1")]
     
+    let snapshotPath = FileManager.default.urls(for: .picturesDirectory, in: .userDomainMask).first?.appendingPathComponent("Screenshots", isDirectory: true)
+    
     var appDelegate: AppDelegate? {
         return NSApp.delegate as? AppDelegate
     }
@@ -176,6 +178,8 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             guard let player = currentPlayer else { return false }
             return true
             
+        case snapshotFolderMenuItem:
+            return true
         case _ where menuItem.menu == cropMenu:
             return true
         case _ where menuItem.menu == aspectRatioMenu:
@@ -344,6 +348,40 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     
     @IBOutlet weak var snapshotMenuItem: NSMenuItem!
     @IBAction func snapshot(_ sender: NSMenuItem) {
+        
+        guard let p = currentPlayer,
+              let path = snapshotPath else { return }
+        let mp = p.player.mediaPlayer
+        
+        var title = "unknown movie title"
+        
+        var titles: UnsafeMutablePointer<UnsafeMutablePointer<libvlc_title_description_t>?>?
+        
+        let re = libvlc_media_player_get_full_title_descriptions(mp, &titles)
+        if re == -1 {
+            print("libvlc_media_player_get_full_title_descriptions ERROR.")
+        }
+        
+        let index = libvlc_media_player_get_title(mp)
+        
+        if let titles = titles,
+           let t = titles[Int(index)] {
+            title = t.pointee.psz_name.toString()
+        } else {
+            title = UUID().uuidString
+        }
+        
+        let time = p.player.currentTime().stringValue()
+        
+        let u = path.appendingPathComponent("\(title) - \(time).png", isDirectory: false).path
+        
+        libvlc_video_take_snapshot(mp, 0, u.cString(), 0, 0)
+    }
+    
+    @IBOutlet weak var snapshotFolderMenuItem: NSMenuItem!
+    @IBAction func snapshotFolder(_ sender: NSMenuItem) {
+        guard let u = snapshotPath else { return }
+        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: u.path)
     }
     
     @IBOutlet weak var aspectRatioMenu: NSMenu!

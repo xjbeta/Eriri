@@ -180,6 +180,19 @@
                                                 <action selector="previousChapter:" target="HwL-s0-OUP" id="nyI-8U-uan"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="wLX-tW-bo4"/>
+                                        <menuItem title="Snapshot" id="x5O-nR-aT3">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="snapshot:" target="HwL-s0-OUP" id="fm9-0c-f7M"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Snapshot Folder" id="J4l-nF-kYH" userLabel="Snapshot Folder">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="snapshotFolder:" target="HwL-s0-OUP" id="wcx-2C-iIl"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -218,12 +231,6 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="floatOnTop:" target="HwL-s0-OUP" id="lxe-xH-VUi"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Snapshot" id="x5O-nR-aT3">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="snapshot:" target="HwL-s0-OUP" id="fm9-0c-f7M"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="D07-my-z1K"/>
@@ -457,6 +464,7 @@
                         <outlet property="resetAudioDelayMenuItem" destination="9uP-B0-Ihi" id="uVP-Zy-8eK"/>
                         <outlet property="resetSubtitleDelayMenuItem" destination="B6U-iB-h4Q" id="gPM-BG-ZC4"/>
                         <outlet property="resetSubtitleScaleMenuItem" destination="CeM-VT-eKl" id="7jA-KS-x3b"/>
+                        <outlet property="snapshotFolderMenuItem" destination="J4l-nF-kYH" id="zzA-FH-sr9"/>
                         <outlet property="snapshotMenuItem" destination="x5O-nR-aT3" id="9yI-sj-c9A"/>
                         <outlet property="stepBackwardMenuItem" destination="1PJ-O3-VU9" id="p4d-EG-nnu"/>
                         <outlet property="stepForwardMenuItem" destination="NJI-HD-4Ut" id="oDZ-lp-jN5"/>
