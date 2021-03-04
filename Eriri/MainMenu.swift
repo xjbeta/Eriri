@@ -10,33 +10,27 @@ import Cocoa
 
 class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     
-    struct AspectRatioValue {
-        let title: String
-        let value: String
-    }
+    let aspectRatioValues: [(title: String, value: String)] =
+        [("16:9",   "16:9"),
+         ("4:3",    "4:3"),
+         ("1:1",    "1:1"),
+         ("16:10",  "16:10"),
+         ("2.21:1", "221:100"),
+         ("2.35:1", "235:100"),
+         ("2.39:1", "239:100"),
+         ("5:4",    "5:4")]
     
-    let aspectRatioValues: [AspectRatioValue] =
-        [.init(title: "16:9",   value: "16:9"),
-         .init(title: "4:3",    value: "4:3"),
-         .init(title: "1:1",    value: "1:1"),
-         .init(title: "16:10",  value: "16:10"),
-         .init(title: "2.21:1", value: "221:100"),
-         .init(title: "2.35:1", value: "235:100"),
-         .init(title: "2.39:1", value: "239:100"),
-         .init(title: "5:4",    value: "5:4")]
-    
-    
-    let cropValues: [AspectRatioValue] =
-        [.init(title: "16:10",  value: "16:10"),
-         .init(title: "16:9",   value: "16:9"),
-         .init(title: "4:3",    value: "4:3"),
-         .init(title: "1.85:1", value: "185:100"),
-         .init(title: "2.21:1", value: "221:100"),
-         .init(title: "2.35:1", value: "235:100"),
-         .init(title: "2.39:1", value: "239:100"),
-         .init(title: "5:3",    value: "5:3"),
-         .init(title: "5:4",    value: "5:4"),
-         .init(title: "1:1",    value: "1:1")]
+    let cropValues: [(title: String, value: String)] =
+        [("16:10",  "16:10"),
+         ("16:9",   "16:9"),
+         ("4:3",    "4:3"),
+         ("1.85:1", "185:100"),
+         ("2.21:1", "221:100"),
+         ("2.35:1", "235:100"),
+         ("2.39:1", "239:100"),
+         ("5:3",    "5:3"),
+         ("5:4",    "5:4"),
+         ("1:1",    "1:1")]
     
     let snapshotPath = FileManager.default.urls(for: .picturesDirectory, in: .userDomainMask).first?.appendingPathComponent("Screenshots", isDirectory: true)
     
