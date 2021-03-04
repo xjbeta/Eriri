@@ -154,6 +154,36 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
                 $0.state = $0.title == value.title ? .on : .off
             }
             
+        case deinterlaceMenu:
+            let disable = "Disable"
+            if menu.items.count == 0 {
+                func item(_ title: String) -> NSMenuItem {
+                    let item = NSMenuItem()
+                    item.title = title
+                    item.target = self
+                    item.action = #selector(self.setDeinterlace(_:))
+                    return item
+                }
+                
+                VLCMediaPlayer.DeinterlaceMode.allCases.forEach {
+                    if $0 == .disable {
+                        menu.addItem(item(disable))
+                        menu.addItem(.separator())
+                    } else {
+                        menu.addItem(item($0.rawValue))
+                    }
+                }
+            }
+            
+            var deinterlace = p.player.deinterlace.rawValue
+            
+            if deinterlace == "" {
+                deinterlace = disable
+            }
+            
+            menu.items.forEach {
+                $0.state = $0.title == deinterlace ? .on : .off
+            }
         case videoMenu:
             floatOnTopMenuItem.state = p.window.level == .floating ? .on : .off
             
@@ -202,6 +232,8 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         case _ where menuItem.menu == cropMenu:
             return true
         case _ where menuItem.menu == aspectRatioMenu:
+            return true
+        case _ where menuItem.menu == deinterlaceMenu:
             return true
         case _ where menuItem.menu == subtitleListMenu:
             return true
@@ -435,6 +467,13 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         
         // Update Content Size?
         
+    }
+    
+    @IBOutlet weak var deinterlaceMenu: NSMenu!
+    
+    @IBAction func setDeinterlace(_ sender: NSMenuItem) {
+        guard let p = currentPlayer?.player else { return }
+        p.deinterlace = VLCMediaPlayer.DeinterlaceMode(rawValue: sender.title) ?? .disable
     }
     
     

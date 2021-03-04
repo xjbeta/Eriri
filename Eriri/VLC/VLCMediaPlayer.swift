@@ -407,5 +407,39 @@ class VLCMediaPlayer: NSObject {
     func setCurrentAudioPlaybackDelay(_ value: Float) {
         libvlc_audio_set_delay(mediaPlayer, Int64(value * 1000000))
     }
+
+    enum DeinterlaceMode: String, CaseIterable {
+        case disable = ""
+        
+        case blend,
+             bob,
+             discard,
+             linear,
+             mean,
+             x,
+             yadif,
+             yadif2x,
+             phosphor,
+             ivtc
+    }
+    
+    var deinterlace: DeinterlaceMode {
+        get {
+            let obj = VLCHack().vlc_object(mediaPlayer)
+            
+            let d = var_GetInteger(obj, "deinterlace".cString())
+            if d == 0 {
+                return .disable
+            } else {
+                let dMode = var_GetNonEmptyString(obj, "deinterlace-mode".cString()).toString()
+                return DeinterlaceMode(rawValue: dMode) ?? .disable
+            }
+        }
+        set {
+            libvlc_video_set_deinterlace(mediaPlayer,
+                                         newValue.rawValue)
+        }
+    }
+    
 }
 

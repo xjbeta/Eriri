@@ -250,6 +250,14 @@
                                                 </connections>
                                             </menu>
                                         </menuItem>
+                                        <menuItem title="Deinterlace" id="7Pn-Ol-DZT">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Deinterlace" id="MAp-A5-aHj">
+                                                <connections>
+                                                    <outlet property="delegate" destination="HwL-s0-OUP" id="zXv-EO-Lco"/>
+                                                </connections>
+                                            </menu>
+                                        </menuItem>
                                     </items>
                                     <connections>
                                         <outlet property="delegate" destination="HwL-s0-OUP" id="QZl-Bk-gzx"/>
@@ -446,6 +454,7 @@
                         <outlet property="audioTrackMenu" destination="WcE-RQ-mOG" id="Kid-G6-awA"/>
                         <outlet property="cropMenu" destination="FLh-ai-RlL" id="NOe-I2-iTY"/>
                         <outlet property="decreaseVolumeMenuItem" destination="jK4-XG-enI" id="eMo-0e-ioc"/>
+                        <outlet property="deinterlaceMenu" destination="MAp-A5-aHj" id="HaI-fp-s3m"/>
                         <outlet property="doubleSizeMenuItem" destination="ZjY-l0-CWR" id="dnD-Ke-Xs4"/>
                         <outlet property="fitToScreenMenuItem" destination="1LM-Ai-Muh" id="k1F-IA-tz6"/>
                         <outlet property="floatOnTopMenuItem" destination="cic-ew-shB" id="zKO-jx-4wA"/>
