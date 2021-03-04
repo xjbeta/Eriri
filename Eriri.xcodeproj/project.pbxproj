@@ -24,6 +24,7 @@
 		01408B602554CED900422FFD /* LibassBlendImage.c in Sources */ = {isa = PBXBuildFile; fileRef = 01408B5F2554CED900422FFD /* LibassBlendImage.c */; };
 		0155757D23E0686200ECC898 /* InfoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0155757C23E0686200ECC898 /* InfoContentView.swift */; };
 		015C2BB423EE8B0300C90D08 /* VLCMediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015C2BB323EE8B0200C90D08 /* VLCMediaPlayer.swift */; };
+		0161589225F0A1A600F845A9 /* VLCHack.m in Sources */ = {isa = PBXBuildFile; fileRef = 0161589125F0A1A600F845A9 /* VLCHack.m */; };
 		0189C95B23D5CA2F00FAAF83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0189C95A23D5CA2F00FAAF83 /* AppDelegate.swift */; };
 		0189C95D23D5CA2F00FAAF83 /* VideoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0189C95C23D5CA2F00FAAF83 /* VideoContentView.swift */; };
 		0189C95F23D5CA3300FAAF83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0189C95E23D5CA3300FAAF83 /* Assets.xcassets */; };
@@ -191,7 +192,8 @@
 		0161588B25EB724800F845A9 /* vlc_http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vlc_http.h; sourceTree = "<group>"; };
 		0161588C25EB724800F845A9 /* vlc_block_helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vlc_block_helper.h; sourceTree = "<group>"; };
 		0161588D25EB724800F845A9 /* vlc_mime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vlc_mime.h; sourceTree = "<group>"; };
-		0161588F25EDDB8500F845A9 /* media_list_player.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = media_list_player.c; sourceTree = "<group>"; };
+		0161589025F0A1A600F845A9 /* VLCHack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VLCHack.h; sourceTree = "<group>"; };
+		0161589125F0A1A600F845A9 /* VLCHack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VLCHack.m; sourceTree = "<group>"; };
 		017E2D3123F02E86009D1A8C /* Eriri-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Eriri-Bridging-Header.h"; sourceTree = "<group>"; };
 		0189C95723D5CA2F00FAAF83 /* Eriri.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eriri.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0189C95A23D5CA2F00FAAF83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -313,7 +315,6 @@
 				019377D62514F41A00AEE3E2 /* libvlc_version.h */,
 				019377DB2514F41A00AEE3E2 /* libvlc.h */,
 				019377E02514F41B00AEE3E2 /* vlc.h */,
-				0161588F25EDDB8500F845A9 /* media_list_player.c */,
 			);
 			path = vlc;
 			sourceTree = "<group>";
@@ -409,6 +410,8 @@
 				0189C96623D5CA3300FAAF83 /* Info.plist */,
 				0189C96723D5CA3300FAAF83 /* Eriri.entitlements */,
 				017E2D3123F02E86009D1A8C /* Eriri-Bridging-Header.h */,
+				0161589025F0A1A600F845A9 /* VLCHack.h */,
+				0161589125F0A1A600F845A9 /* VLCHack.m */,
 			);
 			path = Eriri;
 			sourceTree = "<group>";
@@ -676,6 +679,7 @@
 				01BA949323F5456B00DEE6D5 /* PointerExtension.swift in Sources */,
 				01B1BBAC23EF989A00E24BD4 /* VLCLibrary.swift in Sources */,
 				0189C95D23D5CA2F00FAAF83 /* VideoContentView.swift in Sources */,
+				0161589225F0A1A600F845A9 /* VLCHack.m in Sources */,
 				01F103E823E01ECA00D12931 /* NSWindowExtension.swift in Sources */,
 				0196C53223E93014007A0C96 /* UtilsVLCProtocolExtension.swift in Sources */,
 				01CC0EE725E3A4E30057CA8D /* MetalView.swift in Sources */,
