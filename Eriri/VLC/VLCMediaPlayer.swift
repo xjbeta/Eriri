@@ -441,5 +441,22 @@ class VLCMediaPlayer: NSObject {
         }
     }
     
+    func getVideoTracks() -> [(name: String, id: String, selected: Bool)] {
+        
+        let index = libvlc_video_get_track(mediaPlayer)
+
+        return tracksInformation().filter {
+            $0.name == "Video"
+        }.enumerated().map {
+            ("Track \($0.offset + 1)", $0.element.contents.first(where: { $0.0 == "ID" })?.1 ?? "-1", $0.offset == Int(index))
+        }
+    }
+    
+    func setVideoTrack(_ id: String) {
+        guard let id = Int32(id) else {
+            return
+        }
+        libvlc_video_set_track(mediaPlayer, id)
+    }
 }
 

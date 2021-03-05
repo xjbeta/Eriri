@@ -184,6 +184,33 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             menu.items.forEach {
                 $0.state = $0.title == deinterlace ? .on : .off
             }
+        case videoTrackMenu:
+            
+            func item(_ title: String) -> NSMenuItem {
+                let item = NSMenuItem()
+                item.title = title
+                item.target = self
+                item.action = #selector(self.setVideoTrack(_:))
+                return item
+            }
+            
+            menu.removeAllItems()
+            let disableItem = item("Disable")
+            disableItem.tag = -1
+            menu.addItem(disableItem)
+            menu.addItem(.separator())
+            
+            let tracks = p.player.getVideoTracks()
+            tracks.forEach {
+                let i = item($0.name)
+                i.state = $0.selected ? .on : .off
+                i.tag = Int($0.id) ?? -1
+                menu.addItem(i)
+            }
+            
+            if tracks.filter({ $0.selected }).count == 0 {
+                disableItem.state = .on
+            }
         case videoMenu:
             floatOnTopMenuItem.state = p.window.level == .floating ? .on : .off
             
@@ -234,6 +261,8 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         case _ where menuItem.menu == aspectRatioMenu:
             return true
         case _ where menuItem.menu == deinterlaceMenu:
+            return true
+        case _ where menuItem.menu == videoTrackMenu:
             return true
         case _ where menuItem.menu == subtitleListMenu:
             return true
@@ -476,7 +505,14 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         p.deinterlace = VLCMediaPlayer.DeinterlaceMode(rawValue: sender.title) ?? .disable
     }
     
+    @IBOutlet weak var videoTrackMenu: NSMenu!
     
+    @IBAction func setVideoTrack(_ sender: NSMenuItem) {
+        guard let p = currentPlayer?.player else { return }
+        
+        p.setVideoTrack("\(sender.tag)")
+        
+    }
     
 // MARK: - Subtitles
     

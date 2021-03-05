@@ -20,20 +20,21 @@ extension VLCMediaPlayer {
     }
     
     enum TrackInfoKey : String {
-        case format        = "Format"
-        case codec         = "Codec"
-        case size          = "Size"
-        case bitRate       = "Bit Rate"
-        case fps           = "FPS"
-        case language      = "Language"
-        case decodedFormat = "Decoded Format"
-        case colorSpace    = "Color Space"
-        case channels      = "Channels"
-        case simpleRate    = "Simple Rate"
-        case bitsPreSample = "Bits Pre Sample"
+        case format            = "Format"
+        case codec             = "Codec"
+        case size              = "Size"
+        case bitRate           = "Bit Rate"
+        case fps               = "FPS"
+        case language          = "Language"
+        case id                = "ID"
+        case decodedFormat     = "Decoded Format"
+        case colorSpace        = "Color Space"
+        case channels          = "Channels"
+        case simpleRate        = "Simple Rate"
+        case bitsPreSample     = "Bits Pre Sample"
         case sampleAspectRatio = "Sample Aspect Ratio"
-        case sampleRate = "Sample Rate"
-        case encoding = "Encoding"
+        case sampleRate        = "Sample Rate"
+        case encoding          = "Encoding"
     }
     
     enum AudioChannel: Int {
@@ -93,6 +94,8 @@ extension VLCMediaPlayer {
                 if let language = i.psz_language {
                     values.append((key: .language, value: language.toString()))
                 }
+                
+                values.append((key: .id, value: "\(i.i_id)"))
                 
                 if let video = i.video {
                     let v = video.pointee
