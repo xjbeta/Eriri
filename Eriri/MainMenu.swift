@@ -69,21 +69,6 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
                 }
                 menu.addItem(item)
             }
-        case audioTrackMenu:
-            menu.removeAllItems()
-            let tracks = p.player.audioTracks()
-            let current = tracks.currentIndex
-            tracks.descriptions.forEach {
-                let item = NSMenuItem()
-                item.title = $0.name
-                item.tag = $0.index
-                item.target = self
-                item.action = #selector(self.audioTrackItemAction(_:))
-                if $0.index == current {
-                    item.state = .on
-                }
-                menu.addItem(item)
-            }
         case subtitlesMenu:
             let v = p.player.currentVideoSubTitleDelay()
             
@@ -98,13 +83,24 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
                 setupVarMenuItem(stereoAudioModeMenuItem,
                                  target: obj,
                                  variable: "stereo-mode",
-                                 selector: #selector(self.toggleVar(_:)))
+                                 selector: #selector(toggleVar))
                 setupVarMenuItem(visualizationsMenuItem,
                                  target: obj,
                                  variable: "visual",
-                                 selector: #selector(self.toggleVar(_:)))
+                                 selector: #selector(toggleVar))
             }
             
+            vlc_mutex_lock(&mp.pointee.input.lock)
+            let inputThread = mp.pointee.input.p_thread
+            vlc_mutex_unlock(&mp.pointee.input.lock)
+            
+            if let it = inputThread {
+                let obj = VLCObject(inputThread: it).vlcObject()
+                setupVarMenuItem(audioTrackMenuItem,
+                                 target: obj,
+                                 variable: "audio-es",
+                                 selector: #selector(toggleVar))
+            }
             
         case aspectRatioMenu:
             if menu.items.count == 0 {
@@ -281,7 +277,10 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             return true
         case _ where menuItem.menu == subtitleListMenu:
             return true
-        case _ where menuItem.menu == audioTrackMenu:
+            
+        case audioTrackMenuItem:
+            return true
+        case _ where menuItem.menu == audioTrackMenuItem.submenu:
             return true
         case stereoAudioModeMenuItem:
             return true
@@ -494,11 +493,6 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         p.toggleMute()
     }
     
-    @IBOutlet weak var audioTrackMenu: NSMenu!
-    
-    @IBAction func audioTrackItemAction(_ sender: NSMenuItem) {
-        currentPlayer?.player.setAudioTrackIndex(sender.tag)
-    }
     
     @IBOutlet weak var audioDelayMenuItem: NSMenuItem!
     
@@ -523,6 +517,8 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         guard let p = currentPlayer?.player else { return }
         p.setCurrentAudioPlaybackDelay(0)
     }
+    
+    @IBOutlet weak var audioTrackMenuItem: NSMenuItem!
     
     @IBOutlet weak var stereoAudioModeMenuItem: NSMenuItem!
     

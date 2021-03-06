@@ -459,7 +459,7 @@
                         <outlet property="audioDelayIncreaseMenuItem" destination="8hx-DI-Mnu" id="dNM-0U-ZGo"/>
                         <outlet property="audioDelayMenuItem" destination="PBZ-h5-D6C" id="RfL-Tm-09K"/>
                         <outlet property="audioMenu" destination="qSW-dT-kc2" id="2Jv-0V-Kfu"/>
-                        <outlet property="audioTrackMenu" destination="WcE-RQ-mOG" id="Kid-G6-awA"/>
+                        <outlet property="audioTrackMenuItem" destination="2jg-Ct-8fK" id="FJ0-aG-0Rc"/>
                         <outlet property="cropMenu" destination="FLh-ai-RlL" id="NOe-I2-iTY"/>
                         <outlet property="decreaseVolumeMenuItem" destination="jK4-XG-enI" id="eMo-0e-ioc"/>
                         <outlet property="deinterlaceMenu" destination="MAp-A5-aHj" id="HaI-fp-s3m"/>
