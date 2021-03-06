@@ -295,6 +295,14 @@
                                                 </connections>
                                             </menu>
                                         </menuItem>
+                                        <menuItem title="Stereo Audio Mode" id="JhM-WG-fTY">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Stereo Audio Mode" id="CQJ-x1-jF4"/>
+                                        </menuItem>
+                                        <menuItem title="Visualizations" id="1BW-jQ-waC">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Visualizations" id="bLI-fU-QVm"/>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wg4-v5-TRa"/>
                                         <menuItem title="Audio Delay: 0s" enabled="NO" id="PBZ-h5-D6C">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -477,6 +485,7 @@
                         <outlet property="snapshotMenuItem" destination="x5O-nR-aT3" id="9yI-sj-c9A"/>
                         <outlet property="stepBackwardMenuItem" destination="1PJ-O3-VU9" id="p4d-EG-nnu"/>
                         <outlet property="stepForwardMenuItem" destination="NJI-HD-4Ut" id="oDZ-lp-jN5"/>
+                        <outlet property="stereoAudioModeMenuItem" destination="JhM-WG-fTY" id="8NH-Yd-yLV"/>
                         <outlet property="subtitleDelayDecreaseMenuItem" destination="7qI-tH-CtN" id="Ban-FA-aIF"/>
                         <outlet property="subtitleDelayIncreaseMenuItem" destination="GYC-Fg-FEQ" id="v64-y2-z6h"/>
                         <outlet property="subtitleDelayMenuItem" destination="qPH-ON-nLb" id="ZTf-iW-rUA"/>
@@ -487,6 +496,7 @@
                         <outlet property="subtitlesMenu" destination="lDg-Qw-Mvn" id="XJX-uS-6c4"/>
                         <outlet property="subtitlesMenuItem" destination="rra-Dn-UcE" id="Um7-LO-Wgd"/>
                         <outlet property="videoMenu" destination="y5H-vb-YcS" id="cLN-u8-De7"/>
+                        <outlet property="visualizationsMenuItem" destination="1BW-jQ-waC" id="lFD-dF-Zmd"/>
                     </connections>
                 </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
