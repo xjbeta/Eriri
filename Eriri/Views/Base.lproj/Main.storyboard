@@ -280,20 +280,16 @@
                                                 <action selector="decreaseVolume:" target="HwL-s0-OUP" id="kaz-he-IqF"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="UUk-7l-47Q"/>
                                         <menuItem title="Mute" keyEquivalent="m" id="0aR-d5-6Sw">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="mute:" target="HwL-s0-OUP" id="3m7-NY-4ln"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="UUk-7l-47Q"/>
                                         <menuItem title="Audio Track" id="2jg-Ct-8fK">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Audio Track" id="WcE-RQ-mOG">
-                                                <connections>
-                                                    <outlet property="delegate" destination="HwL-s0-OUP" id="IhX-vQ-bYb"/>
-                                                </connections>
-                                            </menu>
+                                            <menu key="submenu" title="Audio Track" id="WcE-RQ-mOG"/>
                                         </menuItem>
                                         <menuItem title="Stereo Audio Mode" id="JhM-WG-fTY">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -302,6 +298,10 @@
                                         <menuItem title="Visualizations" id="1BW-jQ-waC">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Visualizations" id="bLI-fU-QVm"/>
+                                        </menuItem>
+                                        <menuItem title="Audio Device" id="EnY-xQ-x5W">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Audio Device" id="PSF-gP-C6o"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wg4-v5-TRa"/>
                                         <menuItem title="Audio Delay: 0s" enabled="NO" id="PBZ-h5-D6C">
@@ -458,6 +458,7 @@
                         <outlet property="audioDelayDecreaseMenuItem" destination="0OL-Ax-nDV" id="uaQ-xZ-JJk"/>
                         <outlet property="audioDelayIncreaseMenuItem" destination="8hx-DI-Mnu" id="dNM-0U-ZGo"/>
                         <outlet property="audioDelayMenuItem" destination="PBZ-h5-D6C" id="RfL-Tm-09K"/>
+                        <outlet property="audioDeviceMenuItem" destination="EnY-xQ-x5W" id="J1i-qs-0Au"/>
                         <outlet property="audioMenu" destination="qSW-dT-kc2" id="2Jv-0V-Kfu"/>
                         <outlet property="audioTrackMenuItem" destination="2jg-Ct-8fK" id="FJ0-aG-0Rc"/>
                         <outlet property="cropMenu" destination="FLh-ai-RlL" id="NOe-I2-iTY"/>

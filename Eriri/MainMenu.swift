@@ -102,6 +102,8 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
                                  selector: #selector(toggleVar))
             }
             
+            refreshAudioDeviceList()
+            
         case aspectRatioMenu:
             if menu.items.count == 0 {
                 func item(_ title: String) -> NSMenuItem {
@@ -289,6 +291,10 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         case visualizationsMenuItem:
             return true
         case _ where menuItem.menu == visualizationsMenuItem.submenu:
+            return true
+        case audioDeviceMenuItem:
+            return true
+        case _ where menuItem.menu == audioDeviceMenuItem.submenu:
             return true
         default:
             break
@@ -523,6 +529,75 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     @IBOutlet weak var stereoAudioModeMenuItem: NSMenuItem!
     
     @IBOutlet weak var visualizationsMenuItem: NSMenuItem!
+    
+    @IBOutlet weak var audioDeviceMenuItem: NSMenuItem!
+    
+    func refreshAudioDeviceList() {
+        guard let menu = audioDeviceMenuItem.submenu,
+              let mp = currentPlayer?.player.mediaPlayer,
+              let aout = input_resource_HoldAout(mp.pointee.input.p_resource) else { return }
+        let obj = VLCObject(audioOutput: aout).vlcObject()
+        menu.removeAllItems()
+        
+        var ids: UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>?
+        var names: UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>?
+        let n = aout_DevicesList(aout, &ids, &names)
+        
+        if n == -1 {
+            vlc_object_release(obj)
+            return
+        }
+        
+        var currentDevice = aout_DeviceGet(aout)
+        
+        (0..<Int(n)).forEach {
+            guard let name = names?[$0]?.toString(),
+                  let id = ids?[$0]?.toString() else { return }
+            
+            let item = NSMenuItem(title: name,
+                                  action: #selector(toggleAudioDevice),
+                                  keyEquivalent: "")
+            item.target = self
+            item.tag = Int(id) ?? -1
+            menu.addItem(item)
+            
+            names?[$0]?.deallocate()
+            ids?[$0]?.deallocate()
+        }
+        vlc_object_release(obj)
+        
+        guard let cd = currentDevice,
+              let i = Int(cd.toString()) else {
+            return
+        }
+        
+        menu.item(withTag: i)?.state = .on
+        currentDevice?.deallocate()
+        names?.deallocate()
+        ids?.deallocate()
+        menu.autoenablesItems = true
+        audioDeviceMenuItem.isEnabled = true
+    }
+    
+    @objc func toggleAudioDevice(_ sender: NSMenuItem) {
+        guard let mp = currentPlayer?.player.mediaPlayer,
+              let aout = input_resource_HoldAout(mp.pointee.input.p_resource) else { return }
+        
+        var returnValue: Int32 = 0
+        
+        if sender.tag >= 0 {
+            returnValue = aout_DeviceSet(aout, "\(sender.tag)".cString())
+        } else {
+            returnValue = aout_DeviceSet(aout, nil)
+        }
+        if returnValue != 0 {
+            print("failed to set audio device \(sender.tag)")
+        }
+        
+        vlc_object_release(VLCObject(audioOutput: aout).vlcObject())
+        refreshAudioDeviceList()
+    }
+    
     
 // MARK: - Video
 
