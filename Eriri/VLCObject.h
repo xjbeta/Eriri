@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)initWithMediaPlayer: (libvlc_media_player_t *)mp;
 - (id)initWithInputThread: (input_thread_t *)it;
 - (id)initWithAudioOutput: (audio_output_t *)ao;
-
+- (id)initWithVoutThread: (vout_thread_t *)vt;
 
 
 - (vlc_object_t *)vlcObject;

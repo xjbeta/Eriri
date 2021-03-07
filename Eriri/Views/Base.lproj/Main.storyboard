@@ -236,27 +236,20 @@
                                         <menuItem isSeparatorItem="YES" id="D07-my-z1K"/>
                                         <menuItem title="Aspect ratio" id="ZkM-IY-MwU">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Aspect ratio" id="PYC-sa-7Uj">
-                                                <connections>
-                                                    <outlet property="delegate" destination="HwL-s0-OUP" id="yqT-Rn-Jbh"/>
-                                                </connections>
-                                            </menu>
+                                            <menu key="submenu" title="Aspect ratio" id="PYC-sa-7Uj"/>
                                         </menuItem>
                                         <menuItem title="Crop" id="SG4-q7-RpV">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Crop" id="FLh-ai-RlL">
-                                                <connections>
-                                                    <outlet property="delegate" destination="HwL-s0-OUP" id="cdo-lC-cFr"/>
-                                                </connections>
-                                            </menu>
+                                            <menu key="submenu" title="Crop" id="FLh-ai-RlL"/>
                                         </menuItem>
                                         <menuItem title="Deinterlace" id="7Pn-Ol-DZT">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Deinterlace" id="MAp-A5-aHj">
-                                                <connections>
-                                                    <outlet property="delegate" destination="HwL-s0-OUP" id="zXv-EO-Lco"/>
-                                                </connections>
-                                            </menu>
+                                            <menu key="submenu" title="Deinterlace" id="MAp-A5-aHj"/>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="xJP-Mk-HKg"/>
+                                        <menuItem title="Video Track" id="ex4-6p-baR">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Video Track" id="bte-nl-OZg"/>
                                         </menuItem>
                                     </items>
                                     <connections>
@@ -454,16 +447,16 @@
                     <connections>
                         <outlet property="aboutMenuItem" destination="5kV-Vb-QxS" id="oZn-bn-H6m"/>
                         <outlet property="addSubtitleFileMenuItem" destination="ETR-ii-Ya9" id="DAb-Cc-usL"/>
-                        <outlet property="aspectRatioMenu" destination="PYC-sa-7Uj" id="AkZ-r4-fev"/>
+                        <outlet property="aspectRatioMenuItem" destination="ZkM-IY-MwU" id="B6f-6Y-M1g"/>
                         <outlet property="audioDelayDecreaseMenuItem" destination="0OL-Ax-nDV" id="uaQ-xZ-JJk"/>
                         <outlet property="audioDelayIncreaseMenuItem" destination="8hx-DI-Mnu" id="dNM-0U-ZGo"/>
                         <outlet property="audioDelayMenuItem" destination="PBZ-h5-D6C" id="RfL-Tm-09K"/>
                         <outlet property="audioDeviceMenuItem" destination="EnY-xQ-x5W" id="J1i-qs-0Au"/>
                         <outlet property="audioMenu" destination="qSW-dT-kc2" id="2Jv-0V-Kfu"/>
                         <outlet property="audioTrackMenuItem" destination="2jg-Ct-8fK" id="FJ0-aG-0Rc"/>
-                        <outlet property="cropMenu" destination="FLh-ai-RlL" id="NOe-I2-iTY"/>
+                        <outlet property="cropMenuItem" destination="SG4-q7-RpV" id="UYb-4c-Skw"/>
                         <outlet property="decreaseVolumeMenuItem" destination="jK4-XG-enI" id="eMo-0e-ioc"/>
-                        <outlet property="deinterlaceMenu" destination="MAp-A5-aHj" id="HaI-fp-s3m"/>
+                        <outlet property="deinterlaceMenuItem" destination="7Pn-Ol-DZT" id="DHz-Dk-iOz"/>
                         <outlet property="doubleSizeMenuItem" destination="ZjY-l0-CWR" id="dnD-Ke-Xs4"/>
                         <outlet property="fitToScreenMenuItem" destination="1LM-Ai-Muh" id="k1F-IA-tz6"/>
                         <outlet property="floatOnTopMenuItem" destination="cic-ew-shB" id="zKO-jx-4wA"/>
@@ -497,6 +490,7 @@
                         <outlet property="subtitlesMenu" destination="lDg-Qw-Mvn" id="XJX-uS-6c4"/>
                         <outlet property="subtitlesMenuItem" destination="rra-Dn-UcE" id="Um7-LO-Wgd"/>
                         <outlet property="videoMenu" destination="y5H-vb-YcS" id="cLN-u8-De7"/>
+                        <outlet property="videoTrackMenuItem" destination="ex4-6p-baR" id="jKr-xS-4RJ"/>
                         <outlet property="visualizationsMenuItem" destination="1BW-jQ-waC" id="lFD-dF-Zmd"/>
                     </connections>
                 </customObject>

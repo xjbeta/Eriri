@@ -41,6 +41,12 @@
     return(self);
 }
 
+- (id)initWithVoutThread: (vout_thread_t *)vt
+{
+    self = [super init];
+    vlc_object = VLC_OBJECT(vt);
+    return(self);
+}
 
 
 - (vlc_object_t *)vlcObject

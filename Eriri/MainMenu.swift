@@ -104,130 +104,40 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             
             refreshAudioDeviceList()
             
-        case aspectRatioMenu:
-            if menu.items.count == 0 {
-                func item(_ title: String) -> NSMenuItem {
-                    let item = NSMenuItem()
-                    item.title = title
-                    item.target = self
-                    item.action = #selector(self.setAspectRatio(_:))
-                    return item
-                }
-                
-                menu.addItem(item("Default"))
-                menu.addItem(.separator())
-                aspectRatioValues.forEach {
-                    menu.addItem(item($0.title))
-                }
-            }
-            
-            let ar = libvlc_video_get_aspect_ratio(p.player.mediaPlayer)
-            guard let arStr = ar?.toString(),
-                  let value = aspectRatioValues.first (where: { $0.value == arStr }) else {
-                menu.items.forEach {
-                    $0.state = .off
-                }
-                menu.items.first?.state = .on
-                return
-            }
-            
-            menu.items.forEach {
-                $0.state = $0.title == value.title ? .on : .off
-            }
-            
-        case cropMenu:
-            if menu.items.count == 0 {
-                func item(_ title: String) -> NSMenuItem {
-                    let item = NSMenuItem()
-                    item.title = title
-                    item.target = self
-                    item.action = #selector(self.setCrop(_:))
-                    return item
-                }
-                
-                menu.addItem(item("Default"))
-                menu.addItem(.separator())
-                cropValues.forEach {
-                    menu.addItem(item($0.title))
-                }
-            }
-            
-            let cg = libvlc_video_get_crop_geometry(p.player.mediaPlayer)
-            guard let cgStr = cg?.toString(),
-                  let value = cropValues.first (where: { $0.value == cgStr }) else {
-                
-                menu.items.forEach {
-                    $0.state = .off
-                }
-                menu.items.first?.state = .on
-                return
-            }
-            
-            menu.items.forEach {
-                $0.state = $0.title == value.title ? .on : .off
-            }
-            
-        case deinterlaceMenu:
-            let disable = "Disable"
-            if menu.items.count == 0 {
-                func item(_ title: String) -> NSMenuItem {
-                    let item = NSMenuItem()
-                    item.title = title
-                    item.target = self
-                    item.action = #selector(self.setDeinterlace(_:))
-                    return item
-                }
-                
-                VLCMediaPlayer.DeinterlaceMode.allCases.forEach {
-                    if $0 == .disable {
-                        menu.addItem(item(disable))
-                        menu.addItem(.separator())
-                    } else {
-                        menu.addItem(item($0.rawValue))
-                    }
-                }
-            }
-            
-            var deinterlace = p.player.deinterlace.rawValue
-            
-            if deinterlace == "" {
-                deinterlace = disable
-            }
-            
-            menu.items.forEach {
-                $0.state = $0.title == deinterlace ? .on : .off
-            }
-        case videoTrackMenu:
-            
-            func item(_ title: String) -> NSMenuItem {
-                let item = NSMenuItem()
-                item.title = title
-                item.target = self
-                item.action = #selector(self.setVideoTrack(_:))
-                return item
-            }
-            
-            menu.removeAllItems()
-            let disableItem = item("Disable")
-            disableItem.tag = -1
-            menu.addItem(disableItem)
-            menu.addItem(.separator())
-            
-            let tracks = p.player.getVideoTracks()
-            tracks.forEach {
-                let i = item($0.name)
-                i.state = $0.selected ? .on : .off
-                i.tag = Int($0.id) ?? -1
-                menu.addItem(i)
-            }
-            
-            if tracks.filter({ $0.selected }).count == 0 {
-                disableItem.state = .on
-            }
         case videoMenu:
             floatOnTopMenuItem.state = p.window.level == .floating ? .on : .off
             
             
+            vlc_mutex_lock(&mp.pointee.input.lock)
+            let inputThread = mp.pointee.input.p_thread
+            vlc_mutex_unlock(&mp.pointee.input.lock)
+            
+            if let it = inputThread,
+               let vout = input_GetVout(it) {
+                let obj = VLCObject(voutThread: vout).vlcObject()
+            
+                setupVarMenuItem(aspectRatioMenuItem,
+                                 target: obj,
+                                 variable: "aspect-ratio",
+                                 selector: #selector(toggleVar))
+                setupVarMenuItem(cropMenuItem,
+                                 target: obj,
+                                 variable: "crop",
+                                 selector: #selector(toggleVar))
+                setupVarMenuItem(deinterlaceMenuItem,
+                                 target: obj,
+                                 variable: "deinterlace",
+                                 selector: #selector(toggleVar))
+            }
+            
+            if let it = inputThread {
+                let obj = VLCObject(inputThread: it).vlcObject()
+                setupVarMenuItem(videoTrackMenuItem,
+                                 target: obj,
+                                 variable: "video-es",
+                                 selector: #selector(toggleVar))
+            }
+
         default:
             break
         }
@@ -269,13 +179,23 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             
         case snapshotFolderMenuItem:
             return true
-        case _ where menuItem.menu == cropMenu:
+            
+            
+        case aspectRatioMenuItem:
             return true
-        case _ where menuItem.menu == aspectRatioMenu:
+        case _ where menuItem.menu == aspectRatioMenuItem.submenu:
             return true
-        case _ where menuItem.menu == deinterlaceMenu:
+        case cropMenuItem:
             return true
-        case _ where menuItem.menu == videoTrackMenu:
+        case _ where menuItem.menu == cropMenuItem.submenu:
+            return true
+        case deinterlaceMenuItem:
+            return true
+        case _ where menuItem.menu == deinterlaceMenuItem.submenu:
+            return true
+        case videoTrackMenuItem:
+            return true
+        case _ where menuItem.menu == videoTrackMenuItem.submenu:
             return true
         case _ where menuItem.menu == subtitleListMenu:
             return true
@@ -400,8 +320,7 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
                 item.representedObject = data
                 menu.addItem(item)
                 
-                if strcmp(val.psz_string, valV.psz_string) == 0
-                    && (type & VLC_VAR_ISCOMMAND) == 0 {
+                if strcmp(val.psz_string, valV.psz_string) == 0 {
                     item.state = .on
                 }
             case VLC_VAR_INTEGER:
@@ -412,8 +331,7 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
                 item.representedObject = data
                 menu.addItem(item)
                 
-                if valV.i_int == val.i_int
-                    && (type & VLC_VAR_ISCOMMAND) == 0 {
+                if valV.i_int == val.i_int {
                     item.state = .on
                 }
             default:
@@ -687,55 +605,15 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: u.path)
     }
     
-    @IBOutlet weak var aspectRatioMenu: NSMenu!
     
-    @IBAction func setAspectRatio(_ sender: NSMenuItem) {
-        guard let p = currentPlayer?.player.mediaPlayer else { return }
-        
-        if let v = aspectRatioValues.first(where: { $0.title == sender.title })?.value,
-           let cv = v.cString() {
-            libvlc_video_set_aspect_ratio(p, cv)
-        } else {
-            libvlc_video_set_aspect_ratio(p, nil)
-        }
-        
-        
-        // Update Content Size?
-    }
+    @IBOutlet weak var aspectRatioMenuItem: NSMenuItem!
     
-    @IBOutlet weak var cropMenu: NSMenu!
+    @IBOutlet weak var cropMenuItem: NSMenuItem!
     
-    @IBAction func setCrop(_ sender: NSMenuItem) {
-        guard let p = currentPlayer?.player.mediaPlayer else { return }
-        
-        
-        if let v = cropValues.first(where: { $0.title == sender.title })?.value,
-           let cv = v.cString() {
-            libvlc_video_set_crop_geometry(p, cv)
-        } else {
-            libvlc_video_set_crop_geometry(p, nil)
-        }
-        
-        
-        // Update Content Size?
-        
-    }
+    @IBOutlet weak var deinterlaceMenuItem: NSMenuItem!
     
-    @IBOutlet weak var deinterlaceMenu: NSMenu!
+    @IBOutlet weak var videoTrackMenuItem: NSMenuItem!
     
-    @IBAction func setDeinterlace(_ sender: NSMenuItem) {
-        guard let p = currentPlayer?.player else { return }
-        p.deinterlace = VLCMediaPlayer.DeinterlaceMode(rawValue: sender.title) ?? .disable
-    }
-    
-    @IBOutlet weak var videoTrackMenu: NSMenu!
-    
-    @IBAction func setVideoTrack(_ sender: NSMenuItem) {
-        guard let p = currentPlayer?.player else { return }
-        
-        p.setVideoTrack("\(sender.tag)")
-        
-    }
     
 // MARK: - Subtitles
     
