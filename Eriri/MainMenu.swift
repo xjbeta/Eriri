@@ -551,14 +551,6 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         
     }
     
-    @IBOutlet weak var increaseSizeMenuItem: NSMenuItem!
-    @IBAction func increaseSize(_ sender: NSMenuItem) {
-    }
-    
-    @IBOutlet weak var decreaseSizeMenuItem: NSMenuItem!
-    @IBAction func decreaseSize(_ sender: NSMenuItem) {
-    }
-    
     @IBOutlet weak var floatOnTopMenuItem: NSMenuItem!
     @IBAction func floatOnTop(_ sender: NSMenuItem) {
         guard let w = currentPlayer?.window else { return }
