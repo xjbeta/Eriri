@@ -128,6 +128,10 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
                                  target: obj,
                                  variable: "deinterlace",
                                  selector: #selector(toggleVar))
+                setupVarMenuItem(deinterlaceModeMenuItem,
+                                 target: obj,
+                                 variable: "deinterlace-mode",
+                                 selector: #selector(toggleVar))
             }
             
             if let it = inputThread {
@@ -192,6 +196,10 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         case deinterlaceMenuItem:
             return true
         case _ where menuItem.menu == deinterlaceMenuItem.submenu:
+            return true
+        case deinterlaceModeMenuItem:
+            return true
+        case _ where menuItem.menu == deinterlaceModeMenuItem.submenu:
             return true
         case videoTrackMenuItem:
             return true
@@ -605,6 +613,8 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     @IBOutlet weak var deinterlaceMenuItem: NSMenuItem!
     
     @IBOutlet weak var videoTrackMenuItem: NSMenuItem!
+    
+    @IBOutlet weak var deinterlaceModeMenuItem: NSMenuItem!
     
     
 // MARK: - Subtitles

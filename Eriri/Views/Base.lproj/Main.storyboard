@@ -246,6 +246,10 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Deinterlace" id="MAp-A5-aHj"/>
                                         </menuItem>
+                                        <menuItem title="Deinterlace Mode" id="HQH-wk-Z7j">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Deinterlace Mode" id="xXt-Ay-RwZ"/>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="xJP-Mk-HKg"/>
                                         <menuItem title="Video Track" id="ex4-6p-baR">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -457,6 +461,7 @@
                         <outlet property="cropMenuItem" destination="SG4-q7-RpV" id="UYb-4c-Skw"/>
                         <outlet property="decreaseVolumeMenuItem" destination="jK4-XG-enI" id="eMo-0e-ioc"/>
                         <outlet property="deinterlaceMenuItem" destination="7Pn-Ol-DZT" id="DHz-Dk-iOz"/>
+                        <outlet property="deinterlaceModeMenuItem" destination="HQH-wk-Z7j" id="W9l-yL-Y6Q"/>
                         <outlet property="doubleSizeMenuItem" destination="ZjY-l0-CWR" id="dnD-Ke-Xs4"/>
                         <outlet property="fitToScreenMenuItem" destination="1LM-Ai-Muh" id="k1F-IA-tz6"/>
                         <outlet property="floatOnTopMenuItem" destination="cic-ew-shB" id="zKO-jx-4wA"/>
