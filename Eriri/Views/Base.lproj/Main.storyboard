@@ -332,19 +332,15 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Subtitles" id="lDg-Qw-Mvn">
                                     <items>
-                                        <menuItem title="Subtitles" id="rra-Dn-UcE">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Subtitles" id="nWA-mt-cn7">
-                                                <connections>
-                                                    <outlet property="delegate" destination="HwL-s0-OUP" id="lx7-kB-Lf0"/>
-                                                </connections>
-                                            </menu>
-                                        </menuItem>
                                         <menuItem title="Add Sutitle File..." id="ETR-ii-Ya9">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="addSubtitleFile:" target="HwL-s0-OUP" id="Ydj-jF-iew"/>
                                             </connections>
+                                        </menuItem>
+                                        <menuItem title="Subtitle Track" id="rra-Dn-UcE">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Subtitle Track" id="nWA-mt-cn7"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="B9K-KH-Gi4"/>
                                         <menuItem title="Subtitle Delay: 0s" enabled="NO" id="qPH-ON-nLb">
@@ -488,12 +484,11 @@
                         <outlet property="subtitleDelayDecreaseMenuItem" destination="7qI-tH-CtN" id="Ban-FA-aIF"/>
                         <outlet property="subtitleDelayIncreaseMenuItem" destination="GYC-Fg-FEQ" id="v64-y2-z6h"/>
                         <outlet property="subtitleDelayMenuItem" destination="qPH-ON-nLb" id="ZTf-iW-rUA"/>
-                        <outlet property="subtitleListMenu" destination="nWA-mt-cn7" id="CFh-JT-vY7"/>
                         <outlet property="subtitleScaleDecreaseMenuItem" destination="460-4n-6ZP" id="KGL-yc-8Yi"/>
                         <outlet property="subtitleScaleIncreaseMenuItem" destination="1j8-yD-Svf" id="SW9-Ln-VdG"/>
                         <outlet property="subtitleScaleMenuItem" destination="h7M-KT-EHu" id="0qV-Iv-KJb"/>
+                        <outlet property="subtitleTrackMenuItem" destination="rra-Dn-UcE" id="2As-Ln-6Bk"/>
                         <outlet property="subtitlesMenu" destination="lDg-Qw-Mvn" id="XJX-uS-6c4"/>
-                        <outlet property="subtitlesMenuItem" destination="rra-Dn-UcE" id="Um7-LO-Wgd"/>
                         <outlet property="videoMenu" destination="y5H-vb-YcS" id="cLN-u8-De7"/>
                         <outlet property="videoTrackMenuItem" destination="ex4-6p-baR" id="jKr-xS-4RJ"/>
                         <outlet property="visualizationsMenuItem" destination="1BW-jQ-waC" id="lFD-dF-Zmd"/>

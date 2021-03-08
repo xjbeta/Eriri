@@ -47,32 +47,25 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     func menuNeedsUpdate(_ menu: NSMenu) {
         guard let p = currentPlayer,
               let mp = p.player.mediaPlayer else { return }
+        
+        vlc_mutex_lock(&mp.pointee.input.lock)
+        let it = mp.pointee.input.p_thread
+        vlc_mutex_unlock(&mp.pointee.input.lock)
+        guard let inputThread = it else { return }
+        
+        let inputThreadObj = VLCObject(inputThread: inputThread).vlcObject()
+        
         switch menu {
-        case subtitleListMenu:
-            menu.removeAllItems()
-            let subtitles = p.player.subtitles()
-            let current = subtitles.currentIndex
-            let noneItem = NSMenuItem()
-            noneItem.state = current == -1 ? .on : .off
-            noneItem.title = "Disable"
-            noneItem.target = self
-            noneItem.action = #selector(self.disableSubtitle(_:))
-            menu.addItem(noneItem)
-            subtitles.descriptions.forEach {
-                let item = NSMenuItem()
-                item.title = $0.name
-                item.tag = $0.index
-                item.target = self
-                item.action = #selector(self.subtitleItemAction(_:))
-                if $0.index == current {
-                    item.state = .on
-                }
-                menu.addItem(item)
-            }
         case subtitlesMenu:
             let v = p.player.currentVideoSubTitleDelay()
             
             subtitleDelayMenuItem.title = "Subtitle Delay: \(v)s"
+            
+            setupVarMenuItem(subtitleTrackMenuItem,
+                             target: inputThreadObj,
+                             variable: "spu-es",
+                             selector: #selector(toggleVar))
+            
         case audioMenu:
             let v = p.player.currentAudioPlaybackDelay()
             audioDelayMenuItem.title = "Audio Delay: \(v)s"
@@ -90,17 +83,11 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
                                  selector: #selector(toggleVar))
             }
             
-            vlc_mutex_lock(&mp.pointee.input.lock)
-            let inputThread = mp.pointee.input.p_thread
-            vlc_mutex_unlock(&mp.pointee.input.lock)
-            
-            if let it = inputThread {
-                let obj = VLCObject(inputThread: it).vlcObject()
-                setupVarMenuItem(audioTrackMenuItem,
-                                 target: obj,
-                                 variable: "audio-es",
-                                 selector: #selector(toggleVar))
-            }
+
+            setupVarMenuItem(audioTrackMenuItem,
+                             target: inputThreadObj,
+                             variable: "audio-es",
+                             selector: #selector(toggleVar))
             
             refreshAudioDeviceList()
             
@@ -108,12 +95,9 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             floatOnTopMenuItem.state = p.window.level == .floating ? .on : .off
             
             
-            vlc_mutex_lock(&mp.pointee.input.lock)
-            let inputThread = mp.pointee.input.p_thread
-            vlc_mutex_unlock(&mp.pointee.input.lock)
+
             
-            if let it = inputThread,
-               let vout = input_GetVout(it) {
+            if let vout = input_GetVout(inputThread) {
                 let obj = VLCObject(voutThread: vout).vlcObject()
             
                 setupVarMenuItem(aspectRatioMenuItem,
@@ -134,14 +118,10 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
                                  selector: #selector(toggleVar))
             }
             
-            if let it = inputThread {
-                let obj = VLCObject(inputThread: it).vlcObject()
-                setupVarMenuItem(videoTrackMenuItem,
-                                 target: obj,
-                                 variable: "video-es",
-                                 selector: #selector(toggleVar))
-            }
-
+            setupVarMenuItem(videoTrackMenuItem,
+                             target: inputThreadObj,
+                             variable: "video-es",
+                             selector: #selector(toggleVar))
         default:
             break
         }
@@ -160,12 +140,12 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             guard let player = currentPlayer else { return false }
             return true
             
-        case halfSizeMenuItem, normalSizeMenuItem, doubleSizeMenuItem, fitToScreenMenuItem, increaseSizeMenuItem, decreaseSizeMenuItem, floatOnTopMenuItem, snapshotMenuItem:
+        case halfSizeMenuItem, normalSizeMenuItem, doubleSizeMenuItem, fitToScreenMenuItem, floatOnTopMenuItem, snapshotMenuItem:
             
             guard let player = currentPlayer else { return false }
             return true
             
-        case addSubtitleFileMenuItem, subtitlesMenuItem, subtitleDelayDecreaseMenuItem, subtitleDelayIncreaseMenuItem,
+        case addSubtitleFileMenuItem, subtitleDelayDecreaseMenuItem, subtitleDelayIncreaseMenuItem,
              resetSubtitleDelayMenuItem:
             guard let player = currentPlayer else { return false }
             return true
@@ -184,6 +164,8 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
         case snapshotFolderMenuItem:
             return true
             
+        case _ where menuItem.menu == subtitleTrackMenuItem.submenu:
+            return true
             
         case aspectRatioMenuItem:
             return true
@@ -205,9 +187,8 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             return true
         case _ where menuItem.menu == videoTrackMenuItem.submenu:
             return true
-        case _ where menuItem.menu == subtitleListMenu:
-            return true
-            
+
+
         case audioTrackMenuItem:
             return true
         case _ where menuItem.menu == audioTrackMenuItem.submenu:
@@ -620,8 +601,7 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
 // MARK: - Subtitles
     
     @IBOutlet weak var subtitlesMenu: NSMenu!
-    @IBOutlet weak var subtitleListMenu: NSMenu!
-    @IBOutlet weak var subtitlesMenuItem: NSMenuItem!
+    @IBOutlet weak var subtitleTrackMenuItem: NSMenuItem!
     
     @IBOutlet weak var addSubtitleFileMenuItem: NSMenuItem!
     @IBAction func addSubtitleFile(_ sender: NSMenuItem) {
