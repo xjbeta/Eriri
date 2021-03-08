@@ -284,7 +284,7 @@ extension EririPlayer: VLCMediaPlayerDelegate {
         playerInfo.playerBuffingValue = newCache
         
         if playerInfo.state == .paused {
-            mediaPlayerTimeChanged(player.currentTime())
+            mediaPlayerTimeChanged(player.time)
             mediaPlayerPositionChanged(player.position)
         }
     }
@@ -335,7 +335,7 @@ extension EririPlayer: VLCMediaPlayerDelegate {
     
     func mediaPlayerLengthChanged(_ time: VLCTime) {
         playerInfo.rightTime = time.stringValue()
-        let r = VLCTime(with: time.value - player.currentTime().value).stringValue()
+        let r = VLCTime(with: time.value - player.time.value).stringValue()
         playerInfo.rightTimeR = "-\(r)"
     }
     

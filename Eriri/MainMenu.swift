@@ -10,28 +10,6 @@ import Cocoa
 
 class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
     
-    let aspectRatioValues: [(title: String, value: String)] =
-        [("16:9",   "16:9"),
-         ("4:3",    "4:3"),
-         ("1:1",    "1:1"),
-         ("16:10",  "16:10"),
-         ("2.21:1", "221:100"),
-         ("2.35:1", "235:100"),
-         ("2.39:1", "239:100"),
-         ("5:4",    "5:4")]
-    
-    let cropValues: [(title: String, value: String)] =
-        [("16:10",  "16:10"),
-         ("16:9",   "16:9"),
-         ("4:3",    "4:3"),
-         ("1.85:1", "185:100"),
-         ("2.21:1", "221:100"),
-         ("2.35:1", "235:100"),
-         ("2.39:1", "239:100"),
-         ("5:3",    "5:3"),
-         ("5:4",    "5:4"),
-         ("1:1",    "1:1")]
-    
     let snapshotPath = FileManager.default.urls(for: .picturesDirectory, in: .userDomainMask).first?.appendingPathComponent("Screenshots", isDirectory: true)
     
     var appDelegate: AppDelegate? {
@@ -573,7 +551,7 @@ class MainMenu: NSObject, NSMenuItemValidation, NSMenuDelegate {
             title = UUID().uuidString
         }
         
-        let time = p.player.currentTime().stringValue()
+        let time = p.player.time.stringValue()
         
         let u = path.appendingPathComponent("\(title) - \(time).png", isDirectory: false).path
         

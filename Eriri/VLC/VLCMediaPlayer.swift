@@ -344,6 +344,24 @@ class VLCMediaPlayer: NSObject {
     
     // MARK: - Video
     
+    var time: VLCTime {
+        get {
+            let t = libvlc_media_player_get_time(mediaPlayer)
+            return VLCTime(with: t)
+        }
+        set {
+            let length = mediaLength.value
+            var v = newValue.value
+            if v < 0 {
+                v = 0
+            } else if v > length {
+                v = length
+            }
+            
+            libvlc_media_player_set_time(mediaPlayer, libvlc_time_t(v))
+        }
+    }
+    
     func title() -> String {
         let media = currentMedia()
         let title = libvlc_media_get_meta(media, libvlc_meta_Title).toString()
@@ -360,20 +378,6 @@ class VLCMediaPlayer: NSObject {
         let s = libvlc_media_player_get_state(mediaPlayer)
         
         return VLCMediaPlayerState(state: s)
-    }
-
-    func currentTime() -> VLCTime {
-        /* Inaccurate time ???????????? */
-        
-        
-//        print("currentTime", time, t1, t2)
-        
-        let t = libvlc_media_player_get_time(mediaPlayer)
-        return VLCTime(with: t)
-    }
-    
-    func setTime(_ time: VLCTime, _ fast: Bool) {
-        libvlc_media_player_set_time(mediaPlayer, libvlc_time_t(time.value))
     }
     
     func isSeekable() -> Bool {
@@ -409,9 +413,9 @@ class VLCMediaPlayer: NSObject {
     func seek(_ seconds: Int, _ fast: Bool) {
         if isSeekable() {
             let interval = Int64(seconds) * 1000
-            let time = currentTime()
-            time.value = Int64(time.value) + interval
-            setTime(time, fast)
+            let t = time
+            t.value = Int64(t.value) + interval
+            time = t
         }
     }
 }
