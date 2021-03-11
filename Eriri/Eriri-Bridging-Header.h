@@ -11,9 +11,4 @@
 
 
 
-#import <ass.h>
-#import <ass_types.h>
-
-#import "LibassBlendImage.h"
-
 #import "VLCObject.h"
