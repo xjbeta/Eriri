@@ -59,14 +59,18 @@ class EririPlayer: NSObject {
         mouseMoved(event: NSEvent)
     }
     
-    init(_ url: URL) {
+    init(_ url: URL,
+         vlcOptions: [(name: String, value: String)] = []) {
         mtkView = MTKView()
 //        assRenderer = ASSRenderer(mtkView, "/Users/xjbeta/Downloads/test files/Shelter.ass")
         
         super.init()
         let windowMinSize = CGSize(width: 480, height: 270)
         window.styleMask = [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView]
-        player.setMedia(url.absoluteString)
+        
+//        player
+        
+        player.setMedia(url.absoluteString, vlcOptions: vlcOptions)
         player.delegate = self
         
         playerInfo.volume = Float(player.volume)

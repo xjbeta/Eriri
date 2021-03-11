@@ -216,9 +216,27 @@ class VLCMediaPlayer: NSObject {
         libvlc_set_user_agent(instance, "eriri".cString(), "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15".cString())
     }
     
-    func setMedia(_ url: String) {
+    func setMedia(_ url: String, vlcOptions: [(name: String, value: String)] = []) {
         let instance = VLCLibrary.shared.instance
-        let media = libvlc_media_new_location(instance, url)
+        guard let media = libvlc_media_new_location(instance, url) else { return }
+        
+        let options = vlcOptions.map { o -> String in
+            var re = "--" + o.name
+            if o.value != "" {
+                re += "="
+                re += o.value
+            }
+            return re
+        }
+        
+        
+        options.compactMap {
+            $0.cString()
+        }.forEach {
+            libvlc_media_add_option(media, $0)
+        }
+        
+        
         let status = libvlc_media_get_parsed_status(media)
         print("parsed_status", status)
         switch status {
@@ -237,12 +255,16 @@ class VLCMediaPlayer: NSObject {
         let mType = libvlc_media_get_type(media)
         let type = VLCMediaType(type: mType)
         
-        switch type {
-        case .file:
+        
+        
+//        switch type {
+//        case .file:
             libvlc_media_player_set_media(mediaPlayer, media)
-        default:
-            assert(false, "VLCMediaType: \(type)")
-        }
+//        default:
+//            assert(false, "VLCMediaType: \(type)")
+//        }
+        
+        // unknown type for url
     }
     
 

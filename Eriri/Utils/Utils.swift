@@ -81,7 +81,7 @@ class Utils: NSObject {
     
     var players = [EririPlayer]()
     
-    func newPlayerWindow(_ url: URL) {
+    func newPlayerWindow(_ url: URL, vlcOptions: [(name: String, value: String)] = []) {
         let p = EririPlayer(url)
         players.append(p)
     }
